@@ -1,0 +1,76 @@
+/* Fluid typography using clamp() */
+/* Scales from 480px viewport to 1680px viewport */
+
+.e-heading {
+  color: var(--nd-color-ink-black);
+  margin-bottom: 1rem;
+}
+
+.e-heading--h1,
+h1 {
+  /* 32px at 480px -> 64px at 1280px */
+  font-size: clamp(2rem, 0.8rem + 4vw, 4rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.e-heading--h2,
+h2 {
+  /* 24px at 480px -> 40px at 1280px */
+  font-size: clamp(1.5rem, 0.9rem + 2vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.e-heading--h3,
+h3 {
+  /* 20px at 480px -> 28px at 1280px */
+  font-size: clamp(1.25rem, 0.95rem + 1vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Scale up for large screens (1471px+) */
+@media (min-width: 1471px) {
+  .e-heading--h1,
+  h1 {
+    font-size: clamp(4rem, 2rem + 2.5vw, 5rem);
+  }
+
+  .e-heading--h2,
+  h2 {
+    font-size: clamp(2.5rem, 1.5rem + 1.25vw, 3.5rem);
+  }
+
+  .e-heading--h3,
+  h3 {
+    font-size: clamp(1.75rem, 1rem + 0.9375vw, 2.5rem);
+  }
+}
+
+.e-heading--h4,
+h4 {
+  /* 18px (1.125rem) at 480px -> 40px (2rem) at 1680px */
+  font-size: clamp(1.125rem, 0.575rem + 1.8333vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.e-heading--h5,
+h5 {
+  /* 16px (1rem) at 480px -> 32px (1.75rem) at 1680px */
+  font-size: clamp(1rem, 0.6rem + 1.3333vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.e-heading--h6,
+h6 {
+  /* 16px (1rem) at 480px -> 24px (1.5rem) at 1680px */
+  font-size: clamp(1rem, 0.8rem + 0.6667vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+}

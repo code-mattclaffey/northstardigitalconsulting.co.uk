@@ -1,0 +1,83 @@
+/* Clients Carousel - Infinite scrolling marquee */
+
+.c-clients-carousel {
+  overflow: hidden;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 3rem 0;
+  z-index: 2;
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out 0.3s forwards;
+}
+
+.c-clients-carousel__track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  animation: marquee 90s linear infinite;
+  will-change: transform;
+}
+
+.c-clients-carousel__item {
+  flex-shrink: 0;
+  width: 260px;
+  height: 120px;
+  background-color: #e5e7eb;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Desktop: Larger boxes */
+@media (min-width: 1024px) {
+  .c-clients-carousel__item {
+    width: 320px;
+    height: 160px;
+  }
+}
+
+/* Mobile: Show 3 items visible at once */
+@media (max-width: 767px) {
+  .c-clients-carousel__item {
+    width: calc((100vw - 6rem) / 1.5); /* 3 items + 2 gaps */
+  }
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* Move by half since we duplicate the items */
+  }
+}
+
+/* Pause animation on hover for accessibility */
+.c-clients-carousel:hover .c-clients-carousel__track {
+  animation-play-state: paused;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .c-clients-carousel {
+    animation: none;
+    opacity: 1;
+  }
+
+  .c-clients-carousel__track {
+    animation: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

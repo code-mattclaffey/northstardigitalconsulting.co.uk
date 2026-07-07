@@ -1,0 +1,115 @@
+---
+import Icon from "./Icon.astro";
+import Logo from "./Logo.astro";
+---
+
+<footer class="c-footer c-footer--hidden text-white py-20">
+  <div class="o-grid">
+    <div
+      class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-8 o-grid__item--xl-8 mb-12 lg:mb-0"
+    >
+      <h2 class="e-heading e-heading--h2 text-white">
+        Let’s build something ambitious.
+      </h2>
+      <p class="mb-8 max-w-[50ch]">
+        Building something ambitious? Let’s talk. I’d love to hear about your
+        challenge and explore how I can help.
+      </p>
+      <a
+        class="e-button e-button--primary"
+        href="mailto:contact@northstardigitalconsulting.co.uk">Get in touch</a
+      >
+    </div>
+
+    <div
+      class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-4 o-grid__item--xl-4"
+    >
+      <div class="max-w-[350px] mb-6">
+        <Logo variant="dark" />
+      </div>
+      <nav aria-label="Footer links">
+        <ul class="c-footer__nav-list mb-15">
+          <li class="c-footer__nav-item">
+            <a
+              href="https://www.linkedin.com/company/130174180"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="c-footer__nav-link c-footer__nav-link--icon-link"
+              aria-label="View my LinkedIn profile"
+            >
+              <span class="c-footer__nav-icon">
+                <Icon name="linkedIn" size="lg" />
+              </span>
+            </a>
+          </li>
+          <li class="c-footer__nav-item">
+            <a
+              href="https://github.com/code-mattclaffey"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="c-footer__nav-link c-footer__nav-link--icon-link"
+              aria-label="View my Github profile"
+            >
+              <span class="c-footer__nav-icon">
+                <Icon name="github" size="lg" />
+              </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <p class="e-body-text e-body-text--small">
+        &copy; 2026 Northstar Digital Consulting LTD. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const footer = document.querySelector(".c-footer");
+  const main = document.querySelector(".c-main");
+
+  if (footer && main) {
+    // Handle focus event to scroll to footer
+    footer.addEventListener(
+      "focusin",
+      () => {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        });
+      },
+      true,
+    );
+
+    // Function to check if footer should be visible
+    const checkFooterVisibility = () => {
+      const mainRect = main.getBoundingClientRect();
+      const mainBottom = mainRect.bottom;
+      const windowHeight = window.innerHeight;
+      const scrollY = window.scrollY;
+
+      // Show footer only when:
+      // 1. We've scrolled down at least 100px (to prevent showing on load)
+      // 2. AND the bottom of main is close to viewport bottom
+      const hasScrolled = scrollY > 100;
+      const threshold = windowHeight + 200; // Add buffer so it appears before main fully exits
+
+      if (hasScrolled && mainBottom <= threshold) {
+        footer.classList.remove("c-footer--hidden");
+        footer.classList.add("c-footer--visible");
+      } else {
+        footer.classList.add("c-footer--hidden");
+        footer.classList.remove("c-footer--visible");
+      }
+    };
+
+    // Check on scroll with passive listener for performance
+    window.addEventListener("scroll", checkFooterVisibility, { passive: true });
+
+    // Check on resize in case viewport changes
+    window.addEventListener("resize", checkFooterVisibility, { passive: true });
+
+    // Initial check on load
+    checkFooterVisibility();
+  }
+</script>

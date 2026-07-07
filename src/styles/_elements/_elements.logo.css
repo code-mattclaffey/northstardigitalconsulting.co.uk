@@ -1,0 +1,78 @@
+.c-logo {
+  height: 100%;
+  width: 100%;
+}
+
+.c-logo--dark {
+  --nd-color-components-logo-bg: var(--nd-color-soft-blue);
+  --nd-color-components-logo-text: var(--nd-color-white);
+  --nd-color-components-logo-dot: var(--nd-color-soft-blue);
+}
+
+.c-logo--light {
+  --nd-color-components-logo-bg: var(--nd-color-white);
+  --nd-color-components-logo-text: var(--nd-color-ink-black);
+  --nd-color-components-logo-dot: var(--nd-color-soft-blue);
+}
+
+/* Automatic pulsing animation - draws in and out every cycle */
+.c-logo path[stroke],
+.c-logo circle {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: logoPulse 10s ease-in-out infinite;
+}
+
+.c-logo path[stroke] {
+  animation-delay: 0s;
+}
+
+.c-logo circle:nth-of-type(1) {
+  animation-delay: 0.3s;
+}
+
+.c-logo circle:nth-of-type(2) {
+  animation-delay: 0.4s;
+}
+
+.c-logo circle:nth-of-type(3) {
+  animation-delay: 0.5s;
+}
+
+.c-logo circle:nth-of-type(4) {
+  animation-delay: 0.6s;
+}
+
+@keyframes logoPulse {
+  0% {
+    stroke-dashoffset: -1000;
+  }
+  20% {
+    stroke-dashoffset: 0;
+  }
+  80% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1000;
+  }
+}
+
+@keyframes drawIn {
+  from {
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-logo path[stroke],
+  .c-logo circle {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    animation: none;
+    transition: none;
+  }
+}

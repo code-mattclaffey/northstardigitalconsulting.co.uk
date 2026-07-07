@@ -1,0 +1,61 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+---
+
+<header class="c-header">
+  <div class="o-grid">
+    <div
+      class="o-grid__item o-grid__item--span-1 o-grid__item--md-4 o-grid__item--lg-8 o-grid__item--xl-8"
+    >
+      <a
+        href="/"
+        class="c-header__logo"
+        aria-label="Northstar Digital Consulting Home"
+        aria-current="page"
+      >
+        <Logo />
+      </a>
+    </div>
+    <div
+      class="o-grid__item o-grid__item--span-1 o-grid__item--md-2 o-grid__item--lg-4 o-grid__item--xl-4"
+    >
+      <nav class="c-header__nav hidden md:block" aria-label="Main navigation">
+        <ul class="c-header__nav-list">
+          <li class="c-header__nav-item">
+            <a
+              href="https://www.linkedin.com/company/130174180"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="c-header__nav-link c-header__nav-link--icon-link"
+              aria-label="View my LinkedIn profile"
+            >
+              <span class="c-header__nav-icon">
+                <Icon name="linkedIn" size="lg" />
+              </span>
+            </a>
+          </li>
+          <li class="c-header__nav-item">
+            <a
+              href="https://github.com/code-mattclaffey"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="c-header__nav-link c-header__nav-link--icon-link"
+              aria-label="View my Github profile"
+            >
+              <span class="c-header__nav-icon">
+                <Icon name="github" size="lg" />
+              </span>
+            </a>
+          </li>
+          <li class="c-header__nav-item">
+            <a
+              href="mailto:contact@northstardigitalconsulting.co.uk"
+              class="e-button e-button--primary">Get in touch</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

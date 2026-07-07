@@ -1,0 +1,28 @@
+/* TOOLS - Used for utility classes and mixins */
+@import "./_tools/_tools.tailwind.css";
+
+/* SETTINGS - Used for theme configuration */
+@import "./_settings/_settings.theme.css";
+
+@layer base {
+  /* GENERICS - Used for global styles */
+  @import "./_generics/_generics.global.css";
+
+  /* OBJECTS - Used for global styles */
+  @import "./_objects/_objects.grid.css";
+}
+
+@layer components {
+  /* ELEMENTS - Used for base element styles */
+  @import "./_elements/_elements.bodyText.css";
+  @import "./_elements/_elements.headings.css";
+  @import "./_elements/_elements.buttons.css";
+  @import "./_elements/_elements.logo.css";
+  @import "./_elements/_elements.icon.css";
+
+  /* COMPONENTS - Used for component styles */
+  @import "./_components/_components.hero.css";
+  @import "./_components/_components.header.css";
+  @import "./_components/_components.footer.css";
+  @import "./_components/_components.clientsCarousel.css";
+}

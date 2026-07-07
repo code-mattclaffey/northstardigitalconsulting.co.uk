@@ -1,0 +1,70 @@
+.e-button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+  border: 2px solid transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .e-button {
+    transition: none;
+  }
+}
+
+@media screen and (min-width: 480px) {
+  .e-button {
+    min-width: 180px;
+    padding: 0.95rem 2rem;
+  }
+}
+
+.e-button:hover {
+  transform: translateY(-1px);
+}
+
+.e-button:active {
+  transform: translateY(0);
+}
+
+.e-button:focus-visible {
+  outline: 3px solid var(--nd-color-focus-gold);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px rgba(245, 184, 65, 0.35);
+}
+
+.e-button--naked {
+  all: unset;
+}
+
+.e-button--primary {
+  background-color: var(--nd-color-baby-blue);
+  color: var(--nd-color-ink-black);
+}
+
+.e-button--primary:hover {
+  background-color: #1e7ac4;
+}
+
+.e-button--primary:focus-visible {
+  background-color: var(--nd-color-baby-blue);
+}
+
+.e-button--secondary {
+  background-color: var(--nd-color-ink-black);
+  color: var(--nd-color-white);
+}
+
+.e-button--secondary:hover {
+  background-color: #1a1f2e;
+}
+
+.e-button--secondary:focus-visible {
+  background-color: var(--nd-color-ink-black);
+}

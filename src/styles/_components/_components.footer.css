@@ -1,0 +1,36 @@
+.c-footer__nav-list {
+  display: flex;
+  align-items: center;
+}
+
+.c-footer__nav-link {
+  cursor: pointer;
+  display: block;
+  margin: 0 0.25rem;
+}
+
+.c-footer .c-footer__nav-link:first-child {
+  margin-left: 0;
+}
+
+.c-footer .c-footer__nav-link:last-child {
+  margin-right: 0.5rem;
+}
+
+.c-footer__nav-link--theme-switcher,
+.c-footer__nav-link--icon-link {
+  display: block;
+  color: var(--nd-color-white);
+  height: 44px;
+  width: 44px;
+}
+
+.c-footer__nav-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}

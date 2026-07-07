@@ -1,0 +1,46 @@
+---
+import ClientsCarousel from "./ClientsCarousel.astro";
+---
+
+<section class="c-hero" aria-labelledby="hero-title" class="text-center mt-60">
+  <div class="c-hero__panel c-hero__panel--1" aria-hidden="true"></div>
+  <div class="c-hero__panel c-hero__panel--2" aria-hidden="true"></div>
+  <div class="c-hero__panel c-hero__panel--3" aria-hidden="true"></div>
+  <div class="o-grid o-grid--indent">
+    <div
+      class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-8 o-grid__item--xl-9"
+    >
+      <h1 class="e-heading e-heading--h1 mb-10" id="hero-title">
+        Technical leadership, built on engineering excellence.
+      </h1>
+      <p class="e-heading e-heading--h3">
+        Matt Claffey · Lead Software Engineer
+      </p>
+      <p class="mb-12 e-body-text e-body-text--large max-w-[70ch]">
+        Helping organisations build modern software through AI-enabled
+        engineering, scalable architecture, and Full Stack TypeScript. I combine
+        hands-on technical leadership with deep frontend expertise to deliver
+        products that perform, scale, and create lasting business value.
+      </p>
+      <div class="flex gap-4 mb-6">
+        <a
+          href="mailto:contact@northstardigitalconsulting.co.uk"
+          class="e-button e-button--primary"
+        >
+          Get in touch
+        </a>
+        <a href="#" class="e-button e-button--secondary"> View CV </a>
+      </div>
+      <p
+        class="inline-flex items-center e-body-text e-body-text--small font-semibold"
+      >
+        <span
+          class="c-hero__availability-dot w-4 h-4 mr-2 bg-orange-500 rounded-full"
+        ></span>
+        Available from January 2027
+      </p>
+    </div>
+  </div>
+
+  <ClientsCarousel />
+</section>

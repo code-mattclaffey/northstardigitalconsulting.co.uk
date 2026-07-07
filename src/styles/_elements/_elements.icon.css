@@ -1,0 +1,84 @@
+.c-icon {
+  --nd-icon-size: 1.5rem;
+  --nd-icon-color: currentColor;
+  --nd-icon-stroke-width: 2;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--nd-icon-size);
+  height: var(--nd-icon-size);
+  color: var(--nd-icon-color);
+  flex-shrink: 0;
+}
+
+.c-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: var(--nd-icon-stroke-width);
+}
+
+/* Size variants */
+.c-icon--xs {
+  --nd-icon-size: 1rem;
+}
+
+.c-icon--sm {
+  --nd-icon-size: 1.25rem;
+}
+
+.c-icon--md {
+  --nd-icon-size: 1.5rem;
+}
+
+.c-icon--lg {
+  --nd-icon-size: 2rem;
+}
+
+.c-icon--xl {
+  --nd-icon-size: 2.5rem;
+}
+
+/* Aria label styling - hide visually but keep for screen readers */
+.c-icon[aria-label] {
+  position: relative;
+}
+
+/* Link wrapper for icons */
+a.c-icon-link {
+  display: inline-flex;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  color: inherit;
+}
+
+a.c-icon-link:hover {
+  background-color: var(--nd-color-mist-blue);
+  transform: translateY(-1px);
+}
+
+a.c-icon-link:active {
+  transform: translateY(0);
+}
+
+a.c-icon-link:focus-visible {
+  outline: 3px solid var(--nd-color-focus-gold);
+  outline-offset: 2px;
+  background-color: var(--nd-color-mist-blue);
+  box-shadow: 0 0 0 6px rgba(245, 184, 65, 0.35);
+}
+
+/* Ensure proper hover/focus states inherit */
+button:hover .c-icon,
+a:hover .c-icon,
+button:focus .c-icon,
+a:focus .c-icon {
+  --nd-icon-color: inherit;
+}
+
+/* Icon color transitions */
+.c-icon {
+  transition: color 0.2s ease;
+}
