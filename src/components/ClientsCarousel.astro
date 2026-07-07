@@ -1,23 +1,86 @@
+---
+import { Image } from "astro:assets";
+import andLogo from "../assets/AND.svg";
+import nhsLogo from "../assets/NHS Logo.svg";
+import accentureLogo from "../assets/accenture.png";
+import bayerLogo from "../assets/bayercropscience.svg";
+import bentleyLogo from "../assets/bentley.png";
+import britishGasLogo from "../assets/britishgas.svg";
+import chesterZooLogo from "../assets/chesterzoo.svg";
+import cinchLogo from "../assets/cinch logo.svg";
+import codeComputerLoveLogo from "../assets/codeComputerlove.svg";
+import esfLogo from "../assets/esf.svg";
+import hillarysLogo from "../assets/hillarys.png";
+import otbLogo from "../assets/otb_logo.svg";
+import rentalCarsLogo from "../assets/rentalcars.svg";
+import secretSalesLogo from "../assets/secretsales.svg";
+import theRangeLogo from "../assets/therange.png";
+import thinkMoneyLogo from "../assets/thinkmoney.png";
+
+const logos = [
+  { src: andLogo, alt: "AND Digital", keepColor: true },
+  { src: nhsLogo, alt: "NHS", smaller: true },
+  { src: accentureLogo, alt: "Accenture" },
+  { src: bayerLogo, alt: "Bayer CropScience" },
+  { src: bentleyLogo, alt: "Bentley", darkLogo: true },
+  { src: britishGasLogo, alt: "British Gas", smaller: true },
+  { src: chesterZooLogo, alt: "Chester Zoo", smaller: true },
+  { src: cinchLogo, alt: "Cinch", smaller: true },
+  { src: codeComputerLoveLogo, alt: "Code Computerlove", darkLogo: true },
+  { src: esfLogo, alt: "ESF", darkLogo: true },
+  { src: hillarysLogo, alt: "Hillarys" },
+  { src: otbLogo, alt: "OTB", keepColor: true },
+  { src: rentalCarsLogo, alt: "Rentalcars" },
+  { src: secretSalesLogo, alt: "Secret Sales" },
+  { src: theRangeLogo, alt: "The Range" },
+  { src: thinkMoneyLogo, alt: "ThinkMoney" },
+];
+---
+
 <!-- Logo Marquee -->
 <div class="c-clients-carousel">
   <div class="c-clients-carousel__track">
     <!-- First set of logos -->
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
+    {
+      logos.map((logo) => (
+        <div class="c-clients-carousel__item">
+          <Image
+            src={logo.src}
+            alt={logo.alt}
+            loading="lazy"
+            class={
+              logo.keepColor
+                ? "keep-color"
+                : logo.darkLogo
+                  ? "dark-logo"
+                  : logo.smaller
+                    ? "smaller"
+                    : ""
+            }
+          />
+        </div>
+      ))
+    }
     <!-- Duplicate set for seamless loop -->
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
-    <div class="c-clients-carousel__item"></div>
+    {
+      logos.map((logo) => (
+        <div class="c-clients-carousel__item">
+          <Image
+            src={logo.src}
+            alt={logo.alt}
+            loading="lazy"
+            class={
+              logo.keepColor
+                ? "keep-color"
+                : logo.darkLogo
+                  ? "dark-logo"
+                  : logo.smaller
+                    ? "smaller"
+                    : ""
+            }
+          />
+        </div>
+      ))
+    }
   </div>
 </div>
