@@ -9,7 +9,12 @@
     "dev": "astro dev",
     "build": "NODE_ENV=production astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format:changed": "git status --porcelain | awk 'NF { print $2 }' | grep -E '\\.(astro|css|js|mjs|cjs|json|md|ts|tsx|html|yml|yaml)$' | xargs -r npx prettier --write --ignore-path .prettierignore",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{astro,css,js,mjs,cjs,json,md,ts,tsx,html,yml,yaml}": "prettier --write --ignore-path .prettierignore"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.7",
@@ -24,6 +29,9 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^8.0.0",
-    "postcss": "^8.5.16"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
+    "postcss": "^8.5.16",
+    "prettier": "^3.9.5"
   }
 }
