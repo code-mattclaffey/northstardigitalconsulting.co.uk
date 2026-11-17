@@ -1,0 +1,68 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import {
+  BLOG_TAG_LABELS,
+  formatPublishDate,
+  getBlogPosts,
+  type BlogPost,
+} from "../../lib/blog";
+
+export const getStaticPaths = (async () => {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+---
+
+<Layout theme="light" title={`${post.title} | Northstar Digital Consulting`} description={post.description}>
+  <div class="c-page">
+  <article class="c-post">
+    <div class="o-grid">
+      <div
+        class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-12"
+      >
+        <nav class="c-post__back" aria-label="Breadcrumb">
+          <a href="/blog">&larr; All posts</a>
+        </nav>
+        <header class="c-post__header">
+          <time class="c-post__date" datetime={post.publishDate}>
+            {formatPublishDate(post.publishDate)}
+          </time>
+          <h1 class="e-heading e-heading--h2 c-post__title">{post.title}</h1>
+          <p class="e-body-text e-body-text--large">{post.description}</p>
+          {
+            post.tags.length > 0 && (
+              <ul class="c-post__tags" aria-label="Tags">
+                {post.tags.map((tag) => (
+                  <li class="c-post__tag">
+                    <a href={`/blog?tag=${tag}`}>{BLOG_TAG_LABELS[tag]}</a>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </header>
+        {
+          post.heroImage && (
+            <img
+              class="c-post__image"
+              src={`${post.heroImage.url}?w=1200&h=630&fit=fill&fm=webp`}
+              alt={post.heroImage.alt}
+              width="1200"
+              height="630"
+              decoding="async"
+            />
+          )
+        }
+        <div class="c-post__body" set:html={post.bodyHtml} />
+      </div>
+    </div>
+  </article>
+  </div>
+</Layout>

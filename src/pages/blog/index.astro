@@ -1,0 +1,33 @@
+---
+import BlogList from "../../components/BlogList";
+import Layout from "../../layouts/Layout.astro";
+import { getBlogPosts, getUsedTags, toSummary } from "../../lib/blog";
+
+const posts = (await getBlogPosts()).map(toSummary);
+const tags = getUsedTags(posts);
+---
+
+<Layout
+  theme="light"
+  title="Blog | Northstar Digital Consulting"
+  description="Articles on AI-enabled engineering, architecture, TypeScript and modern web delivery."
+>
+  <div class="c-page">
+  <section class="c-blog-index">
+    <div class="o-grid">
+      <div
+        class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-12"
+      >
+        <h1 class="e-heading e-heading--h2 c-blog-index__title">Blog</h1>
+        {
+          posts.length > 0 ? (
+            <BlogList client:load posts={posts} tags={tags} />
+          ) : (
+            <p class="e-body-text">No posts yet. Check back soon.</p>
+          )
+        }
+      </div>
+    </div>
+  </section>
+  </div>
+</Layout>

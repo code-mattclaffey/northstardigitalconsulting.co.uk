@@ -70,3 +70,7 @@
   height: 100%;
   width: 100%;
 }
+
+.c-header__nav-button {
+  margin-right: 0.75rem;
+}

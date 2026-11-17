@@ -12,9 +12,10 @@ interface Props {
   title?: string;
   description?: string;
   ogImageAlt?: string | null;
+  theme?: "dark" | "light";
 }
 
-const { title, description, ogImageAlt } = Astro.props;
+const { title, description, ogImageAlt, theme = "dark" } = Astro.props;
 ---
 
 <!doctype html>
@@ -23,7 +24,7 @@ const { title, description, ogImageAlt } = Astro.props;
     <Head title={title} description={description} ogImageAlt={ogImageAlt} />
   </head>
   <body>
-    <Header />
+    <Header theme={theme} />
     <Main>
       <slot />
     </Main>

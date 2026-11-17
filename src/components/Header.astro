@@ -1,12 +1,17 @@
 ---
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
+interface Props {
+  /** "light" when the page sits on the light c-page panel */
+  theme?: "dark" | "light";
+}
+const { theme = "dark" } = Astro.props;
 ---
 
 <header class="c-header">
   <div class="o-grid">
     <div
-      class="o-grid__item o-grid__item--span-1 o-grid__item--md-4 o-grid__item--lg-8 o-grid__item--xl-8"
+      class="o-grid__item o-grid__item--span-1 o-grid__item--md-3 o-grid__item--lg-6 o-grid__item--xl-6"
     >
       <a
         href="/"
@@ -14,11 +19,11 @@ import Icon from "./Icon.astro";
         aria-label="Northstar Digital Consulting Home"
         aria-current="page"
       >
-        <Logo />
+        <Logo variant={theme === "light" ? "panel" : "light"} />
       </a>
     </div>
     <div
-      class="o-grid__item o-grid__item--span-1 o-grid__item--md-2 o-grid__item--lg-4 o-grid__item--xl-4"
+      class="o-grid__item o-grid__item--span-1 o-grid__item--md-3 o-grid__item--lg-6 o-grid__item--xl-6"
     >
       <nav class="c-header__nav hidden md:block" aria-label="Main navigation">
         <ul class="c-header__nav-list">
@@ -47,6 +52,13 @@ import Icon from "./Icon.astro";
                 <Icon name="github" size="lg" />
               </span>
             </a>
+          </li>
+          <li class="c-header__nav-item">
+            <a
+              href="/blog?tag=case-study"
+              class="e-button e-button--secondary c-header__nav-button"
+              >Case studies</a
+            >
           </li>
           <li class="c-header__nav-item">
             <a

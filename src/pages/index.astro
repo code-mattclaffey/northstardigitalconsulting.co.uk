@@ -1,5 +1,6 @@
 ---
 import Hero from "../components/Hero.astro";
+import LatestPosts from "../components/LatestPosts.astro";
 import Layout from "../layouts/Layout.astro";
 import { getHomepage } from "../lib/homepage";
 
@@ -13,4 +14,5 @@ const homepage = await getHomepage();
   ogImageAlt={homepage.ogImageAlt}
 >
   <Hero content={homepage} />
+  <LatestPosts />
 </Layout>
