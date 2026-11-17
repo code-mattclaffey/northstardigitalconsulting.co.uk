@@ -10,6 +10,7 @@
     "build": "NODE_ENV=production astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "contentful:seed": "node --env-file-if-exists=.env scripts/contentful/seed-homepage.mjs",
     "format:changed": "git status --porcelain | awk 'NF { print $2 }' | grep -E '\\.(astro|css|js|mjs|cjs|json|md|ts|tsx|html|yml|yaml)$' | xargs -r npx prettier --write --ignore-path .prettierignore",
     "prepare": "husky"
   },

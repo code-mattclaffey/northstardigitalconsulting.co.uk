@@ -7,12 +7,20 @@ import Header from '../components/Header.astro';
 import Head from '../components/Head.astro';
 import Main from '../components/Main.astro';
 import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImageAlt?: string | null;
+}
+
+const { title, description, ogImageAlt } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <Head />
+    <Head title={title} description={description} ogImageAlt={ogImageAlt} />
   </head>
   <body>
     <Header />
