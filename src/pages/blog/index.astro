@@ -8,16 +8,17 @@ const tags = getUsedTags(posts);
 ---
 
 <Layout
+  theme="light"
   title="Blog | Northstar Digital Consulting"
   description="Articles on AI-enabled engineering, architecture, TypeScript and modern web delivery."
 >
   <div class="c-page">
   <section class="c-blog-index">
-    <div class="o-grid o-grid--indent">
+    <div class="o-grid">
       <div
         class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-12"
       >
-        <h1 class="e-heading e-heading--h1">Blog</h1>
+        <h1 class="e-heading e-heading--h2 c-blog-index__title">Blog</h1>
         {
           posts.length > 0 ? (
             <BlogList client:load posts={posts} tags={tags} />

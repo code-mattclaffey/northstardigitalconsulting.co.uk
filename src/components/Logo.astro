@@ -4,7 +4,7 @@ const variant = Astro.props.variant || "light";
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  class={`c-logo ${variant === "dark" ? "c-logo--dark" : "c-logo--light"}`}
+  class={`c-logo c-logo--${variant}`}
   viewBox="0 0 495 87"
   fill="none"
 >

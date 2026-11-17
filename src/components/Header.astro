@@ -1,6 +1,11 @@
 ---
 import Logo from "./Logo.astro";
 import Icon from "./Icon.astro";
+interface Props {
+  /** "light" when the page sits on the light c-page panel */
+  theme?: "dark" | "light";
+}
+const { theme = "dark" } = Astro.props;
 ---
 
 <header class="c-header">
@@ -14,7 +19,7 @@ import Icon from "./Icon.astro";
         aria-label="Northstar Digital Consulting Home"
         aria-current="page"
       >
-        <Logo />
+        <Logo variant={theme === "light" ? "panel" : "light"} />
       </a>
     </div>
     <div

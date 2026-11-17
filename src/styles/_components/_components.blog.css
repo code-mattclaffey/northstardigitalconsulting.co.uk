@@ -1,7 +1,10 @@
 /* Blog: cards, list/filter, post page, homepage section */
 
 .c-latest-posts {
-  padding-block: 5rem 3rem;
+  padding-block: 5rem;
+  background-color: var(--nd-color-ink-black);
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
 
 .c-latest-posts__title {
@@ -219,6 +222,25 @@
 .c-post__body h3 {
   margin-top: 2.5rem;
   margin-bottom: 0;
+  line-height: 1.25;
+}
+
+.c-post__body h2 {
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+}
+
+.c-post__body h3 {
+  font-size: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+}
+
+.c-post__title {
+  margin-bottom: 0;
+}
+
+.c-blog-index__title,
+.c-blog-list__filters,
+.c-blog-list__status {
+  max-width: 70ch;
 }
 
 .c-post__body a {

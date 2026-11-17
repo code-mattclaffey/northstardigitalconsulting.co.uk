@@ -20,10 +20,10 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<Layout title={`${post.title} | Northstar Digital Consulting`} description={post.description}>
+<Layout theme="light" title={`${post.title} | Northstar Digital Consulting`} description={post.description}>
   <div class="c-page">
   <article class="c-post">
-    <div class="o-grid o-grid--indent">
+    <div class="o-grid">
       <div
         class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-12"
       >
@@ -34,7 +34,7 @@ const { post } = Astro.props;
           <time class="c-post__date" datetime={post.publishDate}>
             {formatPublishDate(post.publishDate)}
           </time>
-          <h1 class="e-heading e-heading--h1">{post.title}</h1>
+          <h1 class="e-heading e-heading--h2 c-post__title">{post.title}</h1>
           <p class="e-body-text e-body-text--large">{post.description}</p>
           {
             post.tags.length > 0 && (

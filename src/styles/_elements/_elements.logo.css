@@ -15,6 +15,13 @@
   --nd-color-components-logo-dot: var(--nd-color-soft-blue);
 }
 
+/* Light inner pages: the mark must stay visible on the pale c-page panel */
+.c-logo--panel {
+  --nd-color-components-logo-bg: var(--nd-color-outline-blue);
+  --nd-color-components-logo-text: var(--nd-color-ink-black);
+  --nd-color-components-logo-dot: var(--nd-color-outline-blue);
+}
+
 /* Automatic pulsing animation - draws in and out every cycle */
 .c-logo path[stroke],
 .c-logo circle {
