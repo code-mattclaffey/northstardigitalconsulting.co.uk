@@ -14,7 +14,7 @@ interface ContentfulConfig {
 }
 
 // `import.meta.env` covers `.env` files; `process.env` covers variables set in
-// the build environment (e.g. Vercel project settings).
+// the build environment (e.g. Netlify site settings).
 const nodeEnv = (
   globalThis as { process?: { env: Record<string, string | undefined> } }
 ).process?.env;

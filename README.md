@@ -271,7 +271,7 @@ Homepage copy and SEO metadata live in Contentful (content type `homepage`, one 
 
 ### Environment variables
 
-Copy `.env.example` to `.env`. On Vercel, add these for Production and Preview:
+Copy `.env.example` to `.env`. On Netlify (Site configuration → Environment variables), add these for Production and Deploy Previews:
 
 | Variable | Required | Notes |
 |----------|----------|-------|
@@ -283,7 +283,7 @@ If the space ID or token is missing, the build logs a warning and uses `src/data
 
 ### Publishing content changes
 
-Because pages are pre-rendered, publishing in Contentful does not update the live site by itself. Add a Vercel Deploy Hook and point a Contentful webhook (Entry publish/unpublish) at it to rebuild automatically.
+Because pages are pre-rendered, publishing in Contentful does not update the live site by itself. Add a Netlify Build Hook and point a Contentful webhook (Entry publish/unpublish) at it to rebuild automatically.
 
 ### Recreating the model in a new space or environment
 
