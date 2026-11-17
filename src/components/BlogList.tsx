@@ -53,7 +53,7 @@ export default function BlogList({ posts, tags }: Props) {
             <button
               type="button"
               key={tag ?? "all"}
-              className={`c-blog-list__filter${tag === activeTag ? " c-blog-list__filter--active" : ""}`}
+              className="c-blog-list__filter"
               aria-pressed={tag === activeTag}
               onClick={() => select(tag)}
             >

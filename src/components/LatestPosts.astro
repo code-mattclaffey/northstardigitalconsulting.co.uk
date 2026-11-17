@@ -11,7 +11,7 @@ const posts = (await getBlogPosts()).slice(0, 3).map(toSummary);
     <section class="c-latest-posts" aria-labelledby="latest-posts-title">
       <div class="o-grid o-grid--indent">
         <div class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-12">
-          <h2 class="e-heading e-heading--h2" id="latest-posts-title">
+          <h2 class="e-heading e-heading--h2 c-latest-posts__title" id="latest-posts-title">
             Latest from the blog
           </h2>
           <ul class="c-blog-list__items">
@@ -21,7 +21,7 @@ const posts = (await getBlogPosts()).slice(0, 3).map(toSummary);
               </li>
             ))}
           </ul>
-          <a href="/blog" class="e-button e-button--secondary">
+          <a href="/blog" class="e-button e-button--primary">
             View all posts
           </a>
         </div>

@@ -1,14 +1,12 @@
 /* Blog: cards, list/filter, post page, homepage section */
 
-.c-latest-posts,
-.c-blog-index,
-.c-post {
-  padding-block: 3rem;
+.c-latest-posts {
+  padding-block: 5rem 3rem;
 }
 
-.c-blog-index,
-.c-post {
-  padding-top: 8rem;
+.c-latest-posts__title {
+  color: var(--nd-color-white);
+  margin-bottom: 2rem;
 }
 
 .c-latest-posts .e-button {
@@ -138,8 +136,8 @@
   background-color: var(--nd-color-mist-blue);
 }
 
-.c-blog-list__filter--active,
-.c-blog-list__filter--active:hover {
+.c-blog-list__filter[aria-pressed="true"],
+.c-blog-list__filter[aria-pressed="true"]:hover {
   background-color: var(--nd-color-ink-black);
   border-color: var(--nd-color-ink-black);
   color: var(--nd-color-white);
@@ -224,12 +222,18 @@
 }
 
 .c-post__body a {
-  color: var(--nd-color-outline-blue);
+  color: #1a62ad;
   text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.c-post__body a:hover {
+  color: var(--nd-color-ink-black);
 }
 
 .c-post__body ul,
 .c-post__body ol {
+  margin-left: 0;
   padding-left: 1.5rem;
 }
 
@@ -260,6 +264,7 @@
   padding: 0.1rem 0.35rem;
   border-radius: 0.35rem;
   background-color: var(--nd-color-stone);
+  color: var(--nd-color-ink-black);
   font-size: 0.9em;
 }
 
