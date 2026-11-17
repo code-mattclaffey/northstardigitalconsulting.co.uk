@@ -1,5 +1,13 @@
 ---
 import ClientsCarousel from "./ClientsCarousel.astro";
+import type { HomepageContent } from "../lib/homepage";
+
+interface Props {
+  content: HomepageContent;
+}
+
+const { content } = Astro.props;
+const isExternal = (url: string) => /^https?:\/\//.test(url);
 ---
 
 <section class="c-hero" aria-labelledby="hero-title" class="text-center mt-60">
@@ -11,41 +19,50 @@ import ClientsCarousel from "./ClientsCarousel.astro";
       class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-8 o-grid__item--xl-9"
     >
       <h1 class="e-heading e-heading--h1 mb-10" id="hero-title">
-        Technical leadership, built on engineering excellence.
+        {content.heroHeading}
       </h1>
-      <p class="e-heading e-heading--h3">
-        Matt Claffey · Lead Software Engineer
-      </p>
+      {
+        content.heroSubheading && (
+          <p class="e-heading e-heading--h3">{content.heroSubheading}</p>
+        )
+      }
       <p class="mb-12 e-body-text e-body-text--large max-w-[70ch]">
-        Helping organisations build modern software through AI-enabled
-        engineering, scalable architecture, and Full Stack TypeScript. I combine
-        hands-on technical leadership with deep frontend expertise to deliver
-        products that perform, scale, and create lasting business value.
+        {content.heroBody}
       </p>
       <div class="flex gap-4 mb-6">
         <a
-          href="mailto:hello@northstardigitalconsulting.co.uk"
+          href={content.primaryCtaUrl}
           class="e-button e-button--primary"
+          {...(isExternal(content.primaryCtaUrl) && {
+            target: "_blank",
+            rel: "noopener noreferrer",
+          })}
         >
-          Get in touch
+          {content.primaryCtaLabel}
         </a>
-        <a
-          href="https://canva.link/z79249dalz8fkb3"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="e-button e-button--secondary"
-        >
-          View CV
-        </a>
+        {
+          content.secondaryCtaLabel && content.secondaryCtaUrl && (
+            <a
+              href={content.secondaryCtaUrl}
+              class="e-button e-button--secondary"
+              {...(isExternal(content.secondaryCtaUrl) && {
+                target: "_blank",
+                rel: "noopener noreferrer",
+              })}
+            >
+              {content.secondaryCtaLabel}
+            </a>
+          )
+        }
       </div>
-      <p
-        class="inline-flex items-center e-body-text e-body-text--small font-semibold"
-      >
-        <span
-          class="c-hero__availability-dot w-4 h-4 mr-2 bg-orange-500 rounded-full"
-        ></span>
-        Available from January 2027
-      </p>
+      {
+        content.availabilityText && (
+          <p class="inline-flex items-center e-body-text e-body-text--small font-semibold">
+            <span class="c-hero__availability-dot w-4 h-4 mr-2 bg-orange-500 rounded-full" />
+            {content.availabilityText}
+          </p>
+        )
+      }
     </div>
   </div>
 

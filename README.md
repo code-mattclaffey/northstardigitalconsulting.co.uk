@@ -30,6 +30,11 @@ This is the official website for Northstar Digital Consulting, showcasing techni
 │   │   ├── Logo.astro          # Animated SVG logo
 │   │   ├── Main.astro          # Main content wrapper
 │   │   └── ClientsCarousel.astro # Infinite scrolling marquee
+│   ├── data/
+│   │   └── homepage.json       # Fallback / seed homepage content
+│   ├── lib/
+│   │   ├── contentful.ts       # Contentful GraphQL client (build time)
+│   │   └── homepage.ts         # Homepage query + types
 │   ├── layouts/
 │   │   └── Layout.astro        # Base layout with inlined critical CSS
 │   ├── pages/
@@ -54,6 +59,7 @@ This is the official website for Northstar Digital Consulting, showcasing techni
 | \`npm run dev\` | Start dev server at \`localhost:4321\` |
 | \`npm run build\` | Build for production with CSS optimization |
 | \`npm run preview\` | Preview production build locally |
+| \`npm run contentful:seed\` | Create/update the Contentful homepage model and entry |
 
 ## ⚡ Performance Optimizations
 
@@ -251,6 +257,39 @@ CSS custom properties for consistent theming:
 - Test at 480px, 768px, 1024px, 1400px, 1600px breakpoints
 - Check MacBook Pro 14" (1470px) specifically
 - Verify fluid typography scaling in DevTools
+
+## 📝 Content (Contentful)
+
+Homepage copy and SEO metadata live in Contentful (content type `homepage`, one published entry) and are pulled in through the **GraphQL Content API at build time**. Pages are pre-rendered, so Contentful is called once per `astro build`, never per page view.
+
+| File | Purpose |
+|------|---------|
+| `src/lib/contentful.ts` | Tiny GraphQL client (no extra dependencies) |
+| `src/lib/homepage.ts` | Homepage query, types, and once-per-build cache |
+| `src/data/homepage.json` | Local fallback copy and seed data |
+| `scripts/contentful/seed-homepage.mjs` | Creates/updates the content type and seeds the entry |
+
+### Environment variables
+
+Copy `.env.example` to `.env`. On Vercel, add these for Production and Preview:
+
+| Variable | Required | Notes |
+|----------|----------|-------|
+| `CONTENTFUL_SPACE_ID` | Yes | |
+| `CONTENTFUL_DELIVERY_TOKEN` | Yes | Content Delivery API token |
+| `CONTENTFUL_ENVIRONMENT` | No | Defaults to `master` |
+
+If the space ID or token is missing, the build logs a warning and uses `src/data/homepage.json`. If they are set but the request fails or no entry is published, the build fails, so stale copy is never deployed silently.
+
+### Publishing content changes
+
+Because pages are pre-rendered, publishing in Contentful does not update the live site by itself. Add a Vercel Deploy Hook and point a Contentful webhook (Entry publish/unpublish) at it to rebuild automatically.
+
+### Recreating the model in a new space or environment
+
+```bash
+CONTENTFUL_MANAGEMENT_TOKEN=CFPAT-... npm run contentful:seed
+```
 
 ## 📝 License
 

@@ -1,8 +1,16 @@
 ---
 import Hero from "../components/Hero.astro";
 import Layout from "../layouts/Layout.astro";
+import { getHomepage } from "../lib/homepage";
+
+// Runs once at build time (pre-rendered), never per request.
+const homepage = await getHomepage();
 ---
 
-<Layout>
-  <Hero />
+<Layout
+  title={homepage.seoTitle}
+  description={homepage.seoDescription}
+  ogImageAlt={homepage.ogImageAlt}
+>
+  <Hero content={homepage} />
 </Layout>

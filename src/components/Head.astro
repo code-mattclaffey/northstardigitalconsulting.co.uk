@@ -1,3 +1,19 @@
+---
+import { fallbackHomepage } from "../lib/homepage";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImageAlt?: string | null;
+}
+
+const {
+  title = fallbackHomepage.seoTitle,
+  description = fallbackHomepage.seoDescription,
+  ogImageAlt = fallbackHomepage.ogImageAlt,
+} = Astro.props;
+---
+
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width" />
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -5,13 +21,11 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="manifest" href="/site.webmanifest" />
-<meta name="generator" content="{Astro.generator}" />
-<title>
-  Matt Claffey | Lead Software Engineer | Full Stack TypeScript Consultant
-</title>
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
 <meta
   name="description"
-  content="Lead Software Engineer based in Manchester specialising in Full Stack TypeScript, React, Next.js, AWS and AI-enabled engineering. Founder of Northstar Digital Consulting."
+  content={description}
 />
 
 <!-- Open Graph / Facebook -->
@@ -19,11 +33,11 @@
 <meta property="og:url" content="https://northstardigitalconsulting.co.uk/" />
 <meta
   property="og:title"
-  content="Matt Claffey | Lead Software Engineer | Full Stack TypeScript Consultant"
+  content={title}
 />
 <meta
   property="og:description"
-  content="Lead Software Engineer based in Manchester specialising in Full Stack TypeScript, React, Next.js, AWS and AI-enabled engineering. Founder of Northstar Digital Consulting."
+  content={description}
 />
 <meta
   property="og:image"
@@ -40,17 +54,14 @@
 <meta name="twitter:url" content="https://northstardigitalconsulting.co.uk/" />
 <meta
   name="twitter:title"
-  content="Matt Claffey | Lead Software Engineer | Full Stack TypeScript Consultant"
+  content={title}
 />
 <meta
   name="twitter:description"
-  content="Lead Software Engineer based in Manchester specialising in Full Stack TypeScript, React, Next.js, AWS and AI-enabled engineering. Founder of Northstar Digital Consulting."
+  content={description}
 />
 <meta
   name="twitter:image"
   content="https://northstardigitalconsulting.co.uk/og-image.jpg"
 />
-<meta
-  name="twitter:image:alt"
-  content="Northstar Digital - Matt Claffey, Lead Software Engineer"
-/>
+{ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
