@@ -25,4 +25,5 @@
   @import "./_components/_components.header.css";
   @import "./_components/_components.footer.css";
   @import "./_components/_components.clientsCarousel.css";
+  @import "./_components/_components.blog.css";
 }

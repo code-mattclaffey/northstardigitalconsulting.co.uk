@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Why Astro and Contentful make a fast, editable marketing site",
+    "slug": "astro-and-contentful-marketing-site",
+    "description": "How pre-rendering with Astro and a headless CMS gives you a site that is quick for visitors and easy for editors to change.",
+    "body": "Marketing sites have two jobs: load quickly and be easy to change. Astro and Contentful cover both.\n\n## Pre-render everything\n\nAstro renders pages to plain HTML at build time. Visitors get a document with no framework runtime, which keeps Core Web Vitals healthy.\n\n## Let editors own the words\n\nContentful holds the copy. A publish triggers a rebuild, so the live site always reflects the content without a developer in the loop.\n\n- Fast pages by default\n- Structured, typed content\n- A short path from edit to production\n\nThe trade-off is a build step between publishing and going live. For a marketing site, about a minute is a fair price.",
+    "publishDate": "2026-10-20",
+    "tags": ["astro", "contentful", "jamstack"],
+    "heroImage": null
+  },
+  {
+    "title": "Using AI agents in a real delivery workflow",
+    "slug": "ai-agents-in-a-delivery-workflow",
+    "description": "What changes when an agent picks up well-scoped tickets, and the guardrails that keep humans in charge of what ships.",
+    "body": "Agents are most useful when the work is well scoped and the definition of done is written down.\n\n## Guardrails first\n\nA label gates what an agent may pick up, and a human reviews every deploy preview before merging.\n\n## Write the issue for a reader with no context\n\nState the outcome, link the content model and list what complete looks like. A good ticket helps people as much as it helps agents.",
+    "publishDate": "2026-09-30",
+    "tags": ["ai-engineering", "devops", "leadership"],
+    "heroImage": null
+  },
+  {
+    "title": "Typed content queries in TypeScript",
+    "slug": "typed-content-queries-in-typescript",
+    "description": "A small pattern for fetching CMS content with typed queries, build-time caching and a safe local fallback.",
+    "body": "Keep each query in a module next to the type it returns.\n\n```ts\nconst posts = await getBlogPosts();\n```\n\nCache the promise once per build, fail loudly when credentials exist but the request fails, and fall back to local JSON only when they are missing.",
+    "publishDate": "2026-09-05",
+    "tags": ["typescript", "frontend", "contentful"],
+    "heroImage": null
+  }
+]
