@@ -1,6 +1,11 @@
 ---
+import About from "../components/About.astro";
+import CaseStudies from "../components/CaseStudies.astro";
+import Container from "../components/Container.astro";
+import CtaBand from "../components/CtaBand.astro";
 import Hero from "../components/Hero.astro";
-import LatestPosts from "../components/LatestPosts.astro";
+import Services from "../components/Services.astro";
+import Testimonials from "../components/Testimonials.astro";
 import Layout from "../layouts/Layout.astro";
 import { getHomepage } from "../lib/homepage";
 
@@ -14,5 +19,18 @@ const homepage = await getHomepage();
   ogImageAlt={homepage.ogImageAlt}
 >
   <Hero content={homepage} />
-  <LatestPosts />
+  <Services />
+  <section aria-label="Availability" class="pb-24">
+    <Container>
+      <CtaBand
+        title="Looking for a senior contractor?"
+        body={`I’m taking on new contracts${homepage.availabilityText ? ` ${homepage.availabilityText.replace(/^Available /i, "")}` : ""}. Tell me about the role.`}
+        ctaLabel="Check availability"
+        ctaHref={homepage.primaryCtaUrl}
+      />
+    </Container>
+  </section>
+  <About />
+  <CaseStudies />
+  <Testimonials />
 </Layout>

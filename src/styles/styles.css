@@ -15,8 +15,6 @@
   @import "./_elements/_elements.buttons.css";
 
   /* COMPONENTS - Used for component styles */
-  @import "./_components/_components.hero.css";
-  @import "./_components/_components.clientsCarousel.css";
   @import "./_components/_components.page.css";
   @import "./_components/_components.blog.css";
 }

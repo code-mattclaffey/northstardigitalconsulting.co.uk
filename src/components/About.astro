@@ -1,0 +1,58 @@
+---
+import { buttonVariants } from "@/components/ui/button";
+import { CV_URL } from "@/lib/site";
+import Container from "./Container.astro";
+import SectionHeading from "./SectionHeading.astro";
+import StatTile from "./StatTile.astro";
+
+// From Matt's CV (November 2026).
+const stats = [
+  { value: "12+", label: "Years in engineering", tone: "blue" },
+  { value: "16", label: "Brands delivered for", tone: "blue" },
+  { value: "50+", label: "Developers upskilled", tone: "dark" },
+  { value: "+11.4%", label: "UK checkout conversion", tone: "dark" },
+] as const;
+
+const [years, brands, devs, conversion] = stats;
+// Decorative tiles keep the mosaic shape until real photos are added.
+---
+
+<section id="about" class="pb-24" aria-labelledby="about-title">
+  <Container>
+    <div class="light rounded-[32px] bg-background px-5 py-12 text-foreground md:px-16 md:py-20">
+      <SectionHeading eyebrow="About" id="about-title">
+        Your partner in modern <span class="text-primary">product engineering.</span>
+        <Fragment slot="lead">
+          I’m Matt Claffey, a Principal Software Engineer based in Manchester. I lead
+          engineering strategy and scalable architecture, with deep frontend expertise, and I
+          stay hands-on so teams ship products that perform.
+        </Fragment>
+      </SectionHeading>
+      <div class="mt-7 flex justify-center">
+        <a
+          href={CV_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class={buttonVariants({ class: "h-12 px-6" })}>Read my CV</a
+        >
+      </div>
+
+      <ul class="m-0 mt-14 grid list-none grid-cols-2 gap-4 p-0 md:grid-cols-4">
+        <li
+          class="row-span-2 hidden min-h-[360px] rounded-[20px] bg-[linear-gradient(160deg,var(--color-brand-blue-100),var(--color-brand-blue-200))] md:block"
+          aria-hidden="true"
+        >
+        </li>
+        <StatTile {...years} />
+        <li
+          class="row-span-2 hidden min-h-[360px] rounded-[20px] bg-[linear-gradient(160deg,var(--color-brand-blue-200),var(--color-brand-blue-50))] md:block"
+          aria-hidden="true"
+        >
+        </li>
+        <StatTile {...brands} />
+        <StatTile {...devs} />
+        <StatTile {...conversion} />
+      </ul>
+    </div>
+  </Container>
+</section>

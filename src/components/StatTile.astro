@@ -1,0 +1,24 @@
+---
+interface Props {
+  value: string;
+  label: string;
+  tone: "blue" | "dark";
+}
+
+const { value, label, tone } = Astro.props;
+---
+
+<li
+  class:list={[
+    "flex min-h-[172px] flex-col justify-end rounded-[20px] p-6 text-white",
+    tone === "blue" ? "bg-brand-blue-600" : "bg-brand-ink",
+  ]}
+>
+  <span class="text-4xl leading-none font-semibold tracking-[-0.02em] md:text-5xl">{value}</span>
+  <span
+    class:list={[
+      "mt-2 text-xs font-medium tracking-[0.08em] uppercase",
+      tone === "dark" && "text-brand-slate-300",
+    ]}>{label}</span
+  >
+</li>

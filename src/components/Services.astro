@@ -1,0 +1,21 @@
+---
+import { SERVICES } from "@/data/services";
+import { CONTACT_MAILTO } from "@/lib/site";
+import Container from "./Container.astro";
+import SectionHeading from "./SectionHeading.astro";
+import ServicesTabs from "./ServicesTabs";
+---
+
+<section id="services" class="py-24" aria-labelledby="services-title">
+  <Container>
+    <div class="rounded-[32px] border border-secondary bg-card px-5 py-12 md:px-16 md:py-20">
+      <SectionHeading eyebrow="Services" id="services-title">
+        Senior engineering, from strategy to ship.
+        <Fragment slot="lead">
+          Contract leadership for teams that need to move faster without cutting corners.
+        </Fragment>
+      </SectionHeading>
+      <ServicesTabs client:visible services={SERVICES} contactHref={CONTACT_MAILTO} />
+    </div>
+  </Container>
+</section>

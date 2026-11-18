@@ -1,0 +1,51 @@
+---
+import { Image } from "astro:assets";
+import andLogo from "../assets/AND.svg";
+import nhsLogo from "../assets/NHS Logo.svg";
+import accentureLogo from "../assets/accenture.png";
+import bayerLogo from "../assets/bayercropscience.svg";
+import britishGasLogo from "../assets/britishgas.svg";
+import chesterZooLogo from "../assets/chesterzoo.svg";
+import cinchLogo from "../assets/cinch logo.svg";
+import rentalCarsLogo from "../assets/rentalcars.svg";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+// Height in px for each logo so they look balanced in a row.
+const logos = [
+  { src: britishGasLogo, alt: "British Gas", height: 26 },
+  { src: nhsLogo, alt: "NHS", height: 24 },
+  { src: accentureLogo, alt: "Accenture", height: 26 },
+  { src: cinchLogo, alt: "Cinch", height: 24 },
+  { src: rentalCarsLogo, alt: "Rentalcars.com", height: 22 },
+  { src: chesterZooLogo, alt: "Chester Zoo", height: 30 },
+  { src: bayerLogo, alt: "Bayer CropScience", height: 30 },
+  { src: andLogo, alt: "AND Digital", height: 24 },
+];
+---
+
+<div class:list={["flex flex-col items-center", className]}>
+  <h2 class="m-0 text-[15px] font-medium text-brand-slate-300">Trusted by teams at</h2>
+  <ul
+    class="m-0 mt-6 flex max-w-[1100px] list-none flex-wrap items-center justify-center gap-x-12 gap-y-7 p-0"
+  >
+    {
+      logos.map((logo) => (
+        <li>
+          <Image
+            src={logo.src}
+            alt={logo.alt}
+            height={logo.height}
+            loading="lazy"
+            class="w-auto opacity-75 brightness-0 invert"
+            style={`height: ${logo.height}px`}
+          />
+        </li>
+      ))
+    }
+  </ul>
+</div>

@@ -1,70 +1,65 @@
 ---
-import ClientsCarousel from "./ClientsCarousel.astro";
-import type { HomepageContent } from "../lib/homepage";
+import { ArrowRight } from "lucide-react";
+import { badgeVariants } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import type { HomepageContent } from "@/lib/homepage";
+import ClientLogos from "./ClientLogos.astro";
+import Container from "./Container.astro";
 
 interface Props {
   content: HomepageContent;
 }
 
 const { content } = Astro.props;
-const isExternal = (url: string) => /^https?:\/\//.test(url);
+const external = (url: string) =>
+  /^https?:\/\//.test(url) ? { target: "_blank", rel: "noopener noreferrer" } : {};
 ---
 
-<section class="c-hero" aria-labelledby="hero-title" class="text-center mt-60">
-  <div class="c-hero__panel c-hero__panel--1" aria-hidden="true"></div>
-  <div class="c-hero__panel c-hero__panel--2" aria-hidden="true"></div>
-  <div class="c-hero__panel c-hero__panel--3" aria-hidden="true"></div>
-  <div class="o-grid o-grid--indent">
-    <div
-      class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-8 o-grid__item--xl-9"
+<section class="bg-hero-glow overflow-hidden pt-[96px] pb-18" aria-labelledby="hero-title">
+  <Container class="flex flex-col items-center pt-12 text-center md:pt-18">
+    {
+      content.availabilityText && (
+        <p class={badgeVariants({ variant: "glass", class: "m-0" })}>
+          <span class="size-2 rounded-full bg-brand-blue-400" aria-hidden="true" />
+          {content.availabilityText}
+        </p>
+      )
+    }
+    <h1
+      id="hero-title"
+      class="mt-7 mb-0 max-w-[980px] text-[40px] leading-[1.05] font-semibold tracking-[-0.03em] text-balance md:text-7xl"
     >
-      <h1 class="e-heading e-heading--h1 mb-10" id="hero-title">
-        {content.heroHeading}
-      </h1>
+      {content.heroHeading}
+    </h1>
+    <p class="mt-6 mb-0 max-w-[720px] text-lg leading-relaxed text-brand-slate-300 md:text-xl">
+      {content.heroBody}
+    </p>
+    <div class="mt-9 flex flex-wrap justify-center gap-3">
+      <a
+        href={content.primaryCtaUrl}
+        class={buttonVariants({ size: "lg" })}
+        {...external(content.primaryCtaUrl)}
+      >
+        {content.primaryCtaLabel}
+        <ArrowRight aria-hidden="true" />
+      </a>
       {
-        content.heroSubheading && (
-          <p class="e-heading e-heading--h3">{content.heroSubheading}</p>
-        )
-      }
-      <p class="mb-12 e-body-text e-body-text--large max-w-[70ch]">
-        {content.heroBody}
-      </p>
-      <div class="flex gap-4 mb-6">
-        <a
-          href={content.primaryCtaUrl}
-          class="e-button e-button--primary"
-          {...(isExternal(content.primaryCtaUrl) && {
-            target: "_blank",
-            rel: "noopener noreferrer",
-          })}
-        >
-          {content.primaryCtaLabel}
-        </a>
-        {
-          content.secondaryCtaLabel && content.secondaryCtaUrl && (
-            <a
-              href={content.secondaryCtaUrl}
-              class="e-button e-button--secondary"
-              {...(isExternal(content.secondaryCtaUrl) && {
-                target: "_blank",
-                rel: "noopener noreferrer",
-              })}
-            >
-              {content.secondaryCtaLabel}
-            </a>
-          )
-        }
-      </div>
-      {
-        content.availabilityText && (
-          <p class="inline-flex items-center e-body-text e-body-text--small font-semibold">
-            <span class="c-hero__availability-dot w-4 h-4 mr-2 bg-orange-500 rounded-full" />
-            {content.availabilityText}
-          </p>
+        content.secondaryCtaLabel && content.secondaryCtaUrl && (
+          <a
+            href={content.secondaryCtaUrl}
+            class={buttonVariants({
+              variant: "outline",
+              size: "lg",
+              class: "border-white/20 bg-brand-ink/40 font-medium hover:bg-white/10",
+            })}
+            {...external(content.secondaryCtaUrl)}
+          >
+            {content.secondaryCtaLabel}
+          </a>
         )
       }
     </div>
-  </div>
 
-  <ClientsCarousel />
+    <ClientLogos class="mt-20 md:mt-30" />
+  </Container>
 </section>
