@@ -9,9 +9,9 @@ const testimonials = await getTestimonials();
 
 {
   testimonials.length > 0 && (
-    <section class="pb-24" aria-labelledby="testimonials-title" data-testimonials>
+    <section class="pb-14 md:pb-24" aria-labelledby="testimonials-title" data-testimonials>
       <Container>
-        <div class="light overflow-hidden rounded-[32px] bg-background px-5 py-12 text-foreground md:px-16 md:py-18">
+        <div class="light overflow-hidden rounded-[32px] bg-background px-5 py-10 text-foreground md:px-16 md:py-18">
           <div class="flex flex-wrap items-end justify-between gap-6">
             <SectionHeading eyebrow="Testimonials" id="testimonials-title" align="start">
               What people say about working with me.
@@ -40,6 +40,7 @@ const testimonials = await getTestimonials();
 
           <ul
             id="testimonials-list"
+            data-reveal
             class="m-0 -mx-1 mt-12 flex snap-x snap-mandatory list-none gap-6 overflow-x-auto scroll-smooth px-1 pt-1 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             tabindex="0"
             aria-label="Testimonials"

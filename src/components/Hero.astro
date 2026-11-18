@@ -15,7 +15,7 @@ const external = (url: string) =>
   /^https?:\/\//.test(url) ? { target: "_blank", rel: "noopener noreferrer" } : {};
 ---
 
-<section class="bg-hero-glow overflow-hidden pt-[96px] pb-18" aria-labelledby="hero-title">
+<section class="bg-hero-glow overflow-hidden pt-[96px] pb-12 md:pb-18" aria-labelledby="hero-title">
   <Container class="flex flex-col items-center pt-12 text-center md:pt-18">
     {
       content.availabilityText && (
@@ -60,6 +60,6 @@ const external = (url: string) =>
       }
     </div>
 
-    <ClientLogos class="mt-20 md:mt-30" />
+    <ClientLogos class="mt-14 md:mt-30" />
   </Container>
 </section>
