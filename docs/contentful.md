@@ -42,7 +42,7 @@ The state is worked out at build time and again in the browser by an inline scri
 | `CONTENTFUL_DELIVERY_TOKEN` | Yes      | Content Delivery API token |
 | `CONTENTFUL_ENVIRONMENT`    | No       | Defaults to `master`       |
 
-Set them in Netlify for Production and Deploy Previews. Missing values: the build uses local fallback JSON in `src/data/`. Present but failing: the build fails.
+Set them in Netlify for Production and Deploy Previews. Missing values: the build uses local fallback JSON in `src/data/`. Present but failing: the build fails. The one exception is a link to an unpublished entry (for example an unpublished `pageSection`): the build logs a warning and skips it, so you can unpublish a section without unlinking it first.
 
 ## Rebuilds
 
