@@ -1,5 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+import authorPhoto from "@/assets/matt-claffey.png";
 import { ChevronLeft } from "lucide-react";
 import { badgeVariants } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -83,10 +85,13 @@ const isCaseStudy = post.tags.includes("case-study");
           {post.description}
         </p>
         <div class="mt-8 flex items-center gap-3">
-          <span
-            class="flex size-11 items-center justify-center rounded-full bg-brand-blue-200 font-semibold text-brand-blue-800"
-            aria-hidden="true">MC</span
-          >
+          <Image
+            src={authorPhoto}
+            alt=""
+            width={44}
+            height={44}
+            class="size-11 rounded-full object-cover ring-2 ring-white/15"
+          />
           <span class="flex flex-col">
             <span class="font-semibold">Matt Claffey</span>
             <span class="text-[13px] text-brand-slate-400">
