@@ -254,6 +254,29 @@
 }
 
 /* CTA bands. */
+/* Card grids become a horizontal swipe row below md, to keep pages short. */
+@utility swipe-row {
+  @media (width < 48rem) {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    margin-inline: -1.25rem;
+    padding-inline: 1.25rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    & > * {
+      flex: 0 0 82%;
+      scroll-snap-align: start;
+    }
+  }
+}
+
 @utility bg-cta-gradient {
   background: linear-gradient(
     100deg,
@@ -510,5 +533,27 @@
   .js [data-reveal].is-revealed {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* Footer CTA when the contract is about to end: a slow glowing ring. */
+@keyframes cta-glow {
+  from {
+    box-shadow:
+      0 0 0 1px rgb(185 207 248 / 0.45),
+      0 0 32px 0 rgb(124 108 240 / 0.25);
+  }
+  to {
+    box-shadow:
+      0 0 0 2px rgb(185 207 248 / 0.9),
+      0 0 64px 4px rgb(124 108 240 / 0.55);
+  }
+}
+.cta-band[data-availability] {
+  box-shadow: 0 0 0 2px rgb(185 207 248 / 0.9);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cta-band[data-availability] {
+    animation: cta-glow 2.4s ease-in-out infinite alternate;
   }
 }

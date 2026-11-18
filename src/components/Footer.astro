@@ -2,6 +2,8 @@
 import {
   CONTACT_EMAIL,
   CONTACT_MAILTO,
+  AVAILABILITY_WINDOW_DAYS,
+  CONTRACT_END,
   CV_URL,
   GITHUB_URL,
   LINKEDIN_URL,
@@ -24,6 +26,8 @@ const linkClass =
       body="Tell me about your challenge and I’ll reply within one working day."
       ctaLabel="Get in touch"
       ctaHref={CONTACT_MAILTO}
+      availableFrom={CONTRACT_END}
+      windowDays={AVAILABILITY_WINDOW_DAYS}
     />
 
     <div class="mt-18 grid grid-cols-1 gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
