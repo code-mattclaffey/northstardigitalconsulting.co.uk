@@ -376,6 +376,152 @@
 }
 
 /*
+ * Long-form post body. The HTML comes from Markdown at build time, so it is
+ * styled by element here rather than with utility classes.
+ */
+@layer components {
+  .post-body {
+    max-width: 720px;
+    color: var(--color-brand-ink-700);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+
+    --shiki-background: var(--color-brand-ink);
+    --shiki-foreground: #e6e9f2;
+    --shiki-token-comment: #8b93a7;
+    --shiki-token-keyword: #c792ea;
+    --shiki-token-constant: #f78c6c;
+    --shiki-token-string: #c3e88d;
+    --shiki-token-string-expression: #c3e88d;
+    --shiki-token-function: var(--color-brand-blue-200);
+    --shiki-token-parameter: #f2c88d;
+    --shiki-token-punctuation: #a6acbd;
+    --shiki-token-link: var(--color-brand-blue-400);
+    --shiki-token-inserted: #c3e88d;
+    --shiki-token-deleted: #ff8a8a;
+    --shiki-token-changed: var(--color-brand-gold);
+  }
+
+  @media (min-width: 768px) {
+    .post-body {
+      font-size: 1.125rem;
+    }
+  }
+
+  .post-body > * {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-body h2,
+  .post-body h3,
+  .post-body h4 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-brand-ink);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .post-body h2 {
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 1.875rem);
+  }
+
+  .post-body h3 {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  }
+
+  .post-body a {
+    color: var(--color-brand-blue-600);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .post-body a:hover {
+    color: var(--color-brand-blue-800);
+  }
+
+  .post-body ul,
+  .post-body ol {
+    padding-left: 1.5rem;
+  }
+
+  .post-body ul {
+    list-style: disc;
+  }
+
+  .post-body ol {
+    list-style: decimal;
+  }
+
+  .post-body li + li {
+    margin-top: 0.5rem;
+  }
+
+  .post-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1.25rem;
+  }
+
+  .post-body blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem 1.75rem;
+    border-radius: 1.25rem;
+    background: var(--color-brand-blue-50);
+    color: var(--color-brand-blue-800);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .post-body blockquote > :last-child {
+    margin-bottom: 0;
+  }
+
+  .post-body pre {
+    overflow-x: auto;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background-color: var(--shiki-background);
+    color: var(--shiki-foreground);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 2;
+  }
+
+  .post-body :not(pre) > code {
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.375rem;
+    background-color: var(--color-brand-blue-50);
+    color: var(--color-brand-blue-800);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  .post-body hr {
+    margin: 2.5rem 0;
+    border: 0;
+    border-top: 1px solid var(--color-brand-slate-200);
+  }
+
+  .post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .post-body th,
+  .post-body td {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--color-brand-slate-200);
+    text-align: left;
+  }
+}
+
+/*
  * Scroll reveal. Elements with `data-reveal` fade up as they enter the
  * viewport (see Layout.astro). Only applies when JS runs and the visitor has
  * not asked for reduced motion, so content is never stuck invisible.

@@ -1,4 +1,6 @@
 ---
+import { cn } from "@/lib/utils";
+
 interface Props {
   class?: string;
 }
@@ -6,6 +8,6 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div class:list={["mx-auto w-full max-w-[1280px] px-5 md:px-8", className]}>
+<div class={cn("mx-auto w-full max-w-[1280px] px-5 md:px-8", className)}>
   <slot />
 </div>

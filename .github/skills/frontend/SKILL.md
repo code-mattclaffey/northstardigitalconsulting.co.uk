@@ -2,110 +2,78 @@
 
 ## Purpose
 
-Build frontend changes for this repository in a way that matches the site’s existing Astro structure, styling system, and accessibility standards.
+Build frontend changes for this repository with Astro, Tailwind CSS v4 and shadcn/ui, matching the NorthStar design (issue #6) and its accessibility standards.
 
-## Project standards already implemented in this repo
+## Stack
 
-### 1. Use Astro as the default frontend pattern
+- **Astro** pages and layout, pre-rendered at build time. Zero JavaScript by default.
+- **Tailwind CSS v4** utilities for all styling. There is no ITCSS/BEM layer any more.
+- **shadcn/ui** components in `src/components/ui/` (`button`, `badge`, `card`, `tabs`). `components.json` is set up, so `npx shadcn@latest add <component>` drops new ones in the right place.
+- **React** only for interactive islands (`client:visible` / `client:load`): `ServicesTabs`, `BlogList`.
+- Icons: `lucide-react`. Brand icons (LinkedIn, GitHub) are in `SocialIcon.astro`.
 
-- Build pages and reusable UI as Astro components in `src/components/`.
-- Keep page composition simple and declarative.
-- Prefer zero-JS by default; add JavaScript only when a small progressive enhancement is needed.
-- Use the main layout pattern already established in `src/layouts/Layout.astro` and compose pages through it.
+## Design tokens
 
-### 2. Follow the repo’s page/layout composition model
+All tokens live in `src/styles/global.css`, using shadcn token names so they match the Figma "Theme" variables:
 
-- Pages in `src/pages/` should import the shared layout and render content inside a single `<Layout>` wrapper.
-- Shared page chrome belongs in the layout and its reusable child components:
-  - `Head.astro`
-  - `Header.astro`
-  - `Main.astro`
-  - `Footer.astro`
-- Keep page files focused on content structure rather than duplicating global wrapper markup.
+- Semantic tokens: `background`, `foreground`, `card`, `primary`, `primary-hover`, `secondary`, `muted`, `muted-foreground`, `accent`, `accent-foreground`, `border`, `border-strong`, `ring` (gold focus ring). Use them as `bg-primary`, `text-muted-foreground`, `border-border` and so on.
+- Light values are on `:root` / `.light`, dark values on `.dark`. The site is dark-first: `<html class="dark">`, and white panels add `class="light"` so everything inside them switches.
+- Brand primitives: `brand-ink`, `brand-ink-900`…`600`, `brand-slate-*`, `brand-stone`, `brand-blue-50`…`800`, `brand-indigo`, `brand-violet`, `brand-gold`. Prefer semantic tokens; use primitives for fixed brand surfaces.
+- Gradients are utilities: `bg-hero-glow`, `bg-hero-glow-soft`, `bg-cta-gradient`, `bg-art-1/2/3` (placeholder art for posts with no hero image).
+- Never hard-code a hex value in a component. Add a token instead.
 
-### 3. Maintain the existing CSS architecture
+## Patterns
 
-This repository uses an ITCSS-inspired structure in `src/styles/`:
+### Static links that look like buttons or badges
 
-1. `src/styles/_settings/` for CSS custom properties and theme tokens.
-2. `src/styles/_generics/` for global resets and base rules.
-3. `src/styles/_objects/` for layout patterns such as the grid.
-4. `src/styles/_elements/` for base element styling such as typography, buttons, and icon treatment.
-5. `src/styles/_components/` for component-scoped styling.
-
-Follow this order and keep styles organized by specificity instead of adding ad hoc global rules.
-
-### 4. Use the established naming conventions
-
-- Prefer BEM-style class names such as `.c-hero__panel`, `.c-footer__nav-list`, and `.e-button--primary`.
-- Use `c-` for components, `e-` for elements, and `o-` for objects.
-- Reuse the existing design tokens from `src/styles/_settings/_settings.theme.css` instead of introducing arbitrary colour values.
-
-### 5. Keep accessibility as a first-class requirement
-
-- Use semantic HTML (`header`, `main`, `footer`, `nav`, `section`, `h1`-`h2`-`h3`).
-- Preserve accessible names for icon-only links and controls.
-- Use `aria-label`, `aria-current`, and `aria-hidden` only where the repo already uses them.
-- Ensure focus styles remain visible and high-contrast.
-- Respect `prefers-reduced-motion` for any animation work.
-
-### 6. Keep styling consistent with the current design system
-
-- Prefer the existing button, heading, body text, and logo element styles before introducing new patterns.
-- Use the responsive grid system already defined in the object layer rather than inventing custom layout helpers.
-- Use Tailwind utility classes sparingly for small layout or spacing adjustments only when they match the repo style.
-- Avoid adding new CSS frameworks or replacing the established layering model.
-
-### 7. Prefer lightweight, production-friendly implementation
-
-- Keep JavaScript minimal and progressive.
-- Avoid introducing heavy client-side dependencies unless the repo already depends on them.
-- Prefer CSS-only transitions and animation where the current repo pattern already does that.
-- Keep the footprint of new UI small and aligned with the static marketing-site use case.
-
-## Example patterns
-
-### Layout usage
+shadcn's `asChild` does not work across the Astro/React boundary, so in `.astro` files use the variant helpers on plain elements. This ships no JavaScript:
 
 ```astro
 ---
-import Layout from '../layouts/Layout.astro';
+import { buttonVariants } from "@/components/ui/button";
+import { badgeVariants } from "@/components/ui/badge";
 ---
 
-<Layout>
-  <section>
-    <h1>Page heading</h1>
-  </section>
-</Layout>
+<a href="/blog" class={buttonVariants({ variant: "outline", size: "lg" })}>All posts</a>
+<span class={badgeVariants()}>Case study</span>
 ```
 
-### Component style scope
+Button variants: `default` (brand blue), `secondary` (ink, for use on gradients), `outline`, `ghost`, `link`. Sizes: `sm`, `default`, `lg`, `icon`.
 
-Use the existing naming shape and keep component styles in the appropriate layer:
+### Layout
 
-- `.c-component`
-- `.c-component__element`
-- `.c-component__element--modifier`
+- Pages render inside `src/layouts/Layout.astro` (header, `<main id="main">`, footer with the CTA band).
+- The header is positioned over the page, so every page starts with a dark hero that has `pt-[96px]`.
+- Wrap content in `Container.astro` (1280px max, 20px/32px gutters). Section headings use `SectionHeading.astro` (eyebrow pill + H2 + optional lead).
+- `lucide-react` icons in `.astro` files take `className`, not `class`.
 
-### Theme token usage
+### Long-form content
 
-Use CSS variables from the theme file rather than hard-coded colours:
+Markdown from Contentful is styled by element under `.post-body` in `global.css` (headings, lists, quotes, code). Code colours are the `--shiki-*` variables set there.
 
-```css
-background-color: var(--nd-color-baby-blue);
-color: var(--nd-color-ink-black);
-```
+## Accessibility
+
+- Semantic HTML (`header`, `main`, `footer`, `nav`, `section` with `aria-labelledby`, one `h1` per page).
+- Accessible names for icon-only controls; decorative SVGs get `aria-hidden="true"`.
+- Visible focus: the global `:focus-visible` style uses the gold `ring` token. Don't remove outlines.
+- Respect `prefers-reduced-motion` for any animation (see the logo animation in `global.css`).
+- Check contrast when placing text on gradients; white panels must carry `.light`.
+
+## Gotchas
+
+- Tailwind scans source comments: avoid words like `static`, `block`, `hidden` in comments or they become CSS classes.
+- Use `cn()` from `@/lib/utils` to merge classes so Tailwind conflicts resolve correctly.
+- Screenshot every changed page at 1440px and 390px before opening a PR, and check there is no horizontal scroll on mobile.
 
 ## Success metrics
 
-- Does the work reuse the repo’s Astro + ITCSS structure instead of introducing a parallel pattern?
-- Are colours sourced from the documented theme variables?
-- Is the HTML semantic and keyboard-accessible?
-- Does motion respect `prefers-reduced-motion`?
-- Is the implementation aligned with the style of the existing site and not overly heavy?
+- Uses shadcn/ui and theme tokens rather than a parallel pattern or raw hex values.
+- Ships no new client JavaScript unless the feature is interactive.
+- HTML is semantic and keyboard-accessible; motion respects reduced-motion.
 
 ## References
 
 - [Astro](https://docs.astro.build/en/getting-started/)
-- [ITCSS](https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/)
+- [shadcn/ui](https://ui.shadcn.com/docs) and [theming](https://ui.shadcn.com/docs/theming)
+- [Tailwind CSS v4](https://tailwindcss.com/docs)
 - [MDN: Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility)
