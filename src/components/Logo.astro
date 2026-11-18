@@ -2,10 +2,13 @@
 interface Props {
   /** Background the logo sits on. The mark is brand blue on both. */
   tone?: "on-dark" | "on-light";
+  /** Rendered height in px; width follows the logo's aspect ratio. */
+  height?: number;
   class?: string;
 }
 
-const { tone = "on-dark", class: className } = Astro.props;
+const { tone = "on-dark", height = 30, class: className } = Astro.props;
+const width = Math.round((height * 495) / 87);
 const colours =
   tone === "on-dark"
     ? "--logo-mark: #7fa4ee; --logo-text: #ffffff;"
@@ -14,11 +17,9 @@ const colours =
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  class:list={["logo-mark block h-auto", className]}
-  style={colours}
+  class:list={["logo-mark block shrink-0", className]}
+  style={`${colours} width: ${width}px; height: ${height}px;`}
   viewBox="0 0 495 87"
-  width="495"
-  height="87"
   fill="none"
   aria-hidden="true"
   focusable="false"
