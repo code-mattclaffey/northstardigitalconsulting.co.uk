@@ -26,6 +26,7 @@ This repo runs as a small software factory (see [docs/software-factory.md](docs/
 | `npm run build`                             | Production build. Must pass before opening a PR       |
 | `npx -p typescript@5.8.3 tsc --noEmit -p .` | Type check                                            |
 | `npm run contentful:seed`                   | Recreate the homepage model/entry (needs a CMA token) |
+| `node scripts/og/render-og.mjs`             | Re-render `public/og-*.jpg` share images (Playwright) |
 
 The husky pre-commit hook runs Prettier, which has no Astro plugin here. Format files you touched with `npx prettier --write <files>` (skip `.astro`) and commit with `HUSKY=0` so unrelated files are not reformatted.
 

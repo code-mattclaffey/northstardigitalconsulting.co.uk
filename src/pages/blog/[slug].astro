@@ -41,6 +41,8 @@ const isCaseStudy = post.tags.includes("case-study");
   title={`${post.title} | NorthStar Digital Consulting`}
   description={post.description}
   canonicalUrl={post.canonicalUrl}
+  ogImage={post.heroImage ? `${post.heroImage.url}?w=1200&h=630&fit=fill&fm=jpg` : "/og-blog.jpg"}
+  ogImageAlt={post.heroImage?.alt || post.title}
 >
   <article>
     <header
