@@ -69,6 +69,24 @@ const homepageContentType = {
       urlPattern,
     ]),
     field("availabilityText", "Availability text", "Symbol", false),
+    {
+      ...field("sections", "Sections", "Array", false),
+      items: {
+        type: "Link",
+        linkType: "Entry",
+        validations: [{ linkContentType: ["pageSection"] }],
+      },
+    },
+    field("currentContractExpiry", "Current contract expiry", "Date", false),
+    {
+      ...field(
+        "highlightAvailability",
+        "Highlight availability in the last month",
+        "Boolean",
+        false,
+      ),
+      defaultValue: { [locale]: true },
+    },
   ],
 };
 
@@ -115,7 +133,10 @@ async function upsertEntry() {
   );
 
   const fields = { internalName: { [locale]: "Homepage" } };
+  // `sections` links to pageSection entries, which are edited in Contentful
+  // and not seeded. The local list in homepage.json is only the build fallback.
   for (const [key, value] of Object.entries(seed)) {
+    if (key === "sections") continue;
     if (value !== null && value !== "") fields[key] = { [locale]: value };
   }
 
@@ -123,6 +144,8 @@ async function upsertEntry() {
     `/entries?content_type=${CONTENT_TYPE_ID}&limit=1`,
   );
   const existing = items[0];
+  // Keep the section order editors set up; a PUT replaces every field.
+  if (existing?.fields.sections) fields.sections = existing.fields.sections;
 
   const saved = existing
     ? await cma(`/entries/${existing.sys.id}`, {

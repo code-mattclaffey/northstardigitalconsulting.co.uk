@@ -1,54 +1,75 @@
+import { Badge } from "@/components/ui/badge";
+import { cardClass } from "@/components/ui/card";
 import {
   BLOG_TAG_LABELS,
   formatPublishDate,
   type BlogPostSummary,
-} from "../lib/blog";
+} from "@/lib/blog";
+import { cn } from "@/lib/utils";
 
 interface Props {
   post: BlogPostSummary;
   headingLevel?: "h2" | "h3";
+  /** Index in the list, used to vary the placeholder artwork. */
+  index?: number;
 }
 
+const ART = ["bg-art-2", "bg-art-1", "bg-art-3"];
+
 /**
- * Presentational card. Used statically on the homepage and inside the
- * BlogList island on /blog (so both share one markup).
+ * Post card on the light blog page. Rendered inside the BlogList island and
+ * in related posts on post pages, so both share one markup.
  */
-export default function BlogCard({ post, headingLevel = "h2" }: Props) {
+export default function BlogCard({
+  post,
+  headingLevel = "h2",
+  index = 0,
+}: Props) {
   const Heading = headingLevel;
-  const href = `/blog/${post.slug}`;
+  const [firstTag] = post.tags;
 
   return (
-    <article className="c-blog-card">
-      {post.heroImage && (
+    <article
+      className={cn(
+        cardClass,
+        "light group relative h-full transition-shadow hover:shadow-[0_16px_40px_rgb(12_16_27/0.1)]",
+      )}
+    >
+      {post.heroImage ? (
         <img
-          className="c-blog-card__image"
+          className="h-[180px] w-full object-cover"
           src={`${post.heroImage.url}?w=640&h=360&fit=fill&fm=webp`}
-          alt={post.heroImage.alt}
+          alt=""
           width={640}
           height={360}
           loading="lazy"
           decoding="async"
         />
+      ) : (
+        <div
+          className={cn("h-[180px]", ART[index % ART.length])}
+          aria-hidden="true"
+        />
       )}
-      <div className="c-blog-card__content">
-        <time className="c-blog-card__date" dateTime={post.publishDate}>
-          {formatPublishDate(post.publishDate)}
-        </time>
-        <Heading className="c-blog-card__title">
-          <a className="c-blog-card__link" href={href}>
+      <div className="flex flex-1 flex-col gap-3 p-6">
+        {firstTag && <Badge>{BLOG_TAG_LABELS[firstTag]}</Badge>}
+        <Heading className="m-0 text-[19px] leading-snug font-semibold">
+          <a
+            className="text-foreground no-underline after:absolute after:inset-0 after:content-[''] focus-visible:outline-none group-focus-within:underline"
+            href={`/blog/${post.slug}`}
+          >
             {post.title}
           </a>
         </Heading>
-        <p className="c-blog-card__description">{post.description}</p>
-        {post.tags.length > 0 && (
-          <ul className="c-blog-card__tags" aria-label="Tags">
-            {post.tags.map((tag) => (
-              <li className="c-blog-card__tag" key={tag}>
-                {BLOG_TAG_LABELS[tag]}
-              </li>
-            ))}
-          </ul>
-        )}
+        <p className="m-0 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+          {post.description}
+        </p>
+        <time
+          className="mt-auto pt-3 text-[13px] text-muted-foreground"
+          dateTime={post.publishDate}
+        >
+          {formatPublishDate(post.publishDate)}
+        </time>
       </div>
     </article>
   );

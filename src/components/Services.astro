@@ -1,0 +1,34 @@
+---
+import { SERVICES } from "@/data/services";
+import { CONTACT_MAILTO } from "@/lib/site";
+import type { PageSection } from "@/lib/homepage";
+import Container from "./Container.astro";
+import Section from "./Section.astro";
+import SectionHeading from "./SectionHeading.astro";
+import ServicesTabs from "./ServicesTabs";
+
+interface Props {
+  section: PageSection;
+}
+
+const { section } = Astro.props;
+---
+
+<Section background={section.background} id="services" aria-labelledby="services-title">
+  <Container>
+    <div class="rounded-[32px] border border-secondary bg-card px-5 py-10 md:px-16 md:py-20">
+      <SectionHeading eyebrow={section.eyebrow ?? "Services"} id="services-title">
+        {section.heading ?? "Senior engineering, from strategy to ship."}
+        <Fragment slot="lead">
+          {
+            section.lead ??
+              "Contract leadership for teams that need to move faster without cutting corners."
+          }
+        </Fragment>
+      </SectionHeading>
+      <div data-reveal>
+        <ServicesTabs client:visible services={SERVICES} contactHref={CONTACT_MAILTO} />
+      </div>
+    </div>
+  </Container>
+</Section>

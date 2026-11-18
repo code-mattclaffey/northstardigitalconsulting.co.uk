@@ -10,6 +10,11 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+/* Set on <html> in the last month of a contract (see Layout.astro). */
+@custom-variant available (&:where([data-availability] *));
+@custom-variant available-now (&:where([data-availability="now"] *));
+/* Inside a section with the light background variant. */
+@custom-variant on-light (&:where(.light *));
 
 @theme {
   --font-sans:
@@ -38,6 +43,14 @@
   --color-brand-gold: #f5b841;
 
   --spacing-13: 3.25rem;
+
+  --animate-marquee: marquee 60s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @theme inline {
@@ -169,6 +182,64 @@
       rgb(12 16 27 / 0) 70%
     ),
     var(--color-brand-ink);
+}
+
+/*
+ * Animated hero: the same three glows as separate layers, each breathing in
+ * and out on its own timing. Static for reduced motion.
+ */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: glow-breathe var(--glow-duration, 9s) ease-in-out infinite
+    alternate;
+  animation-delay: var(--glow-delay, 0s);
+}
+
+.hero-glow--center {
+  background: radial-gradient(
+    70% 55% at 50% 105%,
+    rgb(127 164 238 / 0.55) 0%,
+    rgb(91 134 229 / 0.22) 38%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 9s;
+}
+
+.hero-glow--violet {
+  background: radial-gradient(
+    38% 42% at 88% 96%,
+    rgb(124 108 240 / 0.5) 0%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 7s;
+  --glow-delay: -3s;
+}
+
+.hero-glow--indigo {
+  background: radial-gradient(
+    40% 40% at 10% 92%,
+    rgb(30 26 105 / 0.95) 0%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 11s;
+  --glow-delay: -6s;
+}
+
+@keyframes glow-breathe {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none;
+  }
 }
 
 /* Shorter pages (blog): a softer version of the same glow. */
@@ -304,6 +375,173 @@
   }
 }
 
+/*
+ * Long-form post body. The HTML comes from Markdown at build time, so it is
+ * styled by element here rather than with utility classes.
+ */
+@layer components {
+  .post-body {
+    max-width: 720px;
+    color: var(--color-brand-ink-700);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+
+    --shiki-background: var(--color-brand-ink);
+    --shiki-foreground: #e6e9f2;
+    --shiki-token-comment: #8b93a7;
+    --shiki-token-keyword: #c792ea;
+    --shiki-token-constant: #f78c6c;
+    --shiki-token-string: #c3e88d;
+    --shiki-token-string-expression: #c3e88d;
+    --shiki-token-function: var(--color-brand-blue-200);
+    --shiki-token-parameter: #f2c88d;
+    --shiki-token-punctuation: #a6acbd;
+    --shiki-token-link: var(--color-brand-blue-400);
+    --shiki-token-inserted: #c3e88d;
+    --shiki-token-deleted: #ff8a8a;
+    --shiki-token-changed: var(--color-brand-gold);
+  }
+
+  @media (min-width: 768px) {
+    .post-body {
+      font-size: 1.125rem;
+    }
+  }
+
+  .post-body > * {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-body h2,
+  .post-body h3,
+  .post-body h4 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-brand-ink);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .post-body h2 {
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 1.875rem);
+  }
+
+  .post-body h3 {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  }
+
+  .post-body a {
+    color: var(--color-brand-blue-600);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .post-body a:hover {
+    color: var(--color-brand-blue-800);
+  }
+
+  .post-body ul,
+  .post-body ol {
+    padding-left: 1.5rem;
+  }
+
+  .post-body ul {
+    list-style: disc;
+  }
+
+  .post-body ol {
+    list-style: decimal;
+  }
+
+  .post-body li + li {
+    margin-top: 0.5rem;
+  }
+
+  .post-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1.25rem;
+  }
+
+  .post-body blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem 1.75rem;
+    border-radius: 1.25rem;
+    background: var(--color-brand-blue-50);
+    color: var(--color-brand-blue-800);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .post-body blockquote > :last-child {
+    margin-bottom: 0;
+  }
+
+  .post-body pre {
+    overflow-x: auto;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background-color: var(--shiki-background);
+    color: var(--shiki-foreground);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 2;
+  }
+
+  .post-body :not(pre) > code {
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.375rem;
+    background-color: var(--color-brand-blue-50);
+    color: var(--color-brand-blue-800);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  .post-body hr {
+    margin: 2.5rem 0;
+    border: 0;
+    border-top: 1px solid var(--color-brand-slate-200);
+  }
+
+  .post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .post-body th,
+  .post-body td {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--color-brand-slate-200);
+    text-align: left;
+  }
+}
+
+/*
+ * Scroll reveal. Elements with `data-reveal` fade up as they enter the
+ * viewport (see Layout.astro). Only applies when JS runs and the visitor has
+ * not asked for reduced motion, so content is never stuck invisible.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Footer CTA when the contract is about to end: a slow glowing ring. */
 @keyframes cta-glow {
   from {
@@ -317,11 +555,11 @@
       0 0 64px 4px rgb(124 108 240 / 0.55);
   }
 }
-.cta-band[data-availability] {
+[data-availability] .cta-band {
   box-shadow: 0 0 0 2px rgb(185 207 248 / 0.9);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .cta-band[data-availability] {
+  [data-availability] .cta-band {
     animation: cta-glow 2.4s ease-in-out infinite alternate;
   }
 }

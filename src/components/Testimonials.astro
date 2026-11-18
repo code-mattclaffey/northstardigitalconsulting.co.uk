@@ -1,0 +1,126 @@
+---
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { getTestimonials, initials } from "@/lib/testimonials";
+import type { PageSection } from "@/lib/homepage";
+import Container from "./Container.astro";
+import Section from "./Section.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const testimonials = await getTestimonials();
+
+interface Props {
+  section: PageSection;
+}
+
+const { section } = Astro.props;
+---
+
+{
+  testimonials.length > 0 && (
+    <Section
+      background={section.background}
+      aria-labelledby="testimonials-title"
+      data-testimonials
+    >
+      <Container>
+        <div class="light overflow-hidden rounded-[32px] bg-background px-5 py-10 text-foreground md:px-16 md:py-18">
+          <div class="flex flex-wrap items-end justify-between gap-6">
+            <SectionHeading
+              eyebrow={section.eyebrow ?? "Testimonials"}
+              id="testimonials-title"
+              align="start"
+            >
+              {section.heading ?? "What people say about working with me."}
+              {section.lead && <Fragment slot="lead">{section.lead}</Fragment>}
+            </SectionHeading>
+            <div class="flex gap-2">
+              <button
+                type="button"
+                data-testimonials-prev
+                aria-controls="testimonials-list"
+                aria-label="Previous testimonial"
+                class="flex size-12 cursor-pointer items-center justify-center rounded-full border border-border-strong bg-background text-foreground hover:bg-muted"
+              >
+                <ChevronLeft className="size-5" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                data-testimonials-next
+                aria-controls="testimonials-list"
+                aria-label="Next testimonial"
+                class="flex size-12 cursor-pointer items-center justify-center rounded-full border-0 bg-brand-ink text-white hover:bg-brand-ink-800"
+              >
+                <ChevronRight className="size-5" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+
+          <ul
+            id="testimonials-list"
+            data-reveal
+            class="m-0 -mx-1 mt-12 flex snap-x snap-mandatory list-none gap-6 overflow-x-auto scroll-smooth px-1 pt-1 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            tabindex="0"
+            aria-label="Testimonials"
+          >
+            {testimonials.map((t) => (
+              <li class="flex w-[min(440px,88%)] flex-none snap-start">
+                <figure class="m-0 flex w-full flex-col gap-5 rounded-3xl bg-brand-stone p-6 md:p-8">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="flex gap-1" role="img" aria-label="Rated 5 out of 5">
+                      {Array.from({ length: 5 }, () => (
+                        <Star className="size-[18px] fill-brand-gold text-brand-gold" aria-hidden="true" />
+                      ))}
+                    </span>
+                    {t.isSample && (
+                      <span class="rounded-md bg-background px-2 py-1 text-[11px] text-muted-foreground">
+                        Sample
+                      </span>
+                    )}
+                  </div>
+                  <blockquote class="m-0 text-[17px] leading-relaxed">
+                    <p class="m-0">{t.quote}</p>
+                  </blockquote>
+                  <figcaption class="mt-auto flex items-center gap-3">
+                    <span
+                      class="flex size-11 flex-none items-center justify-center rounded-full bg-brand-blue-200 font-semibold text-brand-blue-800"
+                      aria-hidden="true"
+                    >
+                      {initials(t.isSample ? t.role : t.name)}
+                    </span>
+                    <span class="flex min-w-0 flex-col">
+                      <span class="font-semibold text-primary">{t.name}</span>
+                      <span class="text-[13px] leading-snug text-muted-foreground">
+                        {t.company ? `${t.role}, ${t.company}` : t.role}
+                      </span>
+                    </span>
+                  </figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Container>
+    </Section>
+  )
+}
+
+<script>
+  // Prev/next buttons scroll the list by one card. The list also scrolls by
+  // touch, trackpad or keyboard without this script.
+  for (const root of document.querySelectorAll<HTMLElement>("[data-testimonials]")) {
+    const list = root.querySelector<HTMLElement>("#testimonials-list");
+    const step = (direction: 1 | -1) => {
+      if (!list) return;
+      const card = list.querySelector<HTMLElement>("li");
+      const gap = parseFloat(getComputedStyle(list).columnGap) || 0;
+      const width = (card?.offsetWidth ?? list.clientWidth) + gap;
+      const atEnd = list.scrollLeft + list.clientWidth >= list.scrollWidth - 4;
+      const atStart = list.scrollLeft <= 4;
+      if (direction === 1 && atEnd) list.scrollTo({ left: 0 });
+      else if (direction === -1 && atStart) list.scrollTo({ left: list.scrollWidth });
+      else list.scrollBy({ left: direction * width });
+    };
+    root.querySelector("[data-testimonials-prev]")?.addEventListener("click", () => step(-1));
+    root.querySelector("[data-testimonials-next]")?.addEventListener("click", () => step(1));
+  }
+</script>

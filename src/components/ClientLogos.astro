@@ -1,0 +1,82 @@
+---
+import { Image } from "astro:assets";
+import andLogo from "../assets/AND.svg";
+import nhsLogo from "../assets/NHS Logo.svg";
+import accentureLogo from "../assets/accenture.png";
+import bayerLogo from "../assets/bayercropscience.svg";
+import bentleyLogo from "../assets/bentley.png";
+import britishGasLogo from "../assets/britishgas.svg";
+import chesterZooLogo from "../assets/chesterzoo.svg";
+import cinchLogo from "../assets/cinch logo.svg";
+import codeComputerLoveLogo from "../assets/codeComputerlove.svg";
+import esfLogo from "../assets/esf.svg";
+import hillarysLogo from "../assets/hillarys.png";
+import otbLogo from "../assets/otb_logo.svg";
+import rentalCarsLogo from "../assets/rentalcars.svg";
+import secretSalesLogo from "../assets/secretsales.svg";
+import theRangeLogo from "../assets/therange.png";
+import thinkMoneyLogo from "../assets/thinkmoney.png";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+
+// Height in px for each logo so they look balanced in a row.
+const logos = [
+  { src: britishGasLogo, alt: "British Gas", height: 26 },
+  { src: nhsLogo, alt: "NHS", height: 24 },
+  { src: accentureLogo, alt: "Accenture", height: 26 },
+  { src: cinchLogo, alt: "Cinch", height: 24 },
+  { src: rentalCarsLogo, alt: "Rentalcars.com", height: 22 },
+  { src: chesterZooLogo, alt: "Chester Zoo", height: 30 },
+  { src: bayerLogo, alt: "Bayer CropScience", height: 34 },
+  { src: andLogo, alt: "AND Digital", height: 26 },
+  { src: bentleyLogo, alt: "Bentley", height: 34 },
+  { src: codeComputerLoveLogo, alt: "Code Computerlove", height: 30 },
+  { src: esfLogo, alt: "Electrical Safety First", height: 30 },
+  { src: hillarysLogo, alt: "Hillarys", height: 24 },
+  { src: otbLogo, alt: "On the Beach", height: 28 },
+  { src: secretSalesLogo, alt: "Secret Sales", height: 22 },
+  { src: theRangeLogo, alt: "The Range", height: 26 },
+  { src: thinkMoneyLogo, alt: "thinkmoney", height: 24 },
+];
+---
+
+<div data-reveal class:list={["flex w-full flex-col items-center", className]}>
+  <h2 class="m-0 text-[15px] font-medium text-brand-slate-300 on-light:text-muted-foreground">Trusted by teams at</h2>
+  <div
+    class="group mt-6 w-full max-w-[1100px] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]"
+  >
+    <div
+      class="flex w-max animate-marquee group-hover:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none"
+    >
+      {
+        [0, 1].map((copy) => (
+          <ul
+            class:list={[
+              "m-0 flex list-none items-center gap-12 p-0 pr-12",
+              copy === 1 && "motion-reduce:hidden",
+              "motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-y-7 motion-reduce:pr-0",
+            ]}
+            aria-hidden={copy === 1 ? "true" : undefined}
+          >
+            {logos.map((logo) => (
+              <li class="flex-none">
+                <Image
+                  src={logo.src}
+                  alt={copy === 1 ? "" : logo.alt}
+                  height={logo.height}
+                  loading="lazy"
+                  class="w-auto opacity-75 brightness-0 invert on-light:opacity-60 on-light:invert-0"
+                  style={`height: ${logo.height}px`}
+                />
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</div>

@@ -2,8 +2,6 @@
 import {
   CONTACT_EMAIL,
   CONTACT_MAILTO,
-  AVAILABILITY_WINDOW_DAYS,
-  CONTRACT_END,
   CV_URL,
   GITHUB_URL,
   LINKEDIN_URL,
@@ -19,15 +17,13 @@ const linkClass =
   "text-sm text-brand-slate-400 no-underline transition-colors hover:text-white";
 ---
 
-<footer id="contact" class="dark bg-brand-ink pt-24 pb-10 text-white">
+<footer id="contact" class="dark bg-brand-ink pt-14 pb-10 md:pt-24 text-white">
   <Container>
     <CtaBand
       title="Let’s build something ambitious."
       body="Tell me about your challenge and I’ll reply within one working day."
       ctaLabel="Get in touch"
       ctaHref={CONTACT_MAILTO}
-      availableFrom={CONTRACT_END}
-      windowDays={AVAILABILITY_WINDOW_DAYS}
     />
 
     <div class="mt-18 grid grid-cols-1 gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">

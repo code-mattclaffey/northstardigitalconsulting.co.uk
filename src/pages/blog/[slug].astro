@@ -1,12 +1,21 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import authorPhoto from "@/assets/matt-claffey.png";
+import { ChevronLeft } from "lucide-react";
+import { badgeVariants } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import BlogCard from "@/components/BlogCard";
+import Container from "@/components/Container.astro";
+import Layout from "@/layouts/Layout.astro";
 import {
   BLOG_TAG_LABELS,
   formatPublishDate,
   getBlogPosts,
+  toSummary,
   type BlogPost,
-} from "../../lib/blog";
+} from "@/lib/blog";
+import { CONTACT_MAILTO } from "@/lib/site";
 
 export const getStaticPaths = (async () => {
   const posts = await getBlogPosts();
@@ -18,51 +27,139 @@ interface Props {
 }
 
 const { post } = Astro.props;
+
+// Up to three other posts, preferring ones that share a tag.
+const others = (await getBlogPosts()).filter((p) => p.slug !== post.slug);
+const shared = others.filter((p) => p.tags.some((tag) => post.tags.includes(tag)));
+const related = [...shared, ...others.filter((p) => !shared.includes(p))]
+  .slice(0, 3)
+  .map(toSummary);
+const isCaseStudy = post.tags.includes("case-study");
 ---
 
-<Layout title={`${post.title} | Northstar Digital Consulting`} description={post.description} canonicalUrl={post.canonicalUrl}>
-  <div class="c-page">
-  <article class="c-post">
-    <div class="o-grid">
-      <div
-        class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-12"
-      >
-        <nav class="c-post__back" aria-label="Breadcrumb">
-          <a href="/blog">&larr; All posts</a>
-        </nav>
-        <header class="c-post__header">
-          <time class="c-post__date" datetime={post.publishDate}>
-            {formatPublishDate(post.publishDate)}
-          </time>
-          <h1 class="e-heading e-heading--h2 c-post__title">{post.title}</h1>
-          <p class="e-body-text e-body-text--large">{post.description}</p>
-          {
-            post.tags.length > 0 && (
-              <ul class="c-post__tags" aria-label="Tags">
-                {post.tags.map((tag) => (
-                  <li class="c-post__tag">
-                    <a href={`/blog?tag=${tag}`}>{BLOG_TAG_LABELS[tag]}</a>
-                  </li>
-                ))}
-              </ul>
-            )
-          }
-        </header>
+<Layout
+  title={`${post.title} | NorthStar Digital Consulting`}
+  description={post.description}
+  canonicalUrl={post.canonicalUrl}
+  ogImage={post.heroImage ? `${post.heroImage.url}?w=1200&h=630&fit=fill&fm=jpg` : "/og-blog.jpg"}
+  ogImageAlt={post.heroImage?.alt || post.title}
+>
+  <article>
+    <header
+      class:list={[
+        "bg-hero-glow-soft pt-[96px] text-white",
+        post.heroImage ? "pb-30" : "pb-16 md:pb-20",
+      ]}
+    >
+      <Container class="max-w-[960px] pt-8 md:pt-14">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-1.5 text-sm font-medium text-brand-blue-200 no-underline hover:text-white"
+        >
+          <ChevronLeft className="size-4" aria-hidden="true" />
+          All posts
+        </a>
         {
-          post.heroImage && (
-            <img
-              class="c-post__image"
-              src={`${post.heroImage.url}?w=1200&h=630&fit=fill&fm=webp`}
-              alt={post.heroImage.alt}
-              width="1200"
-              height="630"
-              decoding="async"
-            />
+          post.tags.length > 0 && (
+            <ul class="m-0 mt-6 flex list-none flex-wrap gap-2 p-0" aria-label="Tags">
+              {post.tags.map((tag) => (
+                <li>
+                  <a
+                    href={`/blog?tag=${tag}`}
+                    class={badgeVariants({
+                      variant: tag === "case-study" ? "default" : "secondary",
+                      class: "no-underline hover:underline",
+                    })}
+                  >
+                    {BLOG_TAG_LABELS[tag]}
+                  </a>
+                </li>
+              ))}
+            </ul>
           )
         }
-        <div class="c-post__body" set:html={post.bodyHtml} />
-      </div>
+        <h1
+          class="mt-5 mb-0 text-4xl leading-[1.1] font-semibold tracking-[-0.03em] text-balance md:text-[56px]"
+        >
+          {post.title}
+        </h1>
+        <p class="mt-5 mb-0 text-lg leading-relaxed text-brand-slate-300 md:text-xl">
+          {post.description}
+        </p>
+        <div class="mt-8 flex items-center gap-3">
+          <Image
+            src={authorPhoto}
+            alt=""
+            width={44}
+            height={44}
+            class="size-11 rounded-full object-cover ring-2 ring-white/15"
+          />
+          <span class="flex flex-col">
+            <span class="font-semibold">Matt Claffey</span>
+            <span class="text-[13px] text-brand-slate-400">
+              <time datetime={post.publishDate}>{formatPublishDate(post.publishDate)}</time>
+              {` · ${post.readingMinutes} min read`}
+            </span>
+          </span>
+        </div>
+      </Container>
+    </header>
+
+    <div class="light flow-root bg-white text-foreground">
+      {
+        post.heroImage && (
+          <Container class="relative -mt-20">
+            <img
+              src={`${post.heroImage.url}?w=1600&h=900&fit=fill&fm=webp`}
+              alt={post.heroImage.alt}
+              width="1600"
+              height="900"
+              decoding="async"
+              class="aspect-video max-h-[520px] w-full rounded-[28px] object-cover"
+            />
+          </Container>
+        )
+      }
+
+      <Container
+        class="grid grid-cols-1 gap-12 pt-12 pb-16 md:gap-16 md:pt-16 md:pb-24 lg:grid-cols-[minmax(0,1fr)_320px]"
+      >
+        <div class="post-body" set:html={post.bodyHtml} />
+        <aside class="flex flex-col gap-5 self-start lg:sticky lg:top-8" aria-label="About the author">
+          <div class="dark rounded-3xl bg-brand-ink p-7 text-white">
+            <span class="text-xs font-medium tracking-[0.08em] text-brand-slate-400 uppercase">
+              Written by
+            </span>
+            <p class="mt-4 mb-0 font-semibold">Matt Claffey</p>
+            <p class="mt-1 mb-0 text-sm leading-relaxed text-brand-slate-300">
+              Principal engineer at NorthStar Digital. Frontend architecture, technical
+              leadership and AI-enabled delivery.
+            </p>
+          </div>
+          <a href={CONTACT_MAILTO} class={buttonVariants({ class: "h-13 bg-brand-blue-600 text-white hover:bg-brand-blue-800" })}>
+            {isCaseStudy ? "Work with me" : "Get in touch"}
+          </a>
+        </aside>
+      </Container>
     </div>
   </article>
-  </div>
+
+  {
+    related.length > 0 && (
+      <section class="light bg-brand-stone py-14 text-foreground md:py-20" aria-labelledby="related-title">
+        <Container>
+          <h2 id="related-title" class="m-0 text-[32px] font-semibold">
+            Related posts
+          </h2>
+          <ul class="swipe-row m-0 mt-8 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-3">
+            {related.map((p, i) => (
+              <li>
+                <BlogCard post={p} headingLevel="h3" index={i} />
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+    )
+  }
 </Layout>

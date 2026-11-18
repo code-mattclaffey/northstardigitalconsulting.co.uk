@@ -3,8 +3,10 @@ import {
   BLOG_TAG_LABELS,
   type BlogPostSummary,
   type BlogTag,
-} from "../lib/blog";
+} from "@/lib/blog";
+import { cn } from "@/lib/utils";
 import BlogCard from "./BlogCard";
+import FeaturedPost from "./FeaturedPost";
 
 interface Props {
   posts: BlogPostSummary[];
@@ -41,37 +43,57 @@ export default function BlogList({ posts, tags }: Props) {
     ? `${visible.length} ${visible.length === 1 ? "post" : "posts"} tagged ${BLOG_TAG_LABELS[activeTag]}`
     : `${visible.length} ${visible.length === 1 ? "post" : "posts"}`;
 
+  // The newest post in the current filter is featured; the grid shows the rest.
+  const [featured, ...rest] = visible;
+
   return (
-    <div className="c-blog-list">
-      {tags.length > 0 && (
-        <div
-          className="c-blog-list__filters"
-          role="group"
-          aria-label="Filter posts by tag"
-        >
-          {[null, ...tags].map((tag) => (
-            <button
-              type="button"
-              key={tag ?? "all"}
-              className="c-blog-list__filter"
-              aria-pressed={tag === activeTag}
-              onClick={() => select(tag)}
-            >
-              {tag ? BLOG_TAG_LABELS[tag] : "All"}
-            </button>
-          ))}
-        </div>
-      )}
-      <p className="c-blog-list__status e-body-text--small" role="status">
+    <div>
+      {featured && <FeaturedPost key={featured.slug} post={featured} />}
+      <div className="mt-12 flex flex-wrap items-center justify-between gap-4 md:mt-16">
+        <h2 className="m-0 text-[28px] font-semibold">All posts</h2>
+        {tags.length > 0 && (
+          <div
+            className="flex flex-wrap gap-2"
+            role="group"
+            aria-label="Filter posts by tag"
+          >
+            {[null, ...tags].map((tag) => {
+              const pressed = tag === activeTag;
+              return (
+                <button
+                  type="button"
+                  key={tag ?? "all"}
+                  aria-pressed={pressed}
+                  onClick={() => select(tag)}
+                  className={cn(
+                    "h-10 cursor-pointer rounded-full border px-4 font-sans text-sm font-medium transition-colors",
+                    pressed
+                      ? "border-brand-ink bg-brand-ink text-white"
+                      : "border-brand-slate-200 bg-white text-brand-ink hover:border-brand-slate-300",
+                  )}
+                >
+                  {tag ? BLOG_TAG_LABELS[tag] : "All"}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+      <p className="mt-4 mb-0 text-sm text-brand-slate-500" role="status">
         {status}
       </p>
-      <ul className="c-blog-list__items">
-        {visible.map((post) => (
-          <li className="c-blog-list__item" key={post.slug}>
-            <BlogCard post={post} />
+      <ul className="swipe-row m-0 mt-6 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
+        {rest.map((post, i) => (
+          <li key={post.slug}>
+            <BlogCard post={post} index={i} />
           </li>
         ))}
       </ul>
+      {visible.length === 0 && (
+        <p className="m-0 mt-6 rounded-[20px] bg-white p-8 text-center text-muted-foreground">
+          No posts with this tag yet.
+        </p>
+      )}
     </div>
   );
 }

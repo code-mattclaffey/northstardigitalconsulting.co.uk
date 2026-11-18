@@ -1,0 +1,115 @@
+---
+import { Image } from "astro:assets";
+import { buttonVariants } from "@/components/ui/button";
+import { CV_URL } from "@/lib/site";
+import photo from "../assets/matt-claffey.png";
+import type { PageSection } from "@/lib/homepage";
+import Container from "./Container.astro";
+import Section from "./Section.astro";
+import SectionHeading from "./SectionHeading.astro";
+import StatTile from "./StatTile.astro";
+
+// Profile and numbers from Matt's CV (November 2026).
+const stats = [
+  { value: "12+", label: "Years in engineering", tone: "blue" },
+  { value: "16", label: "Brands delivered for", tone: "blue" },
+  { value: "50+", label: "Developers upskilled", tone: "dark" },
+  { value: "+11.4%", label: "UK checkout conversion", tone: "dark" },
+] as const;
+
+const specialisms = [
+  "React and TypeScript",
+  "Payments and checkout",
+  "Design systems",
+  "Accessibility",
+  "Web performance",
+];
+
+const [years, brands, devs, conversion] = stats;
+
+interface Props {
+  section: PageSection;
+}
+
+const { section } = Astro.props;
+---
+
+<Section background={section.background} id="about" aria-labelledby="about-title">
+  <Container>
+    <div class="light rounded-[32px] bg-background px-5 py-10 text-foreground md:px-16 md:py-20">
+      <SectionHeading eyebrow={section.eyebrow ?? "About"} id="about-title">
+        {
+          section.heading ?? (
+            <Fragment>
+              Your partner in modern <span class="text-primary">product engineering.</span>
+            </Fragment>
+          )
+        }
+        {section.lead && <Fragment slot="lead">{section.lead}</Fragment>}
+      </SectionHeading>
+
+      <div
+        class="mx-auto mt-8 flex max-w-[880px] flex-col items-center gap-6 text-center md:mt-10 md:flex-row md:items-start md:gap-10 md:text-left"
+        data-reveal
+      >
+        <Image
+          src={photo}
+          alt="Matt Claffey"
+          width={160}
+          height={160}
+          class="size-32 flex-none rounded-full object-cover ring-4 ring-brand-blue-100 md:size-40"
+        />
+        <div>
+          <p class="m-0 text-base leading-relaxed text-muted-foreground md:text-lg">
+            I’m Matt Claffey, a Lead Front-End Engineer with over 12 years’ experience building
+            TypeScript and React products for top-tier clients, now contracting through my own
+            company, NorthStar Digital Consulting. I’ve delivered high-stakes payment and checkout
+            journeys end to end, from JD Sports’ checkout rebuild to The Range’s Stripe and
+            Barclays integrations and the launch of ThinkMoney’s mobile banking app.
+          </p>
+          <p class="mt-4 mb-0 text-base leading-relaxed text-muted-foreground md:text-lg">
+            I care about UI that is accessible, performant and production-ready. I hold SC
+            clearance, and I work best landing in new teams, taking technical ownership and
+            shipping quickly.
+          </p>
+          <a
+            href={CV_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={buttonVariants({ class: "mt-6 h-12 px-6" })}>Read my CV</a
+          >
+        </div>
+      </div>
+
+      <ul class="m-0 mt-10 grid list-none grid-cols-2 gap-3 p-0 md:mt-14 md:grid-cols-4 md:gap-4">
+        <li
+          class="col-span-2 flex flex-col justify-end gap-3 rounded-[20px] bg-[linear-gradient(160deg,var(--color-brand-blue-100),var(--color-brand-blue-200))] p-6 text-brand-blue-800 md:col-span-1 md:row-span-2 md:min-h-[360px]"
+          data-reveal
+        >
+          <span class="text-xs font-medium tracking-[0.08em] uppercase">Specialisms</span>
+          <span class="flex flex-wrap gap-2">
+            {
+              specialisms.map((item) => (
+                <span class="rounded-full bg-white/70 px-3 py-1.5 text-[13px] font-medium">
+                  {item}
+                </span>
+              ))
+            }
+          </span>
+        </li>
+        <StatTile {...years} />
+        <li
+          class="hidden flex-col justify-end gap-2 rounded-[20px] bg-[linear-gradient(160deg,var(--color-brand-blue-200),var(--color-brand-blue-50))] p-6 text-brand-blue-800 md:row-span-2 md:flex md:min-h-[360px]"
+          data-reveal
+        >
+          <span class="text-xs font-medium tracking-[0.08em] uppercase">Based in</span>
+          <span class="text-2xl font-semibold">Manchester, UK</span>
+          <span class="text-sm">Working UK-wide, on site or remote. SC cleared.</span>
+        </li>
+        <StatTile {...brands} />
+        <StatTile {...devs} />
+        <StatTile {...conversion} />
+      </ul>
+    </div>
+  </Container>
+</Section>

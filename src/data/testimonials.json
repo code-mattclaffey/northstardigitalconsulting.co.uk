@@ -1,0 +1,30 @@
+[
+  {
+    "quote": "Matt brought calm, senior judgement to a high-pressure rebuild. The team shipped faster and the codebase is better for it.",
+    "name": "Sample client",
+    "role": "Head of Engineering",
+    "company": "Sample company",
+    "isSample": true
+  },
+  {
+    "quote": "Rare mix of architect and hands-on engineer. Decisions were written down, explained and easy to follow.",
+    "name": "Sample client",
+    "role": "CTO",
+    "company": "Sample company",
+    "isSample": true
+  },
+  {
+    "quote": "He set up an AI-assisted workflow that our engineers actually use. Cycle time dropped within weeks.",
+    "name": "Sample client",
+    "role": "Engineering Manager",
+    "company": "Sample company",
+    "isSample": true
+  },
+  {
+    "quote": "Clear communication with stakeholders and a real eye for accessibility and performance.",
+    "name": "Sample client",
+    "role": "Product Director",
+    "company": "Sample company",
+    "isSample": true
+  }
+]
