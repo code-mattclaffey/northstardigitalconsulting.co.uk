@@ -38,6 +38,14 @@
   --color-brand-gold: #f5b841;
 
   --spacing-13: 3.25rem;
+
+  --animate-marquee: marquee 60s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @theme inline {
@@ -169,6 +177,64 @@
       rgb(12 16 27 / 0) 70%
     ),
     var(--color-brand-ink);
+}
+
+/*
+ * Animated hero: the same three glows as separate layers, each breathing in
+ * and out on its own timing. Static for reduced motion.
+ */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: glow-breathe var(--glow-duration, 9s) ease-in-out infinite
+    alternate;
+  animation-delay: var(--glow-delay, 0s);
+}
+
+.hero-glow--center {
+  background: radial-gradient(
+    70% 55% at 50% 105%,
+    rgb(127 164 238 / 0.55) 0%,
+    rgb(91 134 229 / 0.22) 38%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 9s;
+}
+
+.hero-glow--violet {
+  background: radial-gradient(
+    38% 42% at 88% 96%,
+    rgb(124 108 240 / 0.5) 0%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 7s;
+  --glow-delay: -3s;
+}
+
+.hero-glow--indigo {
+  background: radial-gradient(
+    40% 40% at 10% 92%,
+    rgb(30 26 105 / 0.95) 0%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 11s;
+  --glow-delay: -6s;
+}
+
+@keyframes glow-breathe {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none;
+  }
 }
 
 /* Shorter pages (blog): a softer version of the same glow. */
