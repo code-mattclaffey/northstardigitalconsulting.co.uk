@@ -13,7 +13,7 @@ import {
  *
  * Token colours come from CSS custom properties (`--shiki-*`), so the code
  * theme is set in CSS alongside the rest of the site theme. See
- * `_components.blog.css`.
+ * `.post-body` in `src/styles/global.css`.
  */
 
 const theme = createCssVariablesTheme({

@@ -1,0 +1,565 @@
+/*
+ * NorthStar design tokens and base styles (shadcn/ui + Tailwind v4).
+ *
+ * - Brand primitives live in `@theme` as `brand-*` colours.
+ * - Semantic shadcn tokens (`--background`, `--primary`, ...) are set for the
+ *   light theme on `:root` / `.light` and for the dark theme on `.dark`.
+ *   The site is dark-first: `<html class="dark">`, and light panels add `.light`.
+ * - These names match the Figma "Theme" variable collection (light/ and dark/ groups).
+ */
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+/* Set on <html> in the last month of a contract (see Layout.astro). */
+@custom-variant available (&:where([data-availability] *));
+@custom-variant available-now (&:where([data-availability="now"] *));
+/* Inside a section with the light background variant. */
+@custom-variant on-light (&:where(.light *));
+
+@theme {
+  --font-sans:
+    "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-brand-ink: #0c101b;
+  --color-brand-ink-900: #121828;
+  --color-brand-ink-800: #1a2236;
+  --color-brand-ink-700: #263049;
+  --color-brand-ink-600: #3a4560;
+  --color-brand-slate-500: #5f6a85;
+  --color-brand-slate-400: #98a1b8;
+  --color-brand-slate-300: #c5cbd8;
+  --color-brand-slate-200: #e1e5ee;
+  --color-brand-stone: #f1f2f6;
+  --color-brand-blue-50: #ebf2fd;
+  --color-brand-blue-100: #dce7fb;
+  --color-brand-blue-200: #b9cff8;
+  --color-brand-blue-400: #7fa4ee;
+  --color-brand-blue-500: #5b86e5;
+  --color-brand-blue-600: #3b68d6;
+  --color-brand-blue-800: #22408a;
+  --color-brand-indigo: #1e1a69;
+  --color-brand-violet: #7c6cf0;
+  --color-brand-gold: #f5b841;
+
+  --spacing-13: 3.25rem;
+
+  --animate-marquee: marquee 60s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root,
+.light {
+  --radius: 1rem;
+  --background: #ffffff;
+  --foreground: #0c101b;
+  --card: #ffffff;
+  --card-foreground: #0c101b;
+  --popover: #ffffff;
+  --popover-foreground: #0c101b;
+  --primary: #3b68d6;
+  --primary-foreground: #ffffff;
+  --primary-hover: #22408a;
+  --secondary: #f1f2f6;
+  --secondary-foreground: #0c101b;
+  --muted: #f1f2f6;
+  --muted-foreground: #5f6a85;
+  --accent: #ebf2fd;
+  --accent-foreground: #22408a;
+  --destructive: #dc2626;
+  --border: #e1e5ee;
+  --border-strong: #c5cbd8;
+  --input: #e1e5ee;
+  --ring: #f5b841;
+  color: var(--foreground);
+}
+
+.dark {
+  --background: #0c101b;
+  --foreground: #ffffff;
+  --card: #121828;
+  --card-foreground: #ffffff;
+  --popover: #121828;
+  --popover-foreground: #ffffff;
+  --primary: #7fa4ee;
+  --primary-foreground: #0c101b;
+  --primary-hover: #b9cff8;
+  --secondary: #1a2236;
+  --secondary-foreground: #ffffff;
+  --muted: #1a2236;
+  --muted-foreground: #98a1b8;
+  --accent: #1e1a69;
+  --accent-foreground: #b9cff8;
+  --destructive: #f87171;
+  --border: #263049;
+  --border-strong: #3a4560;
+  --input: #263049;
+  --ring: #f5b841;
+  color: var(--foreground);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100%;
+    background-color: var(--color-brand-ink);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  [id] {
+    scroll-margin-top: 2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Hero: the Lumion-style glow along the bottom edge. */
+@utility bg-hero-glow {
+  background:
+    radial-gradient(
+      70% 55% at 50% 105%,
+      rgb(127 164 238 / 0.55) 0%,
+      rgb(91 134 229 / 0.22) 38%,
+      rgb(12 16 27 / 0) 70%
+    ),
+    radial-gradient(
+      38% 42% at 88% 96%,
+      rgb(124 108 240 / 0.5) 0%,
+      rgb(12 16 27 / 0) 70%
+    ),
+    radial-gradient(
+      40% 40% at 10% 92%,
+      rgb(30 26 105 / 0.95) 0%,
+      rgb(12 16 27 / 0) 70%
+    ),
+    var(--color-brand-ink);
+}
+
+/*
+ * Animated hero: the same three glows as separate layers, each breathing in
+ * and out on its own timing. Static for reduced motion.
+ */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  animation: glow-breathe var(--glow-duration, 9s) ease-in-out infinite
+    alternate;
+  animation-delay: var(--glow-delay, 0s);
+}
+
+.hero-glow--center {
+  background: radial-gradient(
+    70% 55% at 50% 105%,
+    rgb(127 164 238 / 0.55) 0%,
+    rgb(91 134 229 / 0.22) 38%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 9s;
+}
+
+.hero-glow--violet {
+  background: radial-gradient(
+    38% 42% at 88% 96%,
+    rgb(124 108 240 / 0.5) 0%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 7s;
+  --glow-delay: -3s;
+}
+
+.hero-glow--indigo {
+  background: radial-gradient(
+    40% 40% at 10% 92%,
+    rgb(30 26 105 / 0.95) 0%,
+    rgb(12 16 27 / 0) 70%
+  );
+  --glow-duration: 11s;
+  --glow-delay: -6s;
+}
+
+@keyframes glow-breathe {
+  from {
+    opacity: 0.45;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none;
+  }
+}
+
+/* Shorter pages (blog): a softer version of the same glow. */
+@utility bg-hero-glow-soft {
+  background:
+    radial-gradient(
+      60% 90% at 50% 120%,
+      rgb(127 164 238 / 0.45) 0%,
+      rgb(12 16 27 / 0) 70%
+    ),
+    radial-gradient(
+      30% 60% at 90% 110%,
+      rgb(124 108 240 / 0.45) 0%,
+      rgb(12 16 27 / 0) 70%
+    ),
+    var(--color-brand-ink);
+}
+
+/* CTA bands. */
+/* Card grids become a horizontal swipe row below md, to keep pages short. */
+@utility swipe-row {
+  /* !important so it wins over the grid utilities used from md up. */
+  @media (width < 48rem) {
+    display: flex !important;
+    gap: 1rem !important;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1.25rem;
+    margin-inline: -1.25rem;
+    padding-inline: 1.25rem;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    & > * {
+      flex: 0 0 82%;
+      scroll-snap-align: start;
+    }
+  }
+}
+
+@utility bg-cta-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-brand-indigo) 0%,
+    var(--color-brand-blue-600) 55%,
+    var(--color-brand-violet) 100%
+  );
+}
+
+/* Placeholder artwork for posts without a hero image. */
+@utility bg-art-1 {
+  background:
+    radial-gradient(
+      70% 80% at 20% 20%,
+      var(--color-brand-blue-500),
+      rgb(18 24 40 / 0) 70%
+    ),
+    radial-gradient(
+      60% 70% at 90% 90%,
+      var(--color-brand-violet),
+      rgb(18 24 40 / 0) 70%
+    ),
+    var(--color-brand-indigo);
+}
+
+@utility bg-art-2 {
+  background:
+    radial-gradient(
+      70% 80% at 80% 10%,
+      var(--color-brand-blue-400),
+      rgb(18 24 40 / 0) 70%
+    ),
+    var(--color-brand-blue-800);
+}
+
+@utility bg-art-3 {
+  background:
+    radial-gradient(
+      70% 80% at 30% 90%,
+      var(--color-brand-violet),
+      rgb(18 24 40 / 0) 70%
+    ),
+    radial-gradient(
+      60% 60% at 90% 10%,
+      var(--color-brand-blue-500),
+      rgb(18 24 40 / 0) 70%
+    ),
+    var(--color-brand-ink-900);
+}
+
+/* Logo: the mark draws in and out. Off for reduced motion. */
+.logo-mark path[stroke],
+.logo-mark circle {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+  animation: logo-pulse 10s ease-in-out infinite;
+}
+
+.logo-mark circle:nth-of-type(1) {
+  animation-delay: 0.3s;
+}
+.logo-mark circle:nth-of-type(2) {
+  animation-delay: 0.4s;
+}
+.logo-mark circle:nth-of-type(3) {
+  animation-delay: 0.5s;
+}
+.logo-mark circle:nth-of-type(4) {
+  animation-delay: 0.6s;
+}
+
+@keyframes logo-pulse {
+  0% {
+    stroke-dashoffset: -1000;
+  }
+  20%,
+  80% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -1000;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-mark path[stroke],
+  .logo-mark circle {
+    stroke-dasharray: none;
+    animation: none;
+  }
+}
+
+/*
+ * Long-form post body. The HTML comes from Markdown at build time, so it is
+ * styled by element here rather than with utility classes.
+ */
+@layer components {
+  .post-body {
+    max-width: 720px;
+    color: var(--color-brand-ink-700);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+
+    --shiki-background: var(--color-brand-ink);
+    --shiki-foreground: #e6e9f2;
+    --shiki-token-comment: #8b93a7;
+    --shiki-token-keyword: #c792ea;
+    --shiki-token-constant: #f78c6c;
+    --shiki-token-string: #c3e88d;
+    --shiki-token-string-expression: #c3e88d;
+    --shiki-token-function: var(--color-brand-blue-200);
+    --shiki-token-parameter: #f2c88d;
+    --shiki-token-punctuation: #a6acbd;
+    --shiki-token-link: var(--color-brand-blue-400);
+    --shiki-token-inserted: #c3e88d;
+    --shiki-token-deleted: #ff8a8a;
+    --shiki-token-changed: var(--color-brand-gold);
+  }
+
+  @media (min-width: 768px) {
+    .post-body {
+      font-size: 1.125rem;
+    }
+  }
+
+  .post-body > * {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-body h2,
+  .post-body h3,
+  .post-body h4 {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-brand-ink);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .post-body h2 {
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 1.875rem);
+  }
+
+  .post-body h3 {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  }
+
+  .post-body a {
+    color: var(--color-brand-blue-600);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .post-body a:hover {
+    color: var(--color-brand-blue-800);
+  }
+
+  .post-body ul,
+  .post-body ol {
+    padding-left: 1.5rem;
+  }
+
+  .post-body ul {
+    list-style: disc;
+  }
+
+  .post-body ol {
+    list-style: decimal;
+  }
+
+  .post-body li + li {
+    margin-top: 0.5rem;
+  }
+
+  .post-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 1.25rem;
+  }
+
+  .post-body blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem 1.75rem;
+    border-radius: 1.25rem;
+    background: var(--color-brand-blue-50);
+    color: var(--color-brand-blue-800);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .post-body blockquote > :last-child {
+    margin-bottom: 0;
+  }
+
+  .post-body pre {
+    overflow-x: auto;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background-color: var(--shiki-background);
+    color: var(--shiki-foreground);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    tab-size: 2;
+  }
+
+  .post-body :not(pre) > code {
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.375rem;
+    background-color: var(--color-brand-blue-50);
+    color: var(--color-brand-blue-800);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  .post-body hr {
+    margin: 2.5rem 0;
+    border: 0;
+    border-top: 1px solid var(--color-brand-slate-200);
+  }
+
+  .post-body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .post-body th,
+  .post-body td {
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--color-brand-slate-200);
+    text-align: left;
+  }
+}
+
+/*
+ * Scroll reveal. Elements with `data-reveal` fade up as they enter the
+ * viewport (see Layout.astro). Only applies when JS runs and the visitor has
+ * not asked for reduced motion, so content is never stuck invisible.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s ease,
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Footer CTA when the contract is about to end: a slow glowing ring. */
+@keyframes cta-glow {
+  from {
+    box-shadow:
+      0 0 0 1px rgb(185 207 248 / 0.45),
+      0 0 32px 0 rgb(124 108 240 / 0.25);
+  }
+  to {
+    box-shadow:
+      0 0 0 2px rgb(185 207 248 / 0.9),
+      0 0 64px 4px rgb(124 108 240 / 0.55);
+  }
+}
+[data-availability] .cta-band {
+  box-shadow: 0 0 0 2px rgb(185 207 248 / 0.9);
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-availability] .cta-band {
+    animation: cta-glow 2.4s ease-in-out infinite alternate;
+  }
+}

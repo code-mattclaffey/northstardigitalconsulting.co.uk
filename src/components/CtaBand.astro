@@ -1,0 +1,81 @@
+---
+import { buttonVariants } from "@/components/ui/button";
+import { getAvailability } from "@/lib/availability";
+import { getHomepage } from "@/lib/homepage";
+
+interface Props {
+  title: string;
+  body: string;
+  ctaLabel: string;
+  ctaHref: string;
+  /** Heading level, so the band fits the page outline. */
+  headingLevel?: "h2" | "h3";
+  class?: string;
+}
+
+const {
+  title,
+  body,
+  ctaLabel,
+  ctaHref,
+  headingLevel: Heading = "h2",
+  class: className,
+} = Astro.props;
+
+// In the last month of a contract (`data-availability` on <html>, see
+// Layout.astro) the band swaps to "available" copy and gets a glowing ring.
+const { label } = getAvailability(await getHomepage());
+const highlight = Boolean(label);
+---
+
+<div
+  data-reveal
+  class:list={[
+    "cta-band flex flex-wrap items-center justify-between gap-6 rounded-3xl bg-cta-gradient px-6 py-10 text-white md:px-12",
+    highlight && "available:py-12 md:available:py-14",
+    className,
+  ]}
+>
+  <div class="max-w-[640px]">
+    {
+      highlight && (
+        <p class="mt-0 mb-4 hidden items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white available:inline-flex">
+          <span class="relative flex size-2.5" aria-hidden="true">
+            <span class="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping" />
+            <span class="relative inline-flex size-2.5 rounded-full bg-emerald-400" />
+          </span>
+          <span class="available-now:hidden">Available from {label}</span>
+          <span class="hidden available-now:inline">Available now</span>
+        </p>
+      )
+    }
+    <Heading class="m-0 text-2xl leading-tight font-semibold md:text-[28px]">
+      <span class:list={[highlight && "available:hidden"]}>{title}</span>
+      {
+        highlight && (
+          <span class="hidden available:inline md:text-[36px]">Booking my next contract now.</span>
+        )
+      }
+    </Heading>
+    <p class="mt-2 mb-0 text-base text-brand-blue-100">
+      <span class:list={[highlight && "available:hidden"]}>{body}</span>
+      {
+        highlight && (
+          <span class="hidden available:inline md:text-lg">
+            My current contract is wrapping up. If you have a frontend or platform role starting
+            soon, get in touch and I’ll reply within one working day.
+          </span>
+        )
+      }
+    </p>
+  </div>
+  <a
+    href={ctaHref}
+    class={buttonVariants({
+      variant: "secondary",
+      class: "h-12 px-6 available:h-14 available:px-8 available:text-base",
+    })}
+  >
+    {ctaLabel}
+  </a>
+</div>

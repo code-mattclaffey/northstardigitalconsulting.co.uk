@@ -62,6 +62,8 @@ export interface BlogPostSummary {
   publishDate: string;
   tags: BlogTag[];
   heroImage: BlogHeroImage | null;
+  /** Estimated reading time in minutes. */
+  readingMinutes: number;
 }
 
 /** A post ready to render on its own page. */
@@ -189,6 +191,10 @@ async function toPost(entry: BlogPostEntry): Promise<BlogPost> {
     );
   }
 
+  // Runs at build time only. Content is authored by the site owner in
+  // Contentful, so the HTML is trusted.
+  const bodyHtml = await renderMarkdown(entry.body);
+
   return {
     title: entry.title,
     slug: entry.slug,
@@ -197,9 +203,8 @@ async function toPost(entry: BlogPostEntry): Promise<BlogPost> {
     tags,
     heroImage: entry.heroImage,
     canonicalUrl: entry.canonicalUrl ?? null,
-    // Runs at build time only. Content is authored by the site owner in
-    // Contentful, so the HTML is trusted.
-    bodyHtml: await renderMarkdown(entry.body),
+    bodyHtml,
+    readingMinutes: readingMinutes(bodyHtml),
   };
 }
 
@@ -236,4 +241,14 @@ export function formatPublishDate(isoDate: string): string {
     year: "numeric",
     timeZone: "UTC",
   }).format(new Date(isoDate));
+}
+
+/** Rough reading time at 220 words a minute, from the rendered HTML. */
+export function readingMinutes(html: string): number {
+  const words = html
+    .replace(/<pre[\s\S]*?<\/pre>/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+  return Math.max(1, Math.round(words / 220));
 }
