@@ -82,7 +82,7 @@ export default function BlogList({ posts, tags }: Props) {
       <p className="mt-4 mb-0 text-sm text-brand-slate-500" role="status">
         {status}
       </p>
-      <ul className="m-0 mt-6 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="swipe-row m-0 mt-6 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
         {rest.map((post, i) => (
           <li key={post.slug}>
             <BlogCard post={post} index={i} />

@@ -149,7 +149,7 @@ const isCaseStudy = post.tags.includes("case-study");
           <h2 id="related-title" class="m-0 text-[32px] font-semibold">
             Related posts
           </h2>
-          <ul class="m-0 mt-8 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-3">
+          <ul class="swipe-row m-0 mt-8 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-3">
             {related.map((p, i) => (
               <li>
                 <BlogCard post={p} headingLevel="h3" index={i} />
