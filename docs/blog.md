@@ -23,6 +23,8 @@ Contentful blogPostCollection ──▶ src/lib/blog.ts (getBlogPosts, cached pe
 - `src/lib/blog.ts` queries `blogPostCollection` (`order: publishDate_DESC`), paging 50 at a time. Entries missing a required field are skipped.
 - Without `CONTENTFUL_SPACE_ID` / `CONTENTFUL_DELIVERY_TOKEN` it uses `src/data/blog-posts.json` (sample posts). With credentials set, a failing request fails the build. Zero posts is valid and does not fail the build.
 - Markdown is converted with `marked` at build time; no parser ships to the browser. `set:html` is used only for that rendered body (content is trusted, edited only by the site owner).
+- Fenced code blocks are syntax highlighted at build time by Shiki (`src/lib/markdown.ts`), so no highlighter JS ships to the browser. Label each fence with its language (for example ` ```tsx `). Supported: javascript, typescript, jsx, tsx, html, css, scss, json, yaml, bash, sql, markdown (plus js, ts, sh, yml, md aliases). Anything else, or no label, renders as plain text, which suits folder trees and diagrams.
+- Code colours are CSS custom properties (`--shiki-token-*`) set on `.c-post__body` in `_components.blog.css`. Change those values to retheme code.
 - Only card data (`toSummary`, no body) is serialised into the island, keeping page weight down.
 
 ## Filtering

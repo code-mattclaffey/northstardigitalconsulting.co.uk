@@ -273,13 +273,41 @@
   border-radius: 1rem;
 }
 
+/*
+ * Code theme. Shiki (build time) wraps tokens in spans that read these
+ * custom properties, so restyling code only means changing the values here.
+ */
+.c-post__body {
+  --shiki-background: var(--nd-color-ink-black);
+  --shiki-foreground: #e6e9f2;
+  --shiki-token-comment: #8b93a7;
+  --shiki-token-keyword: #c792ea;
+  --shiki-token-constant: #f78c6c;
+  --shiki-token-string: #c3e88d;
+  --shiki-token-string-expression: #c3e88d;
+  --shiki-token-function: var(--nd-color-soft-blue);
+  --shiki-token-parameter: #f2c88d;
+  --shiki-token-punctuation: #a6acbd;
+  --shiki-token-link: var(--nd-color-baby-blue);
+  --shiki-token-inserted: #c3e88d;
+  --shiki-token-deleted: #ff8a8a;
+  --shiki-token-changed: var(--nd-color-focus-gold);
+}
+
 .c-post__body pre {
   overflow-x: auto;
   padding: 1rem;
   border-radius: 1rem;
-  background-color: var(--nd-color-ink-black);
-  color: var(--nd-color-white);
+  background-color: var(--shiki-background);
+  color: var(--shiki-foreground);
   font-size: 0.9rem;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+.c-post__body pre:focus-visible {
+  outline: 3px solid var(--nd-color-focus-gold);
+  outline-offset: 2px;
 }
 
 .c-post__body :not(pre) > code {
