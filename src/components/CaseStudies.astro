@@ -22,7 +22,7 @@ const art = ["bg-art-1", "bg-art-2", "bg-art-3"];
           <Fragment slot="lead">Real projects, the decisions behind them and what changed.</Fragment>
         </SectionHeading>
 
-        <ul class="m-0 mt-12 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-3">
+        <ul class="swipe-row m-0 mt-12 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-3">
           {featured.map((post, i) => (
             <li data-reveal style={`--reveal-delay: ${i * 120}ms`}>
               <article class="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition-colors hover:border-brand-blue-400/60">

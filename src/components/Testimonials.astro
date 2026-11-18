@@ -46,36 +46,36 @@ const testimonials = await getTestimonials();
             aria-label="Testimonials"
           >
             {testimonials.map((t) => (
-              <li class="flex w-[min(440px,85%)] flex-none snap-start">
-                <figure class="m-0 flex w-full flex-col gap-5 rounded-3xl bg-brand-stone p-8">
-                  <span class="flex gap-1" role="img" aria-label="Rated 5 out of 5">
-                    {Array.from({ length: 5 }, () => (
-                      <Star className="size-[18px] fill-brand-gold text-brand-gold" aria-hidden="true" />
-                    ))}
-                  </span>
-                  <blockquote class="m-0 text-[17px] leading-relaxed">
-                    <p class="m-0">{t.quote}</p>
-                  </blockquote>
-                  <figcaption class="mt-auto flex items-center justify-between gap-3">
-                    <span class="flex items-center gap-3">
-                      <span
-                        class="flex size-11 items-center justify-center rounded-full bg-brand-blue-200 font-semibold text-brand-blue-800"
-                        aria-hidden="true"
-                      >
-                        {initials(t.isSample ? t.role : t.name)}
-                      </span>
-                      <span class="flex flex-col">
-                        <span class="font-semibold text-primary">{t.name}</span>
-                        <span class="text-[13px] text-muted-foreground">
-                          {t.company ? `${t.role}, ${t.company}` : t.role}
-                        </span>
-                      </span>
+              <li class="flex w-[min(440px,88%)] flex-none snap-start">
+                <figure class="m-0 flex w-full flex-col gap-5 rounded-3xl bg-brand-stone p-6 md:p-8">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="flex gap-1" role="img" aria-label="Rated 5 out of 5">
+                      {Array.from({ length: 5 }, () => (
+                        <Star className="size-[18px] fill-brand-gold text-brand-gold" aria-hidden="true" />
+                      ))}
                     </span>
                     {t.isSample && (
                       <span class="rounded-md bg-background px-2 py-1 text-[11px] text-muted-foreground">
                         Sample
                       </span>
                     )}
+                  </div>
+                  <blockquote class="m-0 text-[17px] leading-relaxed">
+                    <p class="m-0">{t.quote}</p>
+                  </blockquote>
+                  <figcaption class="mt-auto flex items-center gap-3">
+                    <span
+                      class="flex size-11 flex-none items-center justify-center rounded-full bg-brand-blue-200 font-semibold text-brand-blue-800"
+                      aria-hidden="true"
+                    >
+                      {initials(t.isSample ? t.role : t.name)}
+                    </span>
+                    <span class="flex min-w-0 flex-col">
+                      <span class="font-semibold text-primary">{t.name}</span>
+                      <span class="text-[13px] leading-snug text-muted-foreground">
+                        {t.company ? `${t.role}, ${t.company}` : t.role}
+                      </span>
+                    </span>
                   </figcaption>
                 </figure>
               </li>
