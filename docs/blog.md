@@ -4,11 +4,11 @@ Posts are authored in Contentful (`blogPost` type) and rendered at build time. N
 
 ## Pages
 
-| Route | File | Notes |
-|---|---|---|
-| `/` (section) | `src/components/LatestPosts.astro` | Three newest posts. Renders nothing when there are no posts. |
-| `/blog` | `src/pages/blog/index.astro` | All posts plus the `BlogList` React island. Shows "No posts yet" when empty. |
-| `/blog/<slug>` | `src/pages/blog/[slug].astro` | Pre-rendered with `getStaticPaths`. Title and description go to `Layout`. |
+| Route          | File                               | Notes                                                                        |
+| -------------- | ---------------------------------- | ---------------------------------------------------------------------------- |
+| `/` (section)  | `src/components/LatestPosts.astro` | Three newest posts. Renders nothing when there are no posts.                 |
+| `/blog`        | `src/pages/blog/index.astro`       | All posts plus the `BlogList` React island. Shows "No posts yet" when empty. |
+| `/blog/<slug>` | `src/pages/blog/[slug].astro`      | Pre-rendered with `getStaticPaths`. Title and description go to `Layout`.    |
 
 ## Data flow
 
@@ -36,6 +36,10 @@ Only tags used by at least one post get a filter button.
 1. Add the value to the `tags` validation on the `blogPost` content type in Contentful.
 2. Add it to `BLOG_TAGS` and `BLOG_TAG_LABELS` in `src/lib/blog.ts` (the order there is the display order).
 3. Tag posts in Contentful and publish. Unknown tags are ignored with a build warning.
+
+## Canonical URLs (reposted articles)
+
+`blogPost.canonicalUrl` is optional. When set (for example on posts migrated from Medium), `/blog/[slug]` renders `<link rel="canonical" href="...">` pointing at the original, so search engines treat the original as the source. Leave it empty for posts written for this site.
 
 ## Styling
 

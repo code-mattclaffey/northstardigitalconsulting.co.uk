@@ -4,18 +4,18 @@ Space `wclkrpbrf32m`, environment `master`. All content is fetched through the G
 
 ## Content types used by the site
 
-| Type | Purpose | Code |
-|---|---|---|
-| `homepage` | Hero copy, CTAs, availability, SEO meta (single entry) | `src/lib/homepage.ts` |
-| `blogPost` | Blog posts. `body` is Markdown; `tags` is limited to a fixed list (see the content type) | see `docs/blog.md` |
+| Type       | Purpose                                                                                                                       | Code                  |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `homepage` | Hero copy, CTAs, availability, SEO meta (single entry)                                                                        | `src/lib/homepage.ts` |
+| `blogPost` | Blog posts. `body` is Markdown; `tags` is limited to a fixed list (see the content type); optional `canonicalUrl` for reposts | see `docs/blog.md`    |
 
 ## Environment variables
 
-| Variable | Required | Notes |
-|---|---|---|
-| `CONTENTFUL_SPACE_ID` | Yes | |
-| `CONTENTFUL_DELIVERY_TOKEN` | Yes | Content Delivery API token |
-| `CONTENTFUL_ENVIRONMENT` | No | Defaults to `master` |
+| Variable                    | Required | Notes                      |
+| --------------------------- | -------- | -------------------------- |
+| `CONTENTFUL_SPACE_ID`       | Yes      |                            |
+| `CONTENTFUL_DELIVERY_TOKEN` | Yes      | Content Delivery API token |
+| `CONTENTFUL_ENVIRONMENT`    | No       | Defaults to `master`       |
 
 Set them in Netlify for Production and Deploy Previews. Missing values: the build uses local fallback JSON in `src/data/`. Present but failing: the build fails.
 
