@@ -11,3 +11,6 @@ export const NAV_LINKS = [
   { label: "Case studies", href: "/#case-studies" },
   { label: "Blog", href: "/blog" },
 ] as const;
+
+/** Production origin, for absolute URLs in meta tags. */
+export const SITE_URL = "https://northstardigitalconsulting.co.uk";
