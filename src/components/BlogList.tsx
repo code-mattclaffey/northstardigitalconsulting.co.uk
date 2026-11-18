@@ -6,6 +6,7 @@ import {
 } from "@/lib/blog";
 import { cn } from "@/lib/utils";
 import BlogCard from "./BlogCard";
+import FeaturedPost from "./FeaturedPost";
 
 interface Props {
   posts: BlogPostSummary[];
@@ -42,9 +43,13 @@ export default function BlogList({ posts, tags }: Props) {
     ? `${visible.length} ${visible.length === 1 ? "post" : "posts"} tagged ${BLOG_TAG_LABELS[activeTag]}`
     : `${visible.length} ${visible.length === 1 ? "post" : "posts"}`;
 
+  // The newest post in the current filter is featured; the grid shows the rest.
+  const [featured, ...rest] = visible;
+
   return (
     <div>
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      {featured && <FeaturedPost key={featured.slug} post={featured} />}
+      <div className="mt-12 flex flex-wrap items-center justify-between gap-4 md:mt-16">
         <h2 className="m-0 text-[28px] font-semibold">All posts</h2>
         {tags.length > 0 && (
           <div
@@ -78,12 +83,17 @@ export default function BlogList({ posts, tags }: Props) {
         {status}
       </p>
       <ul className="m-0 mt-6 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-2 lg:grid-cols-3">
-        {visible.map((post, i) => (
+        {rest.map((post, i) => (
           <li key={post.slug}>
             <BlogCard post={post} index={i} />
           </li>
         ))}
       </ul>
+      {visible.length === 0 && (
+        <p className="m-0 mt-6 rounded-[20px] bg-white p-8 text-center text-muted-foreground">
+          No posts with this tag yet.
+        </p>
+      )}
     </div>
   );
 }

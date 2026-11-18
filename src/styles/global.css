@@ -423,7 +423,10 @@
     padding: 0.625rem 0.75rem;
     border-bottom: 1px solid var(--color-brand-slate-200);
     text-align: left;
+  }
+}
 
+/*
  * Scroll reveal. Elements with `data-reveal` fade up as they enter the
  * viewport (see Layout.astro). Only applies when JS runs and the visitor has
  * not asked for reduced motion, so content is never stuck invisible.
