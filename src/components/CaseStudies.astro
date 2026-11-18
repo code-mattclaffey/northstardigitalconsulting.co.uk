@@ -3,7 +3,9 @@ import { ArrowUpRight } from "lucide-react";
 import { badgeVariants } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { BLOG_TAG_LABELS, formatPublishDate, getBlogPosts } from "@/lib/blog";
+import type { PageSection } from "@/lib/homepage";
 import Container from "./Container.astro";
+import Section from "./Section.astro";
 import SectionHeading from "./SectionHeading.astro";
 
 // Newest three posts tagged case-study. The section hides when there are none.
@@ -11,15 +13,27 @@ const featured = (await getBlogPosts())
   .filter((post) => post.tags.includes("case-study"))
   .slice(0, 3);
 const art = ["bg-art-1", "bg-art-2", "bg-art-3"];
+
+interface Props {
+  section: PageSection;
+}
+
+const { section } = Astro.props;
 ---
 
 {
   featured.length > 0 && (
-    <section id="case-studies" class="pb-14 md:pb-24" aria-labelledby="case-studies-title">
+    <Section
+      background={section.background}
+      id="case-studies"
+      aria-labelledby="case-studies-title"
+    >
       <Container>
-        <SectionHeading eyebrow="Case studies" id="case-studies-title">
-          See what we’ve shipped together.
-          <Fragment slot="lead">Real projects, the decisions behind them and what changed.</Fragment>
+        <SectionHeading eyebrow={section.eyebrow ?? "Case studies"} id="case-studies-title">
+          {section.heading ?? "See what we’ve shipped together."}
+          <Fragment slot="lead">
+            {section.lead ?? "Real projects, the decisions behind them and what changed."}
+          </Fragment>
         </SectionHeading>
 
         <ul class="swipe-row m-0 mt-12 grid list-none grid-cols-1 gap-6 p-0 md:grid-cols-3">
@@ -74,6 +88,6 @@ const art = ["bg-art-1", "bg-art-2", "bg-art-3"];
           </a>
         </div>
       </Container>
-    </section>
+    </Section>
   )
 }

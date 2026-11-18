@@ -1,0 +1,32 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { SectionBackground } from "@/lib/homepage";
+
+interface Props extends HTMLAttributes<"section"> {
+  /** "dark" (ink) or "light" (stone). Set per section in Contentful. */
+  background?: SectionBackground;
+  /** Skip the default vertical padding (the hero sets its own). */
+  flush?: boolean;
+}
+
+const {
+  background = "dark",
+  flush = false,
+  class: className,
+  ...attrs
+} = Astro.props;
+---
+
+<section
+  {...attrs}
+  data-background={background}
+  class:list={[
+    background === "light"
+      ? "light bg-brand-stone text-foreground"
+      : "dark bg-brand-ink text-foreground",
+    !flush && (background === "light" ? "py-12 md:py-20" : "py-7 md:py-12"),
+    className,
+  ]}
+>
+  <slot />
+</section>

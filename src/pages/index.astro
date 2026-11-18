@@ -1,36 +1,52 @@
 ---
 import About from "../components/About.astro";
+import AvailabilityCta from "../components/AvailabilityCta.astro";
 import CaseStudies from "../components/CaseStudies.astro";
-import Container from "../components/Container.astro";
-import CtaBand from "../components/CtaBand.astro";
 import Hero from "../components/Hero.astro";
 import Services from "../components/Services.astro";
 import Testimonials from "../components/Testimonials.astro";
 import Layout from "../layouts/Layout.astro";
 import { getHomepage } from "../lib/homepage";
 
-// Runs once at build time (pre-rendered), never per request.
+// Runs once at build time (pre-rendered), never per request. Sections render
+// in the order set on the Homepage entry in Contentful; each picks a component
+// and a dark or light background.
 const homepage = await getHomepage();
+const { sections } = homepage;
 ---
 
 <Layout
   title={homepage.seoTitle}
   description={homepage.seoDescription}
   ogImageAlt={homepage.ogImageAlt}
+  headerTone={sections[0]?.background}
 >
-  <Hero content={homepage} />
-  <Services />
-  <section aria-label="Availability" class="pb-14 md:pb-24">
-    <Container>
-      <CtaBand
-        title="Looking for a senior contractor?"
-        body={`I’m taking on new contracts${homepage.availabilityText ? ` ${homepage.availabilityText.replace(/^Available /i, "")}` : ""}. Tell me about the role.`}
-        ctaLabel="Check availability"
-        ctaHref={homepage.primaryCtaUrl}
+  {
+    // The header sits over the top of the page; without a hero first, pad
+    // the page so the first section is not hidden underneath it.
+    sections[0]?.component !== "hero" && (
+      <div
+        aria-hidden="true"
+        class:list={["h-24", sections[0]?.background === "light" ? "bg-brand-stone" : "bg-brand-ink"]}
       />
-    </Container>
-  </section>
-  <About />
-  <CaseStudies />
-  <Testimonials />
+    )
+  }
+  {
+    sections.map((section) => {
+      switch (section.component) {
+        case "hero":
+          return <Hero content={homepage} section={section} />;
+        case "services":
+          return <Services section={section} />;
+        case "availabilityCta":
+          return <AvailabilityCta content={homepage} section={section} />;
+        case "about":
+          return <About section={section} />;
+        case "caseStudies":
+          return <CaseStudies section={section} />;
+        case "testimonials":
+          return <Testimonials section={section} />;
+      }
+    })
+  }
 </Layout>

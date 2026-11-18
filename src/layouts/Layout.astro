@@ -8,6 +8,8 @@ import Head from "../components/Head.astro";
 import Header from "../components/Header.astro";
 import Main from "../components/Main.astro";
 import Footer from "../components/Footer.astro";
+import { AVAILABILITY_WINDOW_DAYS, getAvailability } from "../lib/availability";
+import { getHomepage } from "../lib/homepage";
 
 interface Props {
   title?: string;
@@ -15,13 +17,21 @@ interface Props {
   ogImageAlt?: string | null;
   /** Absolute canonical URL, for content first published elsewhere. */
   canonicalUrl?: string | null;
+  /** Background of the first section, so the header text stays readable. */
+  headerTone?: "dark" | "light";
 }
 
-const { title, description, ogImageAlt, canonicalUrl } = Astro.props;
+const { title, description, ogImageAlt, canonicalUrl, headerTone = "dark" } = Astro.props;
+const availability = getAvailability(await getHomepage());
 ---
 
 <!doctype html>
-<html lang="en-GB" class="dark">
+<html
+  lang="en-GB"
+  class="dark"
+  data-contract-end={availability.endDate}
+  data-availability={availability.state}
+>
   <head>
     <Head
       title={title}
@@ -29,8 +39,18 @@ const { title, description, ogImageAlt, canonicalUrl } = Astro.props;
       ogImageAlt={ogImageAlt}
       canonicalUrl={canonicalUrl}
     />
-    <script is:inline>
-      document.documentElement.classList.add("js");
+    <script is:inline define:vars={{ windowDays: AVAILABILITY_WINDOW_DAYS }}>
+      const root = document.documentElement;
+      root.classList.add("js");
+      // Re-check the contract end date in the browser so the "available"
+      // highlight switches on by itself, without waiting for a rebuild.
+      const end = root.dataset.contractEnd;
+      if (end) {
+        const days = (new Date(end + "T00:00:00Z").getTime() - Date.now()) / 86400000;
+        if (days <= 0) root.dataset.availability = "now";
+        else if (days <= windowDays) root.dataset.availability = "soon";
+        else delete root.dataset.availability;
+      }
     </script>
   </head>
   <body class="relative">
@@ -39,7 +59,7 @@ const { title, description, ogImageAlt, canonicalUrl } = Astro.props;
       class="sr-only z-50 rounded-full bg-primary px-5 py-3 font-semibold text-primary-foreground focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
       >Skip to content</a
     >
-    <Header />
+    <Header tone={headerTone} />
     <Main>
       <slot />
     </Main>

@@ -1,20 +1,37 @@
 ---
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { getTestimonials, initials } from "@/lib/testimonials";
+import type { PageSection } from "@/lib/homepage";
 import Container from "./Container.astro";
+import Section from "./Section.astro";
 import SectionHeading from "./SectionHeading.astro";
 
 const testimonials = await getTestimonials();
+
+interface Props {
+  section: PageSection;
+}
+
+const { section } = Astro.props;
 ---
 
 {
   testimonials.length > 0 && (
-    <section class="pb-14 md:pb-24" aria-labelledby="testimonials-title" data-testimonials>
+    <Section
+      background={section.background}
+      aria-labelledby="testimonials-title"
+      data-testimonials
+    >
       <Container>
         <div class="light overflow-hidden rounded-[32px] bg-background px-5 py-10 text-foreground md:px-16 md:py-18">
           <div class="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading eyebrow="Testimonials" id="testimonials-title" align="start">
-              What people say about working with me.
+            <SectionHeading
+              eyebrow={section.eyebrow ?? "Testimonials"}
+              id="testimonials-title"
+              align="start"
+            >
+              {section.heading ?? "What people say about working with me."}
+              {section.lead && <Fragment slot="lead">{section.lead}</Fragment>}
             </SectionHeading>
             <div class="flex gap-2">
               <button
@@ -83,7 +100,7 @@ const testimonials = await getTestimonials();
           </ul>
         </div>
       </Container>
-    </section>
+    </Section>
   )
 }
 

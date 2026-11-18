@@ -1,5 +1,7 @@
 ---
 import { buttonVariants } from "@/components/ui/button";
+import { getAvailability } from "@/lib/availability";
+import { getHomepage } from "@/lib/homepage";
 
 interface Props {
   title: string;
@@ -8,12 +10,6 @@ interface Props {
   ctaHref: string;
   /** Heading level, so the band fits the page outline. */
   headingLevel?: "h2" | "h3";
-  /**
-   * Last day of the current contract (YYYY-MM-DD). When set, the band switches
-   * to a stand-out "available" look from `windowDays` before that date.
-   */
-  availableFrom?: string;
-  windowDays?: number;
   class?: string;
 }
 
@@ -23,70 +19,51 @@ const {
   ctaLabel,
   ctaHref,
   headingLevel: Heading = "h2",
-  availableFrom,
-  windowDays = 30,
   class: className,
 } = Astro.props;
 
-const DAY = 86_400_000;
-const endDate = availableFrom ? new Date(`${availableFrom}T00:00:00Z`) : undefined;
-const availableLabel = endDate
-  ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" }).format(endDate)
-  : "";
-
-// Worked out at build time so a build inside the window renders the right
-// state straight away. The inline script below re-checks in the browser, so
-// the band still switches on the day without waiting for a rebuild.
-let availability: "soon" | "now" | undefined;
-if (endDate) {
-  const daysLeft = (endDate.getTime() - Date.now()) / DAY;
-  if (daysLeft <= 0) availability = "now";
-  else if (daysLeft <= windowDays) availability = "soon";
-}
+// In the last month of a contract (`data-availability` on <html>, see
+// Layout.astro) the band swaps to "available" copy and gets a glowing ring.
+const { label } = getAvailability(await getHomepage());
+const highlight = Boolean(label);
 ---
 
 <div
   data-reveal
-  data-cta-band
-  data-contract-end={availableFrom}
-  data-window-days={windowDays}
-  data-availability={availability}
   class:list={[
-    "cta-band group/cta flex flex-wrap items-center justify-between gap-6 rounded-3xl bg-cta-gradient px-6 py-10 text-white md:px-12",
-    "data-[availability]:py-12 md:data-[availability]:py-14",
+    "cta-band flex flex-wrap items-center justify-between gap-6 rounded-3xl bg-cta-gradient px-6 py-10 text-white md:px-12",
+    highlight && "available:py-12 md:available:py-14",
     className,
   ]}
 >
   <div class="max-w-[640px]">
     {
-      availableFrom && (
-        <p class="mt-0 mb-4 hidden items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white group-data-[availability]/cta:inline-flex">
+      highlight && (
+        <p class="mt-0 mb-4 hidden items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-sm font-medium text-white available:inline-flex">
           <span class="relative flex size-2.5" aria-hidden="true">
             <span class="absolute inline-flex size-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping" />
             <span class="relative inline-flex size-2.5 rounded-full bg-emerald-400" />
           </span>
-          <span class="group-data-[availability=now]/cta:hidden">Available from {availableLabel}</span>
-          <span class="hidden group-data-[availability=now]/cta:inline">Available now</span>
+          <span class="available-now:hidden">Available from {label}</span>
+          <span class="hidden available-now:inline">Available now</span>
         </p>
       )
     }
     <Heading class="m-0 text-2xl leading-tight font-semibold md:text-[28px]">
-      <span class:list={[availableFrom && "group-data-[availability]/cta:hidden"]}>{title}</span>
+      <span class:list={[highlight && "available:hidden"]}>{title}</span>
       {
-        availableFrom && (
-          <span class="hidden group-data-[availability]/cta:inline md:text-[36px]">
-            Booking my next contract now.
-          </span>
+        highlight && (
+          <span class="hidden available:inline md:text-[36px]">Booking my next contract now.</span>
         )
       }
     </Heading>
     <p class="mt-2 mb-0 text-base text-brand-blue-100">
-      <span class:list={[availableFrom && "group-data-[availability]/cta:hidden"]}>{body}</span>
+      <span class:list={[highlight && "available:hidden"]}>{body}</span>
       {
-        availableFrom && (
-          <span class="hidden group-data-[availability]/cta:inline md:text-lg">
-            My current contract is wrapping up. If you have a frontend or platform
-            role starting soon, get in touch and I’ll reply within one working day.
+        highlight && (
+          <span class="hidden available:inline md:text-lg">
+            My current contract is wrapping up. If you have a frontend or platform role starting
+            soon, get in touch and I’ll reply within one working day.
           </span>
         )
       }
@@ -96,28 +73,9 @@ if (endDate) {
     href={ctaHref}
     class={buttonVariants({
       variant: "secondary",
-      class:
-        "h-12 px-6 group-data-[availability]/cta:h-14 group-data-[availability]/cta:px-8 group-data-[availability]/cta:text-base",
+      class: "h-12 px-6 available:h-14 available:px-8 available:text-base",
     })}
   >
     {ctaLabel}
   </a>
 </div>
-
-{
-  availableFrom && (
-    <script
-      is:inline
-      set:html={`(function () {
-        var el = document.currentScript && document.currentScript.previousElementSibling;
-        if (!el || !el.dataset.contractEnd) return;
-        var end = new Date(el.dataset.contractEnd + "T00:00:00Z").getTime();
-        var days = (end - Date.now()) / 86400000;
-        var win = Number(el.dataset.windowDays) || 30;
-        if (days <= 0) el.dataset.availability = "now";
-        else if (days <= win) el.dataset.availability = "soon";
-        else delete el.dataset.availability;
-      })();`}
-    />
-  )
-}

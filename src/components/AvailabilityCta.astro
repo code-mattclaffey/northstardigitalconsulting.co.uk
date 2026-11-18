@@ -1,0 +1,26 @@
+---
+import type { HomepageContent, PageSection } from "@/lib/homepage";
+import Container from "./Container.astro";
+import CtaBand from "./CtaBand.astro";
+import Section from "./Section.astro";
+
+interface Props {
+  content: HomepageContent;
+  section: PageSection;
+}
+
+const { content, section } = Astro.props;
+const when = content.availabilityText?.replace(/^Available /i, "");
+---
+
+<Section background={section.background} aria-label="Availability">
+  <Container>
+    <CtaBand
+      title={section.heading ?? "Looking for a senior contractor?"}
+      body={section.lead ??
+        `I’m taking on new contracts${when ? ` ${when}` : ""}. Tell me about the role.`}
+      ctaLabel="Check availability"
+      ctaHref={content.primaryCtaUrl}
+    />
+  </Container>
+</Section>
