@@ -9,5 +9,33 @@
   "primaryCtaUrl": "mailto:matthew.claffey@northstardigitalconsulting.co.uk",
   "secondaryCtaLabel": "View CV",
   "secondaryCtaUrl": "/matt-claffey-cv.pdf",
-  "availabilityText": "Available from January 2027"
+  "availabilityText": "Available from January 2027",
+  "currentContractExpiry": "2027-01-31T00:00:00.000Z",
+  "highlightAvailability": true,
+  "sections": [
+    {
+      "component": "hero",
+      "background": "dark"
+    },
+    {
+      "component": "services",
+      "background": "dark"
+    },
+    {
+      "component": "availabilityCta",
+      "background": "dark"
+    },
+    {
+      "component": "about",
+      "background": "dark"
+    },
+    {
+      "component": "caseStudies",
+      "background": "dark"
+    },
+    {
+      "component": "testimonials",
+      "background": "dark"
+    }
+  ]
 }

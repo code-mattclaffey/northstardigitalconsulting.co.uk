@@ -45,7 +45,7 @@ const logos = [
 ---
 
 <div data-reveal class:list={["flex w-full flex-col items-center", className]}>
-  <h2 class="m-0 text-[15px] font-medium text-brand-slate-300">Trusted by teams at</h2>
+  <h2 class="m-0 text-[15px] font-medium text-brand-slate-300 on-light:text-muted-foreground">Trusted by teams at</h2>
   <div
     class="group mt-6 w-full max-w-[1100px] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]"
   >
@@ -69,7 +69,7 @@ const logos = [
                   alt={copy === 1 ? "" : logo.alt}
                   height={logo.height}
                   loading="lazy"
-                  class="w-auto opacity-75 brightness-0 invert"
+                  class="w-auto opacity-75 brightness-0 invert on-light:opacity-60 on-light:invert-0"
                   style={`height: ${logo.height}px`}
                 />
               </li>

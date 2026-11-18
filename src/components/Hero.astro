@@ -2,31 +2,56 @@
 import { ArrowRight } from "lucide-react";
 import { badgeVariants } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import type { HomepageContent } from "@/lib/homepage";
+import type { HomepageContent, PageSection } from "@/lib/homepage";
 import ClientLogos from "./ClientLogos.astro";
 import Container from "./Container.astro";
+import Section from "./Section.astro";
 
 interface Props {
   content: HomepageContent;
+  section: PageSection;
 }
 
-const { content } = Astro.props;
+const { content, section } = Astro.props;
+const light = section.background === "light";
 const external = (url: string) =>
   /^https?:\/\//.test(url) ? { target: "_blank", rel: "noopener noreferrer" } : {};
 ---
 
-<section
-  class="relative isolate overflow-hidden bg-brand-ink pt-[96px] pb-12 md:pb-18"
+<Section
+  background={section.background}
+  flush
+  class="relative isolate overflow-hidden pt-[96px] pb-12 md:pb-18"
   aria-labelledby="hero-title"
 >
-  <div class="hero-glow hero-glow--indigo -z-10" aria-hidden="true"></div>
-  <div class="hero-glow hero-glow--violet -z-10" aria-hidden="true"></div>
-  <div class="hero-glow hero-glow--center -z-10" aria-hidden="true"></div>
+  {
+    light ? (
+      <div
+        class="absolute inset-0 -z-10 bg-[radial-gradient(70%_60%_at_50%_105%,var(--color-brand-blue-200),transparent_70%),radial-gradient(40%_40%_at_90%_95%,rgb(124_108_240/0.25),transparent_70%)]"
+        aria-hidden="true"
+      />
+    ) : (
+      <>
+        <div class="hero-glow hero-glow--indigo -z-10" aria-hidden="true" />
+        <div class="hero-glow hero-glow--violet -z-10" aria-hidden="true" />
+        <div class="hero-glow hero-glow--center -z-10" aria-hidden="true" />
+      </>
+    )
+  }
   <Container class="flex flex-col items-center pt-12 text-center md:pt-18">
     {
       content.availabilityText && (
-        <p class={badgeVariants({ variant: "glass", class: "m-0" })}>
-          <span class="size-2 rounded-full bg-brand-blue-400" aria-hidden="true" />
+        <p
+          class={badgeVariants({
+            variant: "glass",
+            class:
+              "m-0 on-light:border-border on-light:bg-white on-light:text-foreground available:border-emerald-400/50",
+          })}
+        >
+          <span class="relative flex size-2" aria-hidden="true">
+            <span class="absolute hidden size-full rounded-full bg-emerald-400 opacity-75 motion-safe:animate-ping available:inline-flex" />
+            <span class="relative size-2 rounded-full bg-brand-blue-400 available:bg-emerald-400" />
+          </span>
           {content.availabilityText}
         </p>
       )
@@ -37,7 +62,7 @@ const external = (url: string) =>
     >
       {content.heroHeading}
     </h1>
-    <p class="mt-6 mb-0 max-w-[720px] text-lg leading-relaxed text-brand-slate-300 md:text-xl">
+    <p class="mt-6 mb-0 max-w-[720px] text-lg leading-relaxed text-brand-slate-300 on-light:text-muted-foreground md:text-xl">
       {content.heroBody}
     </p>
     <div class="mt-9 flex flex-wrap justify-center gap-3">
@@ -56,7 +81,8 @@ const external = (url: string) =>
             class={buttonVariants({
               variant: "outline",
               size: "lg",
-              class: "border-white/20 bg-brand-ink/40 font-medium hover:bg-white/10",
+              class:
+                "border-white/20 bg-brand-ink/40 font-medium hover:bg-white/10 on-light:border-border-strong on-light:bg-white on-light:hover:bg-muted",
             })}
             {...external(content.secondaryCtaUrl)}
           >
@@ -68,4 +94,4 @@ const external = (url: string) =>
 
     <ClientLogos class="mt-14 md:mt-30" />
   </Container>
-</section>
+</Section>

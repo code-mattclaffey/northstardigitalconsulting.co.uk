@@ -54,7 +54,7 @@ export default function ServicesTabs({ services, contactHref }: Props) {
             </a>
           </div>
 
-          <div className="flex flex-col gap-5 rounded-[20px] border border-border bg-[radial-gradient(80%_80%_at_100%_0%,rgb(91_134_229/0.3),rgb(18_24_40/0)_60%),var(--color-brand-ink)] p-7">
+          <div className="dark flex flex-col gap-5 rounded-[20px] border border-border bg-brand-ink bg-[radial-gradient(80%_80%_at_100%_0%,rgb(91_134_229/0.3),rgb(18_24_40/0)_60%)] p-7">
             <div className="flex items-center justify-between gap-3">
               <h3 className="m-0 text-xs font-medium tracking-[0.08em] text-muted-foreground uppercase">
                 What you get

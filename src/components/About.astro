@@ -3,7 +3,9 @@ import { Image } from "astro:assets";
 import { buttonVariants } from "@/components/ui/button";
 import { CV_URL } from "@/lib/site";
 import photo from "../assets/matt-claffey.png";
+import type { PageSection } from "@/lib/homepage";
 import Container from "./Container.astro";
+import Section from "./Section.astro";
 import SectionHeading from "./SectionHeading.astro";
 import StatTile from "./StatTile.astro";
 
@@ -24,13 +26,26 @@ const specialisms = [
 ];
 
 const [years, brands, devs, conversion] = stats;
+
+interface Props {
+  section: PageSection;
+}
+
+const { section } = Astro.props;
 ---
 
-<section id="about" class="pb-14 md:pb-24" aria-labelledby="about-title">
+<Section background={section.background} id="about" aria-labelledby="about-title">
   <Container>
     <div class="light rounded-[32px] bg-background px-5 py-10 text-foreground md:px-16 md:py-20">
-      <SectionHeading eyebrow="About" id="about-title">
-        Your partner in modern <span class="text-primary">product engineering.</span>
+      <SectionHeading eyebrow={section.eyebrow ?? "About"} id="about-title">
+        {
+          section.heading ?? (
+            <Fragment>
+              Your partner in modern <span class="text-primary">product engineering.</span>
+            </Fragment>
+          )
+        }
+        {section.lead && <Fragment slot="lead">{section.lead}</Fragment>}
       </SectionHeading>
 
       <div
@@ -97,4 +112,4 @@ const [years, brands, devs, conversion] = stats;
       </ul>
     </div>
   </Container>
-</section>
+</Section>

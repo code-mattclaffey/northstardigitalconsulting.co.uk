@@ -10,6 +10,11 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
+/* Set on <html> in the last month of a contract (see Layout.astro). */
+@custom-variant available (&:where([data-availability] *));
+@custom-variant available-now (&:where([data-availability="now"] *));
+/* Inside a section with the light background variant. */
+@custom-variant on-light (&:where(.light *));
 
 @theme {
   --font-sans:
@@ -550,11 +555,11 @@
       0 0 64px 4px rgb(124 108 240 / 0.55);
   }
 }
-.cta-band[data-availability] {
+[data-availability] .cta-band {
   box-shadow: 0 0 0 2px rgb(185 207 248 / 0.9);
 }
 @media (prefers-reduced-motion: no-preference) {
-  .cta-band[data-availability] {
+  [data-availability] .cta-band {
     animation: cta-glow 2.4s ease-in-out infinite alternate;
   }
 }
