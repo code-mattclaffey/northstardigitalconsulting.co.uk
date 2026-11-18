@@ -5,12 +5,14 @@ interface Props {
   title?: string;
   description?: string;
   ogImageAlt?: string | null;
+  canonicalUrl?: string | null;
 }
 
 const {
   title = fallbackHomepage.seoTitle,
   description = fallbackHomepage.seoDescription,
   ogImageAlt = fallbackHomepage.ogImageAlt,
+  canonicalUrl = null,
 } = Astro.props;
 ---
 
@@ -23,6 +25,7 @@ const {
 <link rel="manifest" href="/site.webmanifest" />
 <meta name="generator" content={Astro.generator} />
 <title>{title}</title>
+{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 <meta
   name="description"
   content={description}

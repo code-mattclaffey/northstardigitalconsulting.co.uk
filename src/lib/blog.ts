@@ -14,6 +14,8 @@ export const BLOG_TAGS = [
   "devops",
   "leadership",
   "case-study",
+  "react",
+  "css",
 ] as const;
 
 export type BlogTag = (typeof BLOG_TAGS)[number];
@@ -29,6 +31,8 @@ export const BLOG_TAG_LABELS: Record<BlogTag, string> = {
   devops: "DevOps",
   leadership: "Leadership",
   "case-study": "Case study",
+  react: "React",
+  css: "CSS",
 };
 
 export interface BlogHeroImage {
@@ -46,6 +50,8 @@ export interface BlogPostEntry {
   publishDate: string;
   tags: string[];
   heroImage: BlogHeroImage | null;
+  /** Original URL when the post was first published elsewhere (e.g. Medium). */
+  canonicalUrl?: string | null;
 }
 
 /** Card data. Safe to serialise into a React island (no body). */
@@ -61,6 +67,8 @@ export interface BlogPostSummary {
 /** A post ready to render on its own page. */
 export interface BlogPost extends BlogPostSummary {
   bodyHtml: string;
+  /** Absolute URL for `<link rel="canonical">` when the post is a repost. */
+  canonicalUrl: string | null;
 }
 
 const PAGE_SIZE = 50;
@@ -81,6 +89,7 @@ const BLOG_POSTS_QUERY = /* GraphQL */ `
           description
           title
         }
+        canonicalUrl
       }
     }
   }
@@ -98,6 +107,7 @@ interface RawBlogPost {
     description: string | null;
     title: string | null;
   } | null;
+  canonicalUrl: string | null;
 }
 
 interface BlogPostsQueryResult {
@@ -132,6 +142,7 @@ function toEntry(raw: RawBlogPost): BlogPostEntry | null {
           alt: raw.heroImage.description || raw.heroImage.title || "",
         }
       : null,
+    canonicalUrl: raw.canonicalUrl || null,
   };
 }
 
@@ -185,6 +196,7 @@ function toPost(entry: BlogPostEntry): BlogPost {
     publishDate: entry.publishDate,
     tags,
     heroImage: entry.heroImage,
+    canonicalUrl: entry.canonicalUrl ?? null,
     // Runs at build time only. Content is authored by the site owner in
     // Contentful, so the HTML is trusted.
     bodyHtml: marked.parse(entry.body, { async: false }),
@@ -204,7 +216,11 @@ export function getBlogPosts(): Promise<BlogPost[]> {
 }
 
 /** Strips the body so only card data is sent to the browser. */
-export function toSummary({ bodyHtml: _body, ...summary }: BlogPost) {
+export function toSummary({
+  bodyHtml: _body,
+  canonicalUrl: _canonical,
+  ...summary
+}: BlogPost) {
   return summary satisfies BlogPostSummary;
 }
 

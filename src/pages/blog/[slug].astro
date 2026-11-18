@@ -20,7 +20,7 @@ interface Props {
 const { post } = Astro.props;
 ---
 
-<Layout theme="light" title={`${post.title} | Northstar Digital Consulting`} description={post.description}>
+<Layout theme="light" title={`${post.title} | Northstar Digital Consulting`} description={post.description} canonicalUrl={post.canonicalUrl}>
   <div class="c-page">
   <article class="c-post">
     <div class="o-grid">

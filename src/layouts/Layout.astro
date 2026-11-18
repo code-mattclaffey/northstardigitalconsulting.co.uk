@@ -12,16 +12,18 @@ interface Props {
   title?: string;
   description?: string;
   ogImageAlt?: string | null;
+  /** Absolute canonical URL, for content first published elsewhere. */
+  canonicalUrl?: string | null;
   theme?: "dark" | "light";
 }
 
-const { title, description, ogImageAlt, theme = "dark" } = Astro.props;
+const { title, description, ogImageAlt, canonicalUrl, theme = "dark" } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <Head title={title} description={description} ogImageAlt={ogImageAlt} />
+    <Head title={title} description={description} ogImageAlt={ogImageAlt} canonicalUrl={canonicalUrl} />
   </head>
   <body>
     <Header theme={theme} />
