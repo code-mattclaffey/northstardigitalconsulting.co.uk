@@ -1,7 +1,7 @@
 /** Site-wide contact details and links, so they are changed in one place. */
 export const CONTACT_EMAIL = "matthew.claffey@northstardigitalconsulting.co.uk";
 export const CONTACT_MAILTO = `mailto:${CONTACT_EMAIL}`;
-export const CV_URL = "https://canva.link/z79249dalz8fkb3";
+export const CV_URL = "https://claude.ai/artifact/SpGTc3w5ftgXAMUptqn1Zf";
 export const LINKEDIN_URL = "https://www.linkedin.com/company/130174180";
 export const GITHUB_URL = "https://github.com/code-mattclaffey";
 
