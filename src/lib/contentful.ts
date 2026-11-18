@@ -34,8 +34,18 @@ export function getContentfulConfig(): ContentfulConfig | null {
 
 interface GraphQLResponse<T> {
   data?: T;
-  errors?: { message: string }[];
+  errors?: {
+    message: string;
+    extensions?: { contentful?: { code?: string } };
+  }[];
 }
+
+/**
+ * A link to an unpublished or deleted entry. Contentful still returns the
+ * rest of the data with that item as null, and the query modules skip nulls,
+ * so this is not a reason to fail the build.
+ */
+const UNRESOLVABLE_LINK = "UNRESOLVABLE_LINK";
 
 export async function contentfulQuery<T>(
   config: ContentfulConfig,
@@ -61,9 +71,19 @@ export async function contentfulQuery<T>(
 
   const json = (await response.json()) as GraphQLResponse<T>;
 
-  if (json.errors?.length) {
+  const errors = (json.errors ?? []).filter(
+    (e) => e.extensions?.contentful?.code !== UNRESOLVABLE_LINK,
+  );
+  const skipped = (json.errors?.length ?? 0) - errors.length;
+  if (skipped > 0) {
+    console.warn(
+      `[contentful] Skipped ${skipped} link(s) to unpublished entries.`,
+    );
+  }
+
+  if (errors.length) {
     throw new Error(
-      `[contentful] GraphQL errors: ${json.errors.map((e) => e.message).join("; ")}`,
+      `[contentful] GraphQL errors: ${errors.map((e) => e.message).join("; ")}`,
     );
   }
 
