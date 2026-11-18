@@ -1,32 +1,101 @@
 ---
-import BlogList from "../../components/BlogList";
-import Layout from "../../layouts/Layout.astro";
-import { getBlogPosts, getUsedTags, toSummary } from "../../lib/blog";
+import { badgeVariants } from "@/components/ui/badge";
+import BlogList from "@/components/BlogList";
+import Container from "@/components/Container.astro";
+import Layout from "@/layouts/Layout.astro";
+import {
+  BLOG_TAG_LABELS,
+  formatPublishDate,
+  getBlogPosts,
+  getUsedTags,
+  readingMinutes,
+  toSummary,
+} from "@/lib/blog";
 
-const posts = (await getBlogPosts()).map(toSummary);
+const allPosts = await getBlogPosts();
+const posts = allPosts.map(toSummary);
 const tags = getUsedTags(posts);
+const featured = allPosts[0];
 ---
 
 <Layout
-  title="Blog | Northstar Digital Consulting"
-  description="Articles on AI-enabled engineering, architecture, TypeScript and modern web delivery."
+  title="Blog | NorthStar Digital Consulting"
+  description="Case studies, React and TypeScript deep dives, and notes on AI-enabled engineering."
 >
-  <div class="c-page">
-  <section class="c-blog-index">
-    <div class="o-grid">
-      <div
-        class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-12"
+  <section class="bg-hero-glow-soft pt-[96px] pb-24 text-white" aria-labelledby="blog-title">
+    <Container class="flex flex-col items-center pt-10 text-center md:pt-16">
+      <span class={badgeVariants({ variant: "outline" })}>Blog</span>
+      <h1
+        id="blog-title"
+        class="mt-5 mb-0 max-w-[860px] text-[40px] leading-[1.08] font-semibold tracking-[-0.03em] text-balance md:text-[64px]"
       >
-        <h1 class="e-heading e-heading--h2 c-blog-index__title">Blog</h1>
-        {
-          posts.length > 0 ? (
-            <BlogList client:load posts={posts} tags={tags} />
-          ) : (
-            <p class="e-body-text">No posts yet. Check back soon.</p>
-          )
-        }
-      </div>
-    </div>
+        Notes on building better software.
+      </h1>
+      <p class="mt-4 mb-0 max-w-[640px] text-lg leading-relaxed text-brand-slate-300">
+        Case studies, React and TypeScript deep dives, and what I’m learning about AI-enabled
+        engineering.
+      </p>
+    </Container>
   </section>
+
+  <div class="light bg-brand-stone pb-24 text-foreground">
+    {
+      featured && (
+        <Container class="relative -top-14">
+          <article class="group relative grid grid-cols-1 overflow-hidden rounded-[28px] border border-border bg-white transition-shadow hover:shadow-[0_16px_40px_rgb(12_16_27/0.1)] md:grid-cols-2">
+            {featured.heroImage ? (
+              <img
+                src={`${featured.heroImage.url}?w=1200&h=760&fit=fill&fm=webp`}
+                alt=""
+                width="1200"
+                height="760"
+                class="h-full min-h-[240px] w-full object-cover md:min-h-[320px]"
+              />
+            ) : (
+              <div class="bg-art-1 min-h-[240px] md:min-h-[320px]" aria-hidden="true" />
+            )}
+            <div class="flex flex-col justify-center gap-3.5 p-6 md:p-10">
+              <span class="flex flex-wrap gap-2">
+                <span class={badgeVariants()}>Featured</span>
+                {featured.tags[0] && (
+                  <span class={badgeVariants({ variant: "secondary" })}>
+                    {BLOG_TAG_LABELS[featured.tags[0]]}
+                  </span>
+                )}
+              </span>
+              <h2 class="m-0 text-2xl leading-tight font-semibold tracking-[-0.01em] md:text-[32px]">
+                <a
+                  href={`/blog/${featured.slug}`}
+                  class="text-foreground no-underline after:absolute after:inset-0 after:content-[''] group-focus-within:underline"
+                >
+                  {featured.title}
+                </a>
+              </h2>
+              <p class="m-0 text-base leading-relaxed text-muted-foreground">
+                {featured.description}
+              </p>
+              <span class="text-[13px] text-muted-foreground">
+                <time datetime={featured.publishDate}>
+                  {formatPublishDate(featured.publishDate)}
+                </time>
+                {` · ${readingMinutes(featured.bodyHtml)} min read`}
+              </span>
+            </div>
+          </article>
+        </Container>
+      )
+    }
+
+    <Container class={featured ? "" : "pt-16"}>
+      {
+        posts.length > 0 ? (
+          <BlogList client:load posts={posts} tags={tags} />
+        ) : (
+          <p class="m-0 rounded-[20px] bg-white p-8 text-center text-muted-foreground">
+            No posts yet. Check back soon.
+          </p>
+        )
+      }
+    </Container>
   </div>
 </Layout>

@@ -4,10 +4,11 @@ Space `wclkrpbrf32m`, environment `master`. All content is fetched through the G
 
 ## Content types used by the site
 
-| Type       | Purpose                                                                                                                       | Code                  |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `homepage` | Hero copy, CTAs, availability, SEO meta (single entry)                                                                        | `src/lib/homepage.ts` |
-| `blogPost` | Blog posts. `body` is Markdown; `tags` is limited to a fixed list (see the content type); optional `canonicalUrl` for reposts | see `docs/blog.md`    |
+| Type          | Purpose                                                                                                                         | Code                      |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| `homepage`    | Hero copy, CTAs, availability, SEO meta (single entry)                                                                          | `src/lib/homepage.ts`     |
+| `testimonial` | Homepage testimonials: `quote`, `name`, `role`, optional `company`, `order` (lowest first), `isSample` (shows a "Sample" label) | `src/lib/testimonials.ts` |
+| `blogPost`    | Blog posts. `body` is Markdown; `tags` is limited to a fixed list (see the content type); optional `canonicalUrl` for reposts   | see `docs/blog.md`        |
 
 ## Environment variables
 

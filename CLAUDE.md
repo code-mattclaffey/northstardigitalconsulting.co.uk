@@ -19,20 +19,20 @@ This repo runs as a small software factory (see [docs/software-factory.md](docs/
 
 ## Commands
 
-| Command | Use |
-|---|---|
-| `npm ci` | Install |
-| `npm run dev` | Local dev on :4321 |
-| `npm run build` | Production build. Must pass before opening a PR |
-| `npx -p typescript@5.8.3 tsc --noEmit -p .` | Type check |
-| `npm run contentful:seed` | Recreate the homepage model/entry (needs a CMA token) |
+| Command                                     | Use                                                   |
+| ------------------------------------------- | ----------------------------------------------------- |
+| `npm ci`                                    | Install                                               |
+| `npm run dev`                               | Local dev on :4321                                    |
+| `npm run build`                             | Production build. Must pass before opening a PR       |
+| `npx -p typescript@5.8.3 tsc --noEmit -p .` | Type check                                            |
+| `npm run contentful:seed`                   | Recreate the homepage model/entry (needs a CMA token) |
 
 The husky pre-commit hook runs Prettier, which has no Astro plugin here. Format files you touched with `npx prettier --write <files>` (skip `.astro`) and commit with `HUSKY=0` so unrelated files are not reformatted.
 
 ## Standards
 
-- Frontend contract: [.github/skills/frontend/SKILL.md](.github/skills/frontend/SKILL.md) (Astro components, ITCSS + BEM `c-`/`e-`/`o-`, theme tokens, semantic and accessible HTML, zero JS by default).
-- React only for small interactive islands (`client:load` / `client:visible`), never for static markup.
+- Frontend contract: [.github/skills/frontend/SKILL.md](.github/skills/frontend/SKILL.md) (Astro + Tailwind v4 + shadcn/ui, shadcn theme tokens in `src/styles/global.css`, semantic and accessible HTML, zero JS by default).
+- React only for small interactive islands (`client:load` / `client:visible`). In `.astro` files use `buttonVariants()` / `badgeVariants()` on plain elements instead of rendering shadcn React components.
 - Tailwind scans source comments: avoid words like `static`, `block`, `hidden` in comments or they become CSS classes.
 - Every Contentful fetch goes through `src/lib/contentful.ts`, runs at build time, and has a typed query module in `src/lib/`. When credentials are missing, fall back to local JSON in `src/data/` so the site still builds; when credentials are set and a request fails, fail the build.
 

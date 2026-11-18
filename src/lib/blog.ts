@@ -237,3 +237,13 @@ export function formatPublishDate(isoDate: string): string {
     timeZone: "UTC",
   }).format(new Date(isoDate));
 }
+
+/** Rough reading time at 220 words a minute, from the rendered HTML. */
+export function readingMinutes(html: string): number {
+  const words = html
+    .replace(/<pre[\s\S]*?<\/pre>/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .split(/\s+/)
+    .filter(Boolean).length;
+  return Math.max(1, Math.round(words / 220));
+}
