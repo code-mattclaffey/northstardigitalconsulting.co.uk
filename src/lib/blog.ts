@@ -1,6 +1,6 @@
-import { marked } from "marked";
 import blogSeed from "../data/blog-posts.json";
 import { contentfulQuery, getContentfulConfig } from "./contentful";
+import { renderMarkdown } from "./markdown";
 
 /** Allowed values of the `tags` field on the Contentful `blogPost` type. */
 export const BLOG_TAGS = [
@@ -180,7 +180,7 @@ async function fetchEntries(): Promise<BlogPostEntry[]> {
   return entries;
 }
 
-function toPost(entry: BlogPostEntry): BlogPost {
+async function toPost(entry: BlogPostEntry): Promise<BlogPost> {
   const tags = entry.tags.filter(isBlogTag);
   const unknown = entry.tags.filter((t) => !isBlogTag(t));
   if (unknown.length) {
@@ -199,7 +199,7 @@ function toPost(entry: BlogPostEntry): BlogPost {
     canonicalUrl: entry.canonicalUrl ?? null,
     // Runs at build time only. Content is authored by the site owner in
     // Contentful, so the HTML is trusted.
-    bodyHtml: marked.parse(entry.body, { async: false }),
+    bodyHtml: await renderMarkdown(entry.body),
   };
 }
 
@@ -207,11 +207,11 @@ let cached: Promise<BlogPost[]> | undefined;
 
 /** All posts, newest first. Fetched once per build. May be empty. */
 export function getBlogPosts(): Promise<BlogPost[]> {
-  cached ??= fetchEntries().then((entries) =>
-    entries
-      .map(toPost)
-      .sort((a, b) => b.publishDate.localeCompare(a.publishDate)),
-  );
+  cached ??= fetchEntries()
+    .then((entries) => Promise.all(entries.map(toPost)))
+    .then((posts) =>
+      posts.sort((a, b) => b.publishDate.localeCompare(a.publishDate)),
+    );
   return cached;
 }
 
