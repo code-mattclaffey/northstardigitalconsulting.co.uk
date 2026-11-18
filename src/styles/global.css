@@ -190,9 +190,10 @@
 /* CTA bands. */
 /* Card grids become a horizontal swipe row below md, to keep pages short. */
 @utility swipe-row {
+  /* !important so it wins over the grid utilities used from md up. */
   @media (width < 48rem) {
-    display: flex;
-    gap: 1rem;
+    display: flex !important;
+    gap: 1rem !important;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
