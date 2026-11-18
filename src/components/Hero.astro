@@ -38,7 +38,7 @@ const external = (url: string) =>
       </>
     )
   }
-  <Container class="flex flex-col items-center pt-12 text-center md:pt-18">
+  <Container class="flex flex-col items-center pt-6 text-center md:pt-18">
     {
       content.availabilityText && (
         <p
@@ -58,14 +58,14 @@ const external = (url: string) =>
     }
     <h1
       id="hero-title"
-      class="mt-7 mb-0 max-w-[980px] text-[40px] leading-[1.05] font-semibold tracking-[-0.03em] text-balance md:text-7xl"
+      class="mt-5 mb-0 max-w-[980px] text-[40px] md:mt-7 leading-[1.05] font-semibold tracking-[-0.03em] text-balance md:text-7xl"
     >
       {content.heroHeading}
     </h1>
-    <p class="mt-6 mb-0 max-w-[720px] text-lg leading-relaxed text-brand-slate-300 on-light:text-muted-foreground md:text-xl">
+    <p class="mt-4 mb-0 max-w-[720px] text-base md:mt-6 leading-relaxed text-brand-slate-300 on-light:text-muted-foreground md:text-xl">
       {content.heroBody}
     </p>
-    <div class="mt-9 flex flex-wrap justify-center gap-3">
+    <div class="mt-7 flex flex-wrap justify-center gap-3 md:mt-9">
       <a
         href={content.primaryCtaUrl}
         class={buttonVariants({ size: "lg" })}
@@ -92,6 +92,6 @@ const external = (url: string) =>
       }
     </div>
 
-    <ClientLogos class="mt-14 md:mt-30" />
+    <ClientLogos class="mt-10 md:mt-30" />
   </Container>
 </Section>
