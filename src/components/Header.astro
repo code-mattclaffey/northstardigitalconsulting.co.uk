@@ -1,73 +1,66 @@
 ---
+import { buttonVariants } from "@/components/ui/button";
+import { CONTACT_MAILTO, NAV_LINKS } from "@/lib/site";
+import Container from "./Container.astro";
 import Logo from "./Logo.astro";
-import Icon from "./Icon.astro";
-interface Props {
-  /** "light" when the page sits on the light c-page panel */
-  theme?: "dark" | "light";
-}
-const { theme = "dark" } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) =>
+  !href.includes("#") && (path === href || path.startsWith(`${href}/`));
 ---
 
-<header class="c-header">
-  <div class="o-grid">
-    <div
-      class="o-grid__item o-grid__item--span-1 o-grid__item--md-3 o-grid__item--lg-6 o-grid__item--xl-6"
-    >
-      <a
-        href="/"
-        class="c-header__logo"
-        aria-label="Northstar Digital Consulting Home"
-        aria-current="page"
+<header class="absolute inset-x-0 top-0 z-30 text-white">
+  <Container class="flex items-center justify-between gap-6 py-6">
+    <a href="/" class="flex rounded-md" aria-label="NorthStar Digital home">
+      <Logo class="h-[30px] w-auto" />
+    </a>
+
+    <nav aria-label="Main" class="hidden items-center gap-8 md:flex">
+      {
+        NAV_LINKS.map((link) => (
+          <a
+            href={link.href}
+            aria-current={isCurrent(link.href) ? "page" : undefined}
+            class="text-[15px] font-medium text-brand-slate-200 no-underline transition-colors hover:text-white aria-[current=page]:font-semibold aria-[current=page]:text-white"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <a href={CONTACT_MAILTO} class={buttonVariants()}>Get in touch</a>
+    </nav>
+
+    <details class="group md:hidden">
+      <summary
+        class="flex size-11 cursor-pointer list-none items-center justify-center rounded-xl border border-brand-ink-700 bg-brand-ink-900/70 [&::-webkit-details-marker]:hidden"
+        aria-label="Menu"
       >
-        <Logo variant={theme === "light" ? "panel" : "light"} />
-      </a>
-    </div>
-    <div
-      class="o-grid__item o-grid__item--span-1 o-grid__item--md-3 o-grid__item--lg-6 o-grid__item--xl-6"
-    >
-      <nav class="c-header__nav hidden md:block" aria-label="Main navigation">
-        <ul class="c-header__nav-list">
-          <li class="c-header__nav-item">
+        <svg class="size-[22px] group-open:hidden" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+        <svg class="hidden size-[22px] group-open:block" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+        </svg>
+      </summary>
+      <nav
+        aria-label="Mobile"
+        class="absolute inset-x-5 top-[84px] flex flex-col gap-1 rounded-2xl border border-brand-ink-700 bg-brand-ink-900 p-3 shadow-2xl"
+      >
+        {
+          NAV_LINKS.map((link) => (
             <a
-              href="https://www.linkedin.com/company/130174180"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="c-header__nav-link c-header__nav-link--icon-link"
-              aria-label="View my LinkedIn profile"
+              href={link.href}
+              aria-current={isCurrent(link.href) ? "page" : undefined}
+              class="rounded-lg p-3 font-medium text-white no-underline hover:bg-brand-ink-800"
             >
-              <span class="c-header__nav-icon">
-                <Icon name="linkedIn" size="lg" />
-              </span>
+              {link.label}
             </a>
-          </li>
-          <li class="c-header__nav-item">
-            <a
-              href="https://github.com/code-mattclaffey"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="c-header__nav-link c-header__nav-link--icon-link"
-              aria-label="View my Github profile"
-            >
-              <span class="c-header__nav-icon">
-                <Icon name="github" size="lg" />
-              </span>
-            </a>
-          </li>
-          <li class="c-header__nav-item">
-            <a
-              href="/blog?tag=case-study"
-              class="e-button e-button--secondary c-header__nav-button"
-              >Case studies</a
-            >
-          </li>
-          <li class="c-header__nav-item">
-            <a
-              href="mailto:hello@northstardigitalconsulting.co.uk"
-              class="e-button e-button--primary">Get in touch</a
-            >
-          </li>
-        </ul>
+          ))
+        }
+        <a href={CONTACT_MAILTO} class={buttonVariants({ class: "mt-2 h-12" })}>
+          Get in touch
+        </a>
       </nav>
-    </div>
-  </div>
+    </details>
+  </Container>
 </header>

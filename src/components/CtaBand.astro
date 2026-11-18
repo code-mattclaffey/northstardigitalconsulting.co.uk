@@ -1,0 +1,37 @@
+---
+import { buttonVariants } from "@/components/ui/button";
+
+interface Props {
+  title: string;
+  body: string;
+  ctaLabel: string;
+  ctaHref: string;
+  /** Heading level, so the band fits the page outline. */
+  headingLevel?: "h2" | "h3";
+  class?: string;
+}
+
+const {
+  title,
+  body,
+  ctaLabel,
+  ctaHref,
+  headingLevel: Heading = "h2",
+  class: className,
+} = Astro.props;
+---
+
+<div
+  class:list={[
+    "flex flex-wrap items-center justify-between gap-6 rounded-3xl bg-cta-gradient px-6 py-10 text-white md:px-12",
+    className,
+  ]}
+>
+  <div>
+    <Heading class="m-0 text-2xl leading-tight font-semibold md:text-[28px]">{title}</Heading>
+    <p class="mt-2 mb-0 text-base text-brand-blue-100">{body}</p>
+  </div>
+  <a href={ctaHref} class={buttonVariants({ variant: "secondary", class: "h-12 px-6" })}>
+    {ctaLabel}
+  </a>
+</div>

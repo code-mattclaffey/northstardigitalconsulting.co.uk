@@ -1,115 +1,89 @@
 ---
-import Icon from "./Icon.astro";
+import {
+  CONTACT_EMAIL,
+  CONTACT_MAILTO,
+  CV_URL,
+  GITHUB_URL,
+  LINKEDIN_URL,
+  NAV_LINKS,
+} from "@/lib/site";
+import Container from "./Container.astro";
+import CtaBand from "./CtaBand.astro";
 import Logo from "./Logo.astro";
+import SocialIcon from "./SocialIcon.astro";
+
+const year = new Date().getFullYear();
+const linkClass =
+  "text-sm text-brand-slate-400 no-underline transition-colors hover:text-white";
 ---
 
-<footer class="c-footer c-footer--hidden text-white py-20">
-  <div class="o-grid">
-    <div
-      class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-8 o-grid__item--xl-8 mb-12 lg:mb-0"
-    >
-      <h2 class="e-heading e-heading--h3 text-white">
-        Let’s build something ambitious.
-      </h2>
-      <p class="mb-8 max-w-[50ch]">
-        Building something ambitious? Let’s talk. I’d love to hear about your
-        challenge and explore how I can help.
-      </p>
-      <a
-        class="e-button e-button--primary"
-        href="mailto:hello@northstardigitalconsulting.co.uk">Get in touch</a
-      >
-    </div>
+<footer id="contact" class="dark bg-brand-ink pt-24 pb-10 text-white">
+  <Container>
+    <CtaBand
+      title="Let’s build something ambitious."
+      body="Tell me about your challenge and I’ll reply within one working day."
+      ctaLabel="Get in touch"
+      ctaHref={CONTACT_MAILTO}
+    />
 
-    <div
-      class="o-grid__item o-grid__item--span-2 o-grid__item--sm-4 o-grid__item--md-6 o-grid__item--lg-4 o-grid__item--xl-4"
-    >
-      <div class="max-w-[220px] lg:max-w-[350px] mb-6">
-        <Logo variant="dark" />
-      </div>
-      <nav aria-label="Footer links">
-        <ul class="c-footer__nav-list mb-15">
-          <li class="c-footer__nav-item">
+    <div class="mt-18 grid grid-cols-1 gap-10 md:grid-cols-[2fr_1fr_1fr_1fr]">
+      <div class="flex flex-col gap-5">
+        <Logo class="h-[30px] w-auto self-start" />
+        <p class="m-0 max-w-[340px] text-sm leading-relaxed text-brand-slate-400">
+          Principal-level engineering leadership for ambitious product teams. Based in
+          Manchester, working UK-wide.
+        </p>
+        <ul class="m-0 flex list-none gap-2.5 p-0">
+          <li>
             <a
-              href="https://www.linkedin.com/company/130174180"
+              href={LINKEDIN_URL}
               target="_blank"
               rel="noopener noreferrer"
-              class="c-footer__nav-link c-footer__nav-link--icon-link"
-              aria-label="View my LinkedIn profile"
+              aria-label="NorthStar Digital on LinkedIn (opens in a new tab)"
+              class="flex size-11 items-center justify-center rounded-xl bg-brand-ink-800 text-white transition-colors hover:bg-brand-ink-700"
             >
-              <span class="c-footer__nav-icon">
-                <Icon name="linkedIn" size="lg" />
-              </span>
+              <SocialIcon name="linkedin" class="size-5" />
             </a>
           </li>
-          <li class="c-footer__nav-item">
+          <li>
             <a
-              href="https://github.com/code-mattclaffey"
+              href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              class="c-footer__nav-link c-footer__nav-link--icon-link"
-              aria-label="View my Github profile"
+              aria-label="Matt Claffey on GitHub (opens in a new tab)"
+              class="flex size-11 items-center justify-center rounded-xl bg-brand-ink-800 text-white transition-colors hover:bg-brand-ink-700"
             >
-              <span class="c-footer__nav-icon">
-                <Icon name="github" size="lg" />
-              </span>
+              <SocialIcon name="github" class="size-5" />
             </a>
           </li>
         </ul>
+      </div>
+
+      <nav aria-labelledby="footer-explore" class="flex flex-col gap-3">
+        <h2 id="footer-explore" class="m-0 text-sm font-semibold">Explore</h2>
+        {NAV_LINKS.map((link) => <a href={link.href} class={linkClass}>{link.label}</a>)}
       </nav>
-      <p class="e-body-text e-body-text--small">
-        &copy; 2026 Northstar Digital Consulting LTD. All rights reserved.
-      </p>
+
+      <div class="flex flex-col gap-3">
+        <h2 class="m-0 text-sm font-semibold">Contact</h2>
+        <a href={CONTACT_MAILTO} class:list={[linkClass, "[overflow-wrap:anywhere]"]}>
+          {CONTACT_EMAIL}
+        </a>
+        <span class="text-sm text-brand-slate-400">Manchester, UK</span>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <h2 class="m-0 text-sm font-semibold">Company</h2>
+        <span class="text-sm text-brand-slate-400">NorthStar Digital Consulting Ltd</span>
+        <a href={CV_URL} target="_blank" rel="noopener noreferrer" class={linkClass}>CV</a>
+      </div>
     </div>
-  </div>
+
+    <div
+      class="mt-14 flex flex-wrap justify-between gap-3 border-t border-brand-ink-800 pt-6 text-[13px] text-brand-slate-400"
+    >
+      <span>&copy; {year} NorthStar Digital Consulting Ltd. All rights reserved.</span>
+      <span>Registered in England and Wales</span>
+    </div>
+  </Container>
 </footer>
-
-<script>
-  const footer = document.querySelector(".c-footer");
-  const main = document.querySelector(".c-main");
-
-  if (footer && main) {
-    // Handle focus event to scroll to footer
-    footer.addEventListener(
-      "focusin",
-      () => {
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        });
-      },
-      true,
-    );
-
-    // Function to check if footer should be visible
-    const checkFooterVisibility = () => {
-      const mainRect = main.getBoundingClientRect();
-      const mainBottom = mainRect.bottom;
-      const windowHeight = window.innerHeight;
-      const scrollY = window.scrollY;
-
-      // Show footer only when:
-      // 1. We've scrolled down at least 100px (to prevent showing on load)
-      // 2. AND the bottom of main is close to viewport bottom
-      const hasScrolled = scrollY > 100;
-      const threshold = windowHeight + 200; // Add buffer so it appears before main fully exits
-
-      if (hasScrolled && mainBottom <= threshold) {
-        footer.classList.remove("c-footer--hidden");
-        footer.classList.add("c-footer--visible");
-      } else {
-        footer.classList.add("c-footer--hidden");
-        footer.classList.remove("c-footer--visible");
-      }
-    };
-
-    // Check on scroll with passive listener for performance
-    window.addEventListener("scroll", checkFooterVisibility, { passive: true });
-
-    // Check on resize in case viewport changes
-    window.addEventListener("resize", checkFooterVisibility, { passive: true });
-
-    // Initial check on load
-    checkFooterVisibility();
-  }
-</script>
