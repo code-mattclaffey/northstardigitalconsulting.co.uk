@@ -9,8 +9,9 @@ const { value, label, tone } = Astro.props;
 ---
 
 <li
+  data-reveal
   class:list={[
-    "flex min-h-[172px] flex-col justify-end rounded-[20px] p-6 text-white",
+    "flex min-h-[140px] md:min-h-[172px] flex-col justify-end rounded-[20px] p-6 text-white",
     tone === "blue" ? "bg-brand-blue-600" : "bg-brand-ink",
   ]}
 >
