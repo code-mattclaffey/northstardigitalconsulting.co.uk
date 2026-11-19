@@ -1,4 +1,5 @@
 import blogSeed from "../data/blog-posts.json";
+import { getClientLogo, type ClientLogo } from "./client-logos";
 import { contentfulQuery, getContentfulConfig } from "./contentful";
 import { renderMarkdown } from "./markdown";
 
@@ -62,6 +63,8 @@ export interface BlogPostSummary {
   publishDate: string;
   tags: BlogTag[];
   heroImage: BlogHeroImage | null;
+  /** Client logo for the card art when there is no hero image. */
+  clientLogo: ClientLogo | null;
   /** Estimated reading time in minutes. */
   readingMinutes: number;
 }
@@ -202,6 +205,7 @@ async function toPost(entry: BlogPostEntry): Promise<BlogPost> {
     publishDate: entry.publishDate,
     tags,
     heroImage: entry.heroImage,
+    clientLogo: getClientLogo(entry.slug),
     canonicalUrl: entry.canonicalUrl ?? null,
     bodyHtml,
     readingMinutes: readingMinutes(bodyHtml),
