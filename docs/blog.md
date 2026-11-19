@@ -43,6 +43,12 @@ Only tags used by at least one post get a filter button.
 
 `blogPost.canonicalUrl` is optional. When set (for example on posts migrated from Medium), `/blog/[slug]` renders `<link rel="canonical" href="...">` pointing at the original, so search engines treat the original as the source. Leave it empty for posts written for this site.
 
+## Share images
+
+Each post gets its own 1200×630 Open Graph card at `/og/blog/<slug>.png`, written at build time by `src/pages/og/blog/[slug].png.ts`. It uses the same design as `public/og-blog.jpg`: the post title is the heading and the pill shows "Case study" for case studies, otherwise the post's first tag (or "Blog" if it has none). Long titles get a smaller font so they fit in three lines.
+
+The card is drawn by `renderOgImage()` in `src/lib/og-image.ts` with satori and resvg, so no browser is needed on Netlify. Hero images are not used for sharing: most posts have none, and the Medium ones are too small for 1200×630. Nothing extra is needed in Contentful.
+
 ## Styling
 
 Tailwind utilities and shadcn/ui (`Badge`, `cardClass`) with theme tokens only. Markdown body elements are styled under `.post-body` in `src/styles/global.css`. Posts without a hero image get placeholder art (`bg-art-1/2/3`).

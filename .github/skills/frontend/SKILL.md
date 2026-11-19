@@ -47,6 +47,16 @@ Button variants: `default` (brand blue), `secondary` (ink, for use on gradients)
 - Wrap content in `Container.astro` (1280px max, 20px/32px gutters). Section headings use `SectionHeading.astro` (eyebrow pill + H2 + optional lead).
 - `lucide-react` icons in `.astro` files take `className`, not `class`.
 
+### Share (Open Graph) images
+
+Every page passes `ogImage` (a site path or absolute URL, 1200×630) and `ogImageAlt` to `Layout`, which writes the `og:` and `twitter:` tags in `Head.astro`.
+
+- Fixed pages use the images in `public/` (`og-image.jpg`, `og-blog.jpg`), drawn by `node scripts/og/render-og.mjs` (Playwright, run locally and commit the output).
+- Content pages generated from Contentful get their own card at build time: `renderOgImage({ eyebrow, heading })` in `src/lib/og-image.ts` draws the same design with satori + resvg (no browser, so it runs on Netlify). Expose it as a pre-rendered endpoint next to the page, like `src/pages/og/blog/[slug].png.ts`, and point the page's `ogImage` at that path.
+- The two designs must stay in step: if you change the look in `render-og.mjs`, change `og-image.ts` too.
+- satori supports a subset of CSS: flexbox only (every `div` with more than one child needs `display: flex`), no `mask-image`, and set `boxSizing: "border-box"` on padded boxes with a fixed size. Fonts must be `.woff`/`.ttf`, not `.woff2`.
+- Check a generated card by opening `dist/og/...` after `npm run build`, including a post with a very long title.
+
 ### Long-form content
 
 Markdown from Contentful is styled by element under `.post-body` in `global.css` (headings, lists, quotes, code). Code colours are the `--shiki-*` variables set there.

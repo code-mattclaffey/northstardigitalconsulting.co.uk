@@ -41,7 +41,7 @@ The husky pre-commit hook runs Prettier, which has no Astro plugin here. Format 
 
 - [docs/software-factory.md](docs/software-factory.md): how issues flow from label to merged PR.
 - [docs/contentful.md](docs/contentful.md): content model, env vars, rebuild webhook.
-- [docs/blog.md](docs/blog.md): blog architecture, data flow, tag filtering and how to add a tag.
+- [docs/blog.md](docs/blog.md): blog architecture, data flow, tag filtering and how to add a tag, per-post share images.
 - Feature docs live in `docs/` and are linked from here when added.
 
 ## Specialist agents

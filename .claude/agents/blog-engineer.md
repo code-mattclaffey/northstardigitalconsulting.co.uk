@@ -37,7 +37,7 @@ GraphQL collection name: `blogPostCollection` (order with `order: publishDate_DE
 - Styling: Tailwind utilities with shadcn/ui tokens from `src/styles/global.css` (see `.github/skills/frontend/SKILL.md`). Reuse `BlogCard`, `Container`, `buttonVariants`, `badgeVariants`; Markdown bodies use `.post-body`.
 - Accessibility: semantic `article`/`time`/`nav`, the filter is a group of real `button`s with `aria-pressed`, a live region announcing the result count, visible focus, reduced motion respected.
 - Empty state: if there are no posts, the homepage section does not render and `/blog` shows a short "No posts yet" message. The build must not fail with zero posts.
-- SEO: post pages pass title and description to `Layout`.
+- SEO: post pages pass title and description to `Layout`. Each post's share image is a branded card generated at build time by `src/pages/og/blog/[slug].png.ts` (title as the heading, tag as the pill). Don't point `ogImage` at the hero image. See "Share (Open Graph) images" in `.github/skills/frontend/SKILL.md`.
 
 ## Done criteria
 
