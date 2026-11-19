@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import { buttonVariants } from "@/components/ui/button";
 import { CV_URL } from "@/lib/site";
-import photo from "../assets/matt-claffey.png";
+import photo from "../assets/matt-claffey.jpg";
 import type { PageSection } from "@/lib/homepage";
 import Container from "./Container.astro";
 import Section from "./Section.astro";
@@ -57,6 +57,7 @@ const { section } = Astro.props;
           alt="Matt Claffey"
           width={160}
           height={160}
+          densities={[1, 1.4]}
           class="size-32 flex-none rounded-full object-cover ring-4 ring-brand-blue-100 md:size-40"
         />
         <div>

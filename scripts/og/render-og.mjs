@@ -27,7 +27,7 @@ const font = (weight) =>
     "font/woff2",
   )}) format("woff2")}`;
 
-const photo = dataUri("src/assets/matt-claffey.png", "image/png");
+const photo = dataUri("src/assets/matt-claffey.jpg", "image/jpeg");
 
 const page = ({ eyebrow, heading, footer }) => `<!doctype html>
 <html><head><style>

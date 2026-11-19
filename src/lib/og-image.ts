@@ -61,7 +61,7 @@ function loadAssets() {
   assets = {
     fonts: [font(400), font(500), font(600)],
     logo: `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`,
-    photo: dataUri("src/assets/matt-claffey.png", "image/png"),
+    photo: dataUri("src/assets/matt-claffey.jpg", "image/jpeg"),
   };
   return assets;
 }
