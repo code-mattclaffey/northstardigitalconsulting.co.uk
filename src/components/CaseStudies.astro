@@ -5,6 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { BLOG_TAG_LABELS, formatPublishDate, getBlogPosts } from "@/lib/blog";
 import type { PageSection } from "@/lib/homepage";
 import Container from "./Container.astro";
+import PostArt from "./PostArt";
 import Section from "./Section.astro";
 import SectionHeading from "./SectionHeading.astro";
 
@@ -51,7 +52,7 @@ const { section } = Astro.props;
                     class="h-[200px] w-full object-cover"
                   />
                 ) : (
-                  <div class:list={["h-[200px]", art[i % art.length]]} aria-hidden="true" />
+                  <PostArt post={post} art={art[i % art.length]} className="h-[200px]" />
                 )}
                 <div class="flex flex-1 flex-col gap-3 p-6">
                   <span class={badgeVariants()}>{BLOG_TAG_LABELS["case-study"]}</span>

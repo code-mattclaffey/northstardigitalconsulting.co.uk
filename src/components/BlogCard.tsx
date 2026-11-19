@@ -6,6 +6,7 @@ import {
   type BlogPostSummary,
 } from "@/lib/blog";
 import { cn } from "@/lib/utils";
+import PostArt from "./PostArt";
 
 interface Props {
   post: BlogPostSummary;
@@ -46,9 +47,10 @@ export default function BlogCard({
           decoding="async"
         />
       ) : (
-        <div
-          className={cn("h-[180px]", ART[index % ART.length])}
-          aria-hidden="true"
+        <PostArt
+          post={post}
+          art={ART[index % ART.length]}
+          className="h-[180px]"
         />
       )}
       <div className="flex flex-1 flex-col gap-3 p-6">

@@ -4,6 +4,7 @@ import {
   formatPublishDate,
   type BlogPostSummary,
 } from "@/lib/blog";
+import PostArt from "./PostArt";
 
 interface Props {
   post: BlogPostSummary;
@@ -24,9 +25,10 @@ export default function FeaturedPost({ post }: Props) {
           className="h-full min-h-[220px] w-full object-cover md:min-h-[320px]"
         />
       ) : (
-        <div
-          className="bg-art-1 min-h-[220px] md:min-h-[320px]"
-          aria-hidden="true"
+        <PostArt
+          post={post}
+          art="bg-art-1"
+          className="min-h-[220px] md:min-h-[320px]"
         />
       )}
       <div className="flex flex-col justify-center gap-3.5 p-6 md:p-10">
